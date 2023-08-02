@@ -13,7 +13,7 @@ namespace ModuleTracker.Wpf.ViewModel
         private readonly ObservableCollection<ModuleListingItemViewModel> _moduleListingItemViewModel;
 
         public IEnumerable<ModuleListingItemViewModel> ModuleListingItemViewModel =>
-            _moduleListingItemViewModel;
+            _moduleListingItemViewModel;       
 
         public ModuleListingViewModel()
         {
@@ -22,7 +22,33 @@ namespace ModuleTracker.Wpf.ViewModel
             _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(new Module(new Guid(), "Höhere Analysis", new List<Sheet>())));
         }
 
-        public string NumOfSheets => ModuleListingItemViewModel.Count().ToString();
+        private string _numOfDoneExercises;
+        public string NumOfDoneExercises
+        {
+            get
+            {
+                return _numOfDoneExercises;
+            }
+            set
+            {
+                _numOfDoneExercises = value;
+                OnPropertyChanged(nameof(NumOfDoneExercises));
+            }
+        }
+
+        private string _numOfExercises;
+        public string NumOfExercises
+        {
+            get
+            {
+                return _numOfExercises;
+            }
+            set
+            {
+                _numOfExercises = value;
+                OnPropertyChanged(nameof(NumOfExercises));
+            }
+        }
 
     }
 }

@@ -36,9 +36,9 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             _sheetListingItemViewModel = new ObservableCollection<SheetListingItemViewModel>();
 
-            _sheetListingItemViewModel.Add(new SheetListingItemViewModel(new Sheet(new Guid(), 1, 5)));
-            _sheetListingItemViewModel.Add(new SheetListingItemViewModel(new Sheet(new Guid(), 2, 5)));
-            _sheetListingItemViewModel.Add(new SheetListingItemViewModel(new Sheet(new Guid(), 3, 5)));
+            _sheetListingItemViewModel.Add(new SheetListingItemViewModel(new Sheet(new Guid(), new Guid(), 1, 5)));
+            _sheetListingItemViewModel.Add(new SheetListingItemViewModel(new Sheet(new Guid(), new Guid(), 2, 5)));
+            _sheetListingItemViewModel.Add(new SheetListingItemViewModel(new Sheet(new Guid(), new Guid(), 3, 5)));
         }
 
     }

@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace ModuleTracker.Wpf.View
 {
     /// <summary>
-    /// Interaction logic for ModuleView.xaml
+    /// Interaction logic for AddModuleView.xaml
     /// </summary>
-    public partial class ModuleView : UserControl
+    public partial class AddModuleView : UserControl
     {
-        public ModuleView()
+        public AddModuleView()
         {
             InitializeComponent();
         }
-
     }
 }

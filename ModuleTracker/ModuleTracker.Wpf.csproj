@@ -8,12 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="Stores\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ModuleTracker.Domain\ModuleTracker.Domain.csproj" />
+    <ProjectReference Include="..\ModuleTracker.EntityFramework\ModuleTracker.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,10 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ModuleTracker.Wpf" 
-        xmlns:view="clr-namespace:ModuleTracker.Wpf.View"
+        xmlns:view="clr-namespace:ModuleTracker.Wpf.View" 
+        xmlns:vms="clr-namespace:ModuleTracker.Wpf.ViewModel" 
+        xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
         Title="ModuleTracker" Height="450" Width="800">
-    <Grid>
-        <view:ModuleView />
-    </Grid>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:AddModuleViewModel}">
+            <view:AddModuleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:AddSheetViewModel}">
+            <view:AddSheetView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:EditSheetViewModel}">
+            <view:EditSheetView/>
+        </DataTemplate>
+    </Window.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">        
+        <Grid>
+            <modalcontrol:Modal Panel.ZIndex="1" IsOpen="{Binding IsModalOpen}">
+                <ContentControl Margin="50 25" Content="{Binding CurrentModalViewModel}"/>
+            </modalcontrol:Modal>
+            <view:ModuleView DataContext="{Binding ModuleViewModel}" Margin="25"/>
+        </Grid>
+    </ScrollViewer>
 </Window>

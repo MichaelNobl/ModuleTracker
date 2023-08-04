@@ -7,6 +7,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Border Padding="5 10" TextBlock.FontSize="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding Name}" Margin="0 0 5 0"/>
+                <TextBlock Grid.Column="1" Text="{Binding NumOfDoneExercises}" Margin="0 0 5 0"/>
+                <TextBlock Grid.Column="2" Text="/" Margin="0 0 5 0"/>
+                <TextBlock Grid.Column="3" Text="{Binding NumOfExercises}" Margin="0 0 5 0"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

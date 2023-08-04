@@ -16,6 +16,36 @@ namespace ModuleTracker.Wpf.ViewModel
         public ModuleListingItemViewModel(Module module)
         {
             Module = module;
+            _numOfDoneExercises = "0";
+            _numOfExercises = "1";
+        }
+
+		private string _numOfDoneExercises;
+		public string NumOfDoneExercises
+		{
+			get
+			{
+				return _numOfDoneExercises;
+			}
+			set
+			{
+				_numOfDoneExercises = value;
+				OnPropertyChanged(nameof(NumOfDoneExercises));
+			}
+		}
+
+        private string _numOfExercises;
+        public string NumOfExercises
+        {
+            get
+            {
+                return _numOfExercises;
+            }
+            set
+            {
+                _numOfExercises = value;
+                OnPropertyChanged(nameof(NumOfExercises));
+            }
         }
     }
 }

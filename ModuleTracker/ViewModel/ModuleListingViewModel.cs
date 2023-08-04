@@ -1,28 +1,80 @@
 ﻿using ModuleTracker.Domain.Models;
+using ModuleTracker.Wpf.Commands;
+using ModuleTracker.Wpf.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class ModuleListingViewModel : BaseViewModel
-    {
-        private readonly ObservableCollection<ModuleListingItemViewModel> _moduleListingItemViewModel;
+    {       
+        private readonly ModuleStore _modulesStore;
+        private readonly SelectedModuleStore _selectedModuleStore;
+        private readonly ModalNavigationStore _modalNavigationStore;
 
+        private readonly ObservableCollection<ModuleListingItemViewModel> _moduleListingItemViewModel;
         public IEnumerable<ModuleListingItemViewModel> ModuleListingItemViewModel =>
             _moduleListingItemViewModel;
 
-        public ModuleListingViewModel()
-        {
-            _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();
+        private ModuleListingItemViewModel _selectedModuleListingItemViewModel;
 
-            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(new Module(new Guid(), "Höhere Analysis", new List<Sheet>())));
+        public ModuleListingItemViewModel SelectedModuleListingItemViewModel
+        {
+            get
+            {
+                return _selectedModuleListingItemViewModel;
+            }
+            set
+            {
+                _selectedModuleListingItemViewModel = value;
+                OnPropertyChanged(nameof(SelectedModuleListingItemViewModel));
+
+                _selectedModuleStore.SelectedModule = _selectedModuleListingItemViewModel?.Module;
+            }
         }
 
-        public string NumOfSheets => ModuleListingItemViewModel.Count().ToString();
+        public ICommand AddModuleCommand { get; set; }
+
+        public ModuleListingViewModel(ModuleStore modulStore, SelectedModuleStore selectedModuleStore, ModalNavigationStore modalNavigationStore)
+        {
+            _modulesStore = modulStore;
+            _selectedModuleStore = selectedModuleStore;
+            _modalNavigationStore = modalNavigationStore;
+            _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();
+
+            AddModuleCommand = new OpenAddModuleCommand(_modulesStore, modalNavigationStore);
+
+            _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
+
+        }
+
+        public override void Dispose()
+        {
+            _modulesStore.ModuleAdded -= ModulesStoreModuleAdded;
+
+            base.Dispose();
+        }
+
+        private void ModulesStoreModuleAdded(Module module)
+        {
+            AddModule(module);
+        }
+
+        private void ModuleListingItemViewModelCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(SelectedModuleListingItemViewModel));
+        }
+
+        private void AddModule(Module module)
+        {
+            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module));
+        }
 
     }
 }

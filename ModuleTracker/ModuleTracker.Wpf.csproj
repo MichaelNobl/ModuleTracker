@@ -8,12 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="Stores\" />
+    <PackageReference Include="SimpleModal.WPF" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ModuleTracker.Domain\ModuleTracker.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="View\AddSheetView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

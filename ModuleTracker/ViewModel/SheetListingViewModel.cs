@@ -101,9 +101,23 @@ namespace ModuleTracker.Wpf.ViewModel
 
         private void SelectedModuleStoreSelectedModuleChanged()
         {
+            AddSheetItemViewModels();
             OnPropertyChanged(nameof(HasSelectedModule));
             OnPropertyChanged(nameof(SheetListingItemViewModel));
             OnPropertyChanged(nameof(SelectedSheetListingItemViewModel));
+        }
+
+        private void AddSheetItemViewModels()
+        {
+            _sheetListingItemViewModel.Clear();
+
+            if (SelectedModule != null)
+            {
+                foreach (var sheet in SelectedModule.Sheets)
+                {
+                    _sheetListingItemViewModel.Add(new SheetListingItemViewModel(sheet, _modalNavigationStore, _sheetStore, _selectedSheetStore));
+                }
+            }
         }
 
         private void AddSheet(Sheet sheet)

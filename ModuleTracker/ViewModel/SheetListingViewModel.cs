@@ -14,12 +14,15 @@ namespace ModuleTracker.Wpf.ViewModel
         private readonly ObservableCollection<SheetListingItemViewModel> _sheetListingItemViewModel;
 
         private readonly SelectedModuleStore _selectedModuleStore;
+        private readonly SelectedSheetStore _selectedSheetStore;
         private ModuleStore _moduleStore;
         private ModalNavigationStore _modalNavigationStore;
 
         private Module SelectedModule => _selectedModuleStore.SelectedModule;
+        private Sheet SelectedSheet => _selectedSheetStore.SelectedSheet;
 
         public bool HasSelectedModule => SelectedModule != null;
+        public bool HasSelectedSheet => SelectedSheet != null;
 
         public IEnumerable<SheetListingItemViewModel> SheetListingItemViewModel =>
             _sheetListingItemViewModel;
@@ -41,9 +44,10 @@ namespace ModuleTracker.Wpf.ViewModel
         public ICommand AddSheetCommand { get; }
         public ICommand DeleteSheetCommand { get; }
 
-        public SheetListingViewModel(ModuleStore moduleStore, SelectedModuleStore selectedModuleStore, ModalNavigationStore modalNavigationStore)
+        public SheetListingViewModel(ModuleStore moduleStore, SelectedModuleStore selectedModuleStore, SelectedSheetStore selectedSheetStore, ModalNavigationStore modalNavigationStore)
         {
             _selectedModuleStore = selectedModuleStore;
+            _selectedSheetStore = selectedSheetStore;
             _moduleStore = moduleStore;
             _modalNavigationStore = modalNavigationStore;
 
@@ -55,7 +59,8 @@ namespace ModuleTracker.Wpf.ViewModel
             _moduleStore.SheetAdded += SheetStoreSheetAdded;
             _moduleStore.SheetDeleted += SheetStoreSheetDeleted;
 
-            AddSheetCommand = new OpenAddSheetCommand(modalNavigationStore, moduleStore, _selectedModuleStore);           
+            AddSheetCommand = new OpenAddSheetCommand(modalNavigationStore, moduleStore, _selectedModuleStore);
+            DeleteSheetCommand = new DeleteSheetCommand(selectedSheetStore, moduleStore);
         }
 
         public override void Dispose()

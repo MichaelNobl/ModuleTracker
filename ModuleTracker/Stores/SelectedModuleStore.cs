@@ -49,13 +49,5 @@ namespace ModuleTracker.Wpf.Stores
                 SelectedModule = null;
             }
         }
-
-        private void ModuleStoreModuleUpdated(Module module)
-        {
-            if (module.Id == SelectedModule?.Id)
-            {
-                SelectedModule = module;
-            }
-        }
     }
 }

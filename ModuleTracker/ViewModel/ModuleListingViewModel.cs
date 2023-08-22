@@ -50,6 +50,7 @@ namespace ModuleTracker.Wpf.ViewModel
             _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();          
 
             AddModuleCommand = new OpenAddModuleCommand(_modulesStore, modalNavigationStore);
+            DeleteModuleCommand = new DeleteModuleCommand(_selectedModuleStore, _modulesStore);
 
             _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
@@ -79,7 +80,10 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public override void Dispose()
         {
+
+            _modulesStore.ModulesLoaded -= ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded -= ModulesStoreModuleAdded;
+            _modulesStore.ModuleDeleted -= ModulesStoreModuleDeleted;
 
             base.Dispose();
         }

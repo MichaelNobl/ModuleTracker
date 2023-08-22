@@ -10,10 +10,10 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public ICommand LoadModuleCommand { get; }
 
-        public ModuleViewModel(ModuleStore moduleStore, SelectedModuleStore selectedModuleStore, ModalNavigationStore modalNavigationStore)
+        public ModuleViewModel(ModuleStore moduleStore, SelectedModuleStore selectedModuleStore, SelectedSheetStore selectedSheetStore,ModalNavigationStore modalNavigationStore)
         {
             ModulesListingViewModel = new ModuleListingViewModel(moduleStore, selectedModuleStore, modalNavigationStore);
-            SheetListingViewModel = new SheetListingViewModel(moduleStore, selectedModuleStore, modalNavigationStore);
+            SheetListingViewModel = new SheetListingViewModel(moduleStore, selectedModuleStore, selectedSheetStore, modalNavigationStore);
         }
     }
 }

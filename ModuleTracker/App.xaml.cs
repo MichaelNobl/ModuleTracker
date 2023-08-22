@@ -11,6 +11,7 @@ namespace ModuleTracker.Wpf
     {
         private readonly ModuleStore _moduleStore;
         private readonly SelectedModuleStore _selectedModuleStore;
+        private readonly SelectedSheetStore _selectedSheetStore;
         private readonly ModalNavigationStore _modalNavigationStore;
 
         public App()
@@ -18,12 +19,13 @@ namespace ModuleTracker.Wpf
             _moduleStore = new ModuleStore();
 
             _selectedModuleStore = new SelectedModuleStore(_moduleStore);
+            _selectedSheetStore = new SelectedSheetStore(_moduleStore);
             _modalNavigationStore = new ModalNavigationStore();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var moduleViewModel = new ModuleViewModel(_moduleStore, _selectedModuleStore, _modalNavigationStore);
+            var moduleViewModel = new ModuleViewModel(_moduleStore, _selectedModuleStore, _selectedSheetStore, _modalNavigationStore);
 
             MainWindow = new MainWindow
             {

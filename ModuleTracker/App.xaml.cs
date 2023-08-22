@@ -1,4 +1,5 @@
 ﻿using ModuleTracker.Wpf.Stores;
+using ModuleTracker.Wpf.Stores.ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.View;
 using ModuleTracker.Wpf.ViewModel;
 using System;
@@ -16,9 +17,10 @@ namespace ModuleTracker.Wpf
     /// </summary>
     public partial class App : Application
     {
-        private readonly SelectedModuleStore _selectedModuleStore;
         private readonly ModuleStore _moduleStore;
         private readonly SheetStore _sheetStore;
+        private readonly SelectedModuleStore _selectedModuleStore;
+        private readonly SelectedSheetStore _selectedSheetStore;
         private readonly ModalNavigationStore _modalNavigationStore;
 
         public App()
@@ -27,12 +29,13 @@ namespace ModuleTracker.Wpf
             _sheetStore = new SheetStore();
 
             _selectedModuleStore = new SelectedModuleStore(_moduleStore);
+            _selectedSheetStore = new SelectedSheetStore(_sheetStore);
             _modalNavigationStore = new ModalNavigationStore();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var moduleViewModel = new ModuleViewModel(_moduleStore, _sheetStore, _selectedModuleStore, _modalNavigationStore);
+            var moduleViewModel = new ModuleViewModel(_moduleStore, _sheetStore, _selectedModuleStore, _selectedSheetStore, _modalNavigationStore);
 
             MainWindow = new MainWindow
             {

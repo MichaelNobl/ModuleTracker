@@ -46,9 +46,9 @@ namespace ModuleTracker.Wpf.Stores
                 _sheetStore.SheetDeleted += SheetStoreSheetDeleted;
             }
 
-            private void SheetStoreSheetAdded(Sheet module)
+            private void SheetStoreSheetAdded(Sheet sheet)
             {
-                SelectedSheet = module;
+                SelectedSheet = sheet;
             }
 
             private void SheetStoreSheetDeleted(Guid id)
@@ -59,11 +59,11 @@ namespace ModuleTracker.Wpf.Stores
                 }
             }
 
-            private void SheetStoreSheetUpdated(Sheet module)
+            private void SheetStoreSheetUpdated(Sheet sheet)
             {
-                if (module.Id == SelectedSheet?.Id)
+                if (sheet.Id == SelectedSheet?.Id)
                 {
-                    SelectedSheet = module;
+                    SelectedSheet = sheet;
                 }
             }
         }

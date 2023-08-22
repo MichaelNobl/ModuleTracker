@@ -8,20 +8,15 @@ namespace ModuleTracker.Domain.Models
 {
     public class Exercise
     {
-        public Exercise(Guid id, string moduleName, int sheetNumber, int number)
+        public Exercise(Guid id, int number, bool isCompleted = false)
         {
             Id = id;
-            ModuleName = moduleName;
-            SheetNumber = sheetNumber;
             Number = number;
+            IsCompleted = isCompleted;
         }
 
         public Guid Id { get; }
                
-        public string ModuleName { get; }
-
-        public int SheetNumber { get; }
-
         public int Number { get; }
 
         public bool IsCompleted { get; }

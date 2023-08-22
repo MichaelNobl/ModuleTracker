@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ModuleTracker.Wpf.Components.EditSheetListingItem"
+﻿<UserControl x:Class="ModuleTracker.Wpf.Components.ExercisesListingItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,7 +15,7 @@
 
         <TextBlock Grid.Column="0" Text="Exercise" FontSize="16" Margin="0 0 5 0"/>
         <TextBlock Grid.Column="1" FontSize="16" Text="{Binding ExerciseNumber}" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <CheckBox Grid.Column="2" VerticalAlignment="Center" IsChecked="{Binding ExerciseDone}"/>
+        <CheckBox Grid.Column="2" VerticalAlignment="Center" IsChecked="{Binding ExerciseIsCompleted}"/>
 
     </Grid>
 </UserControl>

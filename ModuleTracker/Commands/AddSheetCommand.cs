@@ -30,11 +30,24 @@ namespace ModuleTracker.Wpf.Commands
         {
             var viewModel = _addSheetViewModel;
 
-            var sheet = new Sheet(new Guid(), _selectedModuleStore.SelectedModule.Name, int.Parse(viewModel.SheetIndex), int.Parse(viewModel.NumOfExercises));
+            var sheet = new Sheet(new Guid(), int.Parse(viewModel.SheetNumber));
+
+            for (var i = 1; i <= int.Parse(viewModel.NumOfExercises); i++)
+            {
+                var exercise = new Exercise(new Guid(), i);
+                sheet.AddExercise(exercise);
+            }
+
+            _selectedModuleStore.SelectedModule.AddSheet(sheet);            
 
             try
             {
                 await _sheetStore.Add(sheet);
+
+                foreach (var exercise in sheet.Exercises)
+                {
+                    await _sheetStore.AddExercise(exercise);
+                }
 
                 _modalNavigationStore.Close();
             }

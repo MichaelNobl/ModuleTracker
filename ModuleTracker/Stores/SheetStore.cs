@@ -15,6 +15,8 @@ namespace ModuleTracker.Wpf.Stores
 
         public event Action SheetsLoaded;
         public event Action<Sheet> SheetAdded;
+        public event Action<Exercise> ExerciseAdded;
+        public event Action<Exercise> ExerciseUpdated;
         public event Action<Sheet> SheetUpdated;
         public event Action<Guid> SheetDeleted;
 
@@ -32,11 +34,20 @@ namespace ModuleTracker.Wpf.Stores
         {
             SheetAdded?.Invoke(sheet);
         }
+        
+        public async Task AddExercise(Exercise exercise)
+        {
+            ExerciseAdded?.Invoke(exercise);
+        }
 
         public async Task Update(Sheet sheet)
         {
-
             SheetUpdated?.Invoke(sheet);
+        }
+
+        public async Task UpdateExercise(Exercise exercise)
+        { 
+            ExerciseUpdated?.Invoke(exercise);
         }
 
         public async Task Delete(Guid id)

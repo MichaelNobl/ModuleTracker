@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ModuleTracker.Wpf.Components
+namespace ModuleTracker.Wpf.View
 {
     /// <summary>
-    /// Interaction logic for EditSheetListingItem.xaml
+    /// Interaction logic for ExercisesView.xaml
     /// </summary>
-    public partial class EditSheetListingItem : UserControl
+    public partial class ExercisesView : UserControl
     {
-        public EditSheetListingItem()
+        public ExercisesView()
         {
             InitializeComponent();
         }

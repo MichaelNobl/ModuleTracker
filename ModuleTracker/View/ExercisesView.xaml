@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ModuleTracker.Wpf.View.EditSheetView"
+﻿<UserControl x:Class="ModuleTracker.Wpf.View.ExercisesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,11 +6,12 @@
              xmlns:local="clr-namespace:ModuleTracker.Wpf.View" 
              xmlns:comp="clr-namespace:ModuleTracker.Wpf.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Width="300">
     <Grid Margin="10">        
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <WrapPanel>
@@ -23,25 +24,29 @@
             BorderThickness="1"
             CornerRadius="5"
             SnapsToDevicePixels="True">
-            <Grid Grid.Row="1">
+                <Grid Grid.Row="1">
                     <Grid.OpacityMask>
                         <VisualBrush Visual="{Binding ElementName=border}"/>
                     </Grid.OpacityMask>
                     <Border x:Name="border" Background="White" CornerRadius="5"/>
-                    <ListView ItemsSource="{Binding EditSheetListingItemViewModel}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Focusable" Value="false"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
+                    <ListView ItemsSource="{Binding ExerciseListingItemViewModel}">                    
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Focusable" Value="false"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <comp:EditSheetListingItem/>
+                                <comp:ExercisesListingItem/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
             </Border>
+        <Grid Grid.Row="2">
+                <Button Command="{Binding OkCommand}" Content="Ok" HorizontalAlignment="Right" Style="{StaticResource ButtonStyle1}" Margin="0 10 0 0"/>
         </Grid>
+    </Grid>
+    
 </UserControl>

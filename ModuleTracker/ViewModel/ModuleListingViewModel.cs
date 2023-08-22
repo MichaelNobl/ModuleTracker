@@ -40,18 +40,41 @@ namespace ModuleTracker.Wpf.ViewModel
         }
 
         public ICommand AddModuleCommand { get; set; }
+        public ICommand DeleteModuleCommand { get; set; }
 
         public ModuleListingViewModel(ModuleStore modulStore, SelectedModuleStore selectedModuleStore, ModalNavigationStore modalNavigationStore)
         {
             _modulesStore = modulStore;
             _selectedModuleStore = selectedModuleStore;
             _modalNavigationStore = modalNavigationStore;
-            _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();
+            _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();          
 
             AddModuleCommand = new OpenAddModuleCommand(_modulesStore, modalNavigationStore);
 
+            _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
+            _modulesStore.ModuleDeleted += ModulesStoreModuleDeleted;
 
+        }
+
+        private void ModulesStoreModuleDeleted(Guid id)
+        {
+            var itemViewModel = _moduleListingItemViewModel.FirstOrDefault(m => m.Module.Id == id);
+
+            if (itemViewModel != null)
+            {
+                _moduleListingItemViewModel.Remove(itemViewModel);
+            }
+        }
+
+        private void ModulesStoreModuleLoaded()
+        {
+            _moduleListingItemViewModel.Clear();
+
+            foreach (var module in _modulesStore.Modules)
+            {
+                AddModule(module);
+            }
         }
 
         public override void Dispose()

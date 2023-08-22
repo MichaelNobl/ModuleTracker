@@ -21,9 +21,11 @@
                     <Grid Grid.Row="0">                     
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>                     
+                            <ColumnDefinition Width="*"/>                     
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Add Module" FontSize="16" Margin="5" Command="{Binding AddModuleCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Delete Module" FontSize="16" Margin="5" Command="{Binding DeleteModuleCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
 

@@ -12,7 +12,7 @@ namespace ModuleTracker.Wpf.ViewModel
 {
     public class AddSheetViewModel : BaseViewModel
     {
-        public bool CanSubmit => !string.IsNullOrEmpty(NumOfExercises) && !string.IsNullOrEmpty(SheetIndex);
+        public bool CanSubmit => !string.IsNullOrEmpty(NumOfExercises) && !string.IsNullOrEmpty(SheetNumber);
 
         public AddSheetViewModel(SheetStore sheetStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
         {
@@ -35,17 +35,17 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
-        private string _sheetIndex;
-        public string SheetIndex
+        private string _sheetNumber;
+        public string SheetNumber
         {
             get
             {
-                return _sheetIndex;
+                return _sheetNumber;
             }
             set
             {
-                _sheetIndex = value;
-                OnPropertyChanged(nameof(SheetIndex));
+                _sheetNumber = value;
+                OnPropertyChanged(nameof(SheetNumber));
                 OnPropertyChanged(nameof(CanSubmit));
             }
         }

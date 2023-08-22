@@ -31,7 +31,7 @@
 
                 <TextBlock Grid.Column="0" FontWeight="Bold" Text="Sheetnumber" FontSize="20"/>
 
-                <TextBox Grid.Column="1" FontSize="20" Margin="30 0 0 0" Text="{Binding SheetIndex, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" FontSize="20" Margin="30 0 0 0" Text="{Binding SheetNumber, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
             <Grid Grid.Row="1" VerticalAlignment="Stretch" Margin="0 10 0 0">

@@ -16,8 +16,8 @@
         <DataTemplate DataType="{x:Type vms:AddSheetViewModel}">
             <view:AddSheetView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vms:EditSheetViewModel}">
-            <view:EditSheetView/>
+        <DataTemplate DataType="{x:Type vms:ExercisesViewModel}">
+            <view:ExercisesView/>
         </DataTemplate>
     </Window.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">        

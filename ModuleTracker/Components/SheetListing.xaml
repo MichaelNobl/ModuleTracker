@@ -49,9 +49,11 @@
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Add Sheet" FontSize="16" Margin="5" Command="{Binding AddSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Delete Sheet" FontSize="16" Margin="5" Command="{Binding DeleteSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">

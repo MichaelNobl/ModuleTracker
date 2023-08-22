@@ -1,12 +1,6 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Stores;
-using ModuleTracker.Wpf.Stores.ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.Commands
 {
@@ -14,20 +8,18 @@ namespace ModuleTracker.Wpf.Commands
     {
         private readonly Sheet _sheet;
         private readonly ModalNavigationStore _modalNavigationStore;
-        private readonly SheetStore _sheetStore;
-        private readonly SelectedSheetStore _selectedSheetStore;
+        private readonly ModuleStore _moduleStore;
 
-        public OpenExercisesCommand(Sheet sheet, ModalNavigationStore modalNavigationStore, SheetStore sheetStore, SelectedSheetStore selectedSheetStore)
+        public OpenExercisesCommand(Sheet sheet, ModalNavigationStore modalNavigationStore, ModuleStore moduleStore)
         {
             _sheet = sheet;
             _modalNavigationStore = modalNavigationStore;
-            _sheetStore = sheetStore;
-            _selectedSheetStore = selectedSheetStore;
+            _moduleStore = moduleStore;
         }
 
         public override void Execute(object? parameter)
         {
-            var exerciseListingViewModel = new ExercisesViewModel(_sheet, _sheetStore, _modalNavigationStore, _selectedSheetStore);
+            var exerciseListingViewModel = new ExercisesViewModel(_sheet, _moduleStore, _modalNavigationStore);
             _modalNavigationStore.CurrentViewModel = exerciseListingViewModel;
         }
     }

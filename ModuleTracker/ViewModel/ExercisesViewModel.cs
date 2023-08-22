@@ -1,13 +1,10 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Commands;
 using ModuleTracker.Wpf.Stores;
-using ModuleTracker.Wpf.Stores.ModuleTracker.Wpf.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ModuleTracker.Wpf.ViewModel
@@ -15,8 +12,7 @@ namespace ModuleTracker.Wpf.ViewModel
     public class ExercisesViewModel : BaseViewModel
     {
         private readonly ObservableCollection<ExerciseListingItemViewModel> _exerciseListingItemViewModel;
-        private readonly SheetStore _sheetStore;
-        private readonly SelectedSheetStore _selectedSheetStore;
+        private readonly ModuleStore _moduleStore;
         private readonly Sheet _sheet;
 
         public IEnumerable<ExerciseListingItemViewModel> ExerciseListingItemViewModel =>
@@ -40,20 +36,19 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public ICommand OkCommand { get; set; }
 
-        public ExercisesViewModel(Sheet sheet, SheetStore sheetStore, ModalNavigationStore modalNavigationStore, SelectedSheetStore selectedSheetStore)
+        public ExercisesViewModel(Sheet sheet, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore)
         {
             SheetId = sheet.Id;
             SheetNumber = sheet.SheetNumber.ToString();
 
             _sheet = sheet;
             _exerciseListingItemViewModel = new ObservableCollection<ExerciseListingItemViewModel>();
-            _sheetStore = sheetStore;
-            _selectedSheetStore = selectedSheetStore;
+            _moduleStore = moduleStore;
             AddExerciseItemViewModels();
 
-            OkCommand = new OkExercisesCommand(this, sheetStore, modalNavigationStore);
+            OkCommand = new OkExercisesCommand(this, moduleStore, modalNavigationStore);
 
-            _sheetStore.ExerciseUpdated += SheetStoreExerciseUpdated;
+            _moduleStore.ExerciseUpdated += SheetStoreExerciseUpdated;
 
 
 

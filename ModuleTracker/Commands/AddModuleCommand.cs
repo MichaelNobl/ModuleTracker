@@ -29,7 +29,7 @@ namespace ModuleTracker.Wpf.Commands
             var module = new Module(Guid.NewGuid(), viewModel.Name);
             try
             {
-                await _moduleStore.Add(module);
+                await _moduleStore.AddModule(module);
 
                 _modalNavigationStore.Close();
             }

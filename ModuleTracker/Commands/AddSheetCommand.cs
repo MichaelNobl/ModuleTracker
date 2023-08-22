@@ -13,15 +13,15 @@ namespace ModuleTracker.Wpf.Commands
     public class AddSheetCommand : AsyncCommandBase
     {
         private readonly AddSheetViewModel _addSheetViewModel;
-        private readonly SheetStore _sheetStore;
+        private readonly ModuleStore _moudleStore;
         private readonly ModalNavigationStore _modalNavigationStore;
         private readonly SelectedModuleStore _selectedModuleStore;
                
 
-        public AddSheetCommand(AddSheetViewModel addSheetViewModel, SheetStore sheetStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
+        public AddSheetCommand(AddSheetViewModel addSheetViewModel, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
         {
             _addSheetViewModel = addSheetViewModel;
-            _sheetStore = sheetStore;
+            _moudleStore = moduleStore;
             _modalNavigationStore = modalNavigationStore;
             _selectedModuleStore = selectedModuleStore;
         }
@@ -42,11 +42,11 @@ namespace ModuleTracker.Wpf.Commands
 
             try
             {
-                await _sheetStore.Add(sheet);
+                await _moudleStore.AddSheet(sheet);
 
                 foreach (var exercise in sheet.Exercises)
                 {
-                    await _sheetStore.AddExercise(exercise);
+                    await _moudleStore.AddExercise(exercise);
                 }
 
                 _modalNavigationStore.Close();

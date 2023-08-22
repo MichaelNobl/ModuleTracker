@@ -14,9 +14,9 @@ namespace ModuleTracker.Wpf.ViewModel
     {
         public bool CanSubmit => !string.IsNullOrEmpty(NumOfExercises) && !string.IsNullOrEmpty(SheetNumber);
 
-        public AddSheetViewModel(SheetStore sheetStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
+        public AddSheetViewModel(ModuleStore moduleStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
         {
-            SubmitCommand = new AddSheetCommand(this, sheetStore, modalNavigationStore, selectedModuleStore);
+            SubmitCommand = new AddSheetCommand(this, moduleStore, modalNavigationStore, selectedModuleStore);
             CancelCommand = new CloseModalCommand(modalNavigationStore);
         }
 

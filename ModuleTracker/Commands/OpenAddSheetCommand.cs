@@ -11,19 +11,19 @@ namespace ModuleTracker.Wpf.Commands
     public class OpenAddSheetCommand : CommandBase
     {
         private readonly ModalNavigationStore _modalNavigationStore;
-        private readonly SheetStore _sheetStore;
+        private readonly ModuleStore _moduleStore;
         private readonly SelectedModuleStore _selectedModuleStore;
 
-        public OpenAddSheetCommand(ModalNavigationStore modalNavigationStore, SheetStore sheetStore, SelectedModuleStore selectedModuleStore)
+        public OpenAddSheetCommand(ModalNavigationStore modalNavigationStore, ModuleStore moduleStore, SelectedModuleStore selectedModuleStore)
         {
             _modalNavigationStore = modalNavigationStore;
-            _sheetStore = sheetStore;
+            _moduleStore = moduleStore;
             _selectedModuleStore = selectedModuleStore;
         }
 
         public override void Execute(object? parameter)
         {
-            var addSheetViewModel = new AddSheetViewModel(_sheetStore, _modalNavigationStore, _selectedModuleStore);
+            var addSheetViewModel = new AddSheetViewModel(_moduleStore, _modalNavigationStore, _selectedModuleStore);
             _modalNavigationStore.CurrentViewModel = addSheetViewModel;
         }
     }

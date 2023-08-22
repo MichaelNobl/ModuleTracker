@@ -12,13 +12,13 @@ namespace ModuleTracker.Wpf.Commands
     public class OkExercisesCommand : AsyncCommandBase
     {
         private ExercisesViewModel _exercisesViewModel;
-        private SheetStore _sheetStore;
+        private ModuleStore _moduleStore;
         private ModalNavigationStore _modalNavigationStore;
 
-        public OkExercisesCommand(ExercisesViewModel exercisesViewModel, SheetStore sheetStore, ModalNavigationStore modalNavigationStore) 
+        public OkExercisesCommand(ExercisesViewModel exercisesViewModel, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore) 
         {
             _exercisesViewModel = exercisesViewModel;
-            _sheetStore = sheetStore;
+            _moduleStore = moduleStore;
             _modalNavigationStore = modalNavigationStore;
         }
 
@@ -34,7 +34,7 @@ namespace ModuleTracker.Wpf.Commands
 
                 try
                 {
-                    await _sheetStore.UpdateExercise(exercise);
+                    await _moduleStore.UpdateExercise(exercise);
                 }
                 catch (Exception)
                 {
@@ -44,7 +44,7 @@ namespace ModuleTracker.Wpf.Commands
 
             try
             {
-                await _sheetStore.Update(sheet);
+                await _moduleStore.UpdateSheet(sheet);
 
                 _modalNavigationStore.Close();
             }

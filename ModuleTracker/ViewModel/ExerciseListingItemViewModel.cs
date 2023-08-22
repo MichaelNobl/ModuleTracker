@@ -1,10 +1,5 @@
 ﻿using ModuleTracker.Domain.Models;
-using ModuleTracker.Wpf.Stores.ModuleTracker.Wpf.Stores;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.ViewModel
 {
@@ -36,7 +31,7 @@ namespace ModuleTracker.Wpf.ViewModel
 			set
 			{
 				_exerciseIsCompleted = value;
-				OnPropertyChanged(nameof(ExerciseIsCompleted));
+                OnPropertyChanged(nameof(ExerciseIsCompleted));
 			}
 		}
 

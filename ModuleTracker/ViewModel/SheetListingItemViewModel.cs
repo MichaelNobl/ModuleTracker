@@ -1,12 +1,7 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Commands;
 using ModuleTracker.Wpf.Stores;
-using ModuleTracker.Wpf.Stores.ModuleTracker.Wpf.Stores;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ModuleTracker.Wpf.ViewModel
@@ -20,12 +15,12 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public ICommand OpenSheetCommand { get; private set; }
 
-        public SheetListingItemViewModel(Sheet sheet, ModalNavigationStore modalNavigationStore, SheetStore sheetStore, SelectedSheetStore selectedSheetStore)
+        public SheetListingItemViewModel(Sheet sheet, ModalNavigationStore modalNavigationStore, ModuleStore moduleStore)
         {
             Sheet = sheet;
             NumOfDoneExercises = Sheet.Exercises.Where(x => x.IsCompleted).Count().ToString(); 
             NumOfExercises = Sheet.Exercises.Count.ToString(); 
-            OpenSheetCommand = new OpenExercisesCommand(sheet, modalNavigationStore, sheetStore, selectedSheetStore);
+            OpenSheetCommand = new OpenExercisesCommand(sheet, modalNavigationStore, moduleStore);
         }
 
         private string _numOfDoneExercises;

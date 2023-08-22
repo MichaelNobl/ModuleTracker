@@ -51,8 +51,11 @@ namespace ModuleTracker.Wpf.ViewModel
             _selectedSheetStore = selectedSheetStore;
             AddExerciseItemViewModels();
 
-            OkCommand = new OkExercisesCommand(this, sheetStore, modalNavigationStore);  
-            
+            OkCommand = new OkExercisesCommand(this, sheetStore, modalNavigationStore);
+
+            _sheetStore.ExerciseUpdated += SheetStoreExerciseUpdated;
+
+
 
         }
 
@@ -60,10 +63,7 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             var exerciseModel = _exerciseListingItemViewModel.FirstOrDefault(e => e.ExerciseId == exercise.Id);
 
-            if (exerciseModel != null)
-            {
-                exerciseModel.Update(exercise);
-            }
+            exerciseModel?.Update(exercise);
         }
 
         private void AddExerciseItemViewModels()

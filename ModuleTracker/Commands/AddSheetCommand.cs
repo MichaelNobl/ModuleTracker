@@ -30,11 +30,11 @@ namespace ModuleTracker.Wpf.Commands
         {
             var viewModel = _addSheetViewModel;
 
-            var sheet = new Sheet(new Guid(), int.Parse(viewModel.SheetNumber));
+            var sheet = new Sheet(Guid.NewGuid(), int.Parse(viewModel.SheetNumber));
 
             for (var i = 1; i <= int.Parse(viewModel.NumOfExercises); i++)
             {
-                var exercise = new Exercise(new Guid(), i);
+                var exercise = new Exercise(Guid.NewGuid(), i);
                 sheet.AddExercise(exercise);
             }
 

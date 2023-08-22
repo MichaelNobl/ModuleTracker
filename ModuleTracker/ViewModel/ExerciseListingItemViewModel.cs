@@ -51,6 +51,6 @@ namespace ModuleTracker.Wpf.ViewModel
 		public void Update(Exercise exercise)
 		{
 			ExerciseIsCompleted = exercise.IsCompleted;
-		}
+        }
 	}
 }

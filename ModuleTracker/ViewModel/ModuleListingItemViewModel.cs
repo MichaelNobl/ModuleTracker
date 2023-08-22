@@ -67,5 +67,33 @@ namespace ModuleTracker.Wpf.ViewModel
                 OnPropertyChanged(nameof(NumOfExercises));
             }
         }
+
+		private string _numOfDoneExercises;
+		public string NumOfDoneExercises
+		{
+			get
+			{
+				return _numOfDoneExercises;
+			}
+			set
+			{
+				_numOfDoneExercises = value;
+				OnPropertyChanged(nameof(NumOfDoneExercises));
+			}
+		}
+
+        private string _numOfExercises;
+        public string NumOfExercises
+        {
+            get
+            {
+                return _numOfExercises;
+            }
+            set
+            {
+                _numOfExercises = value;
+                OnPropertyChanged(nameof(NumOfExercises));
+            }
+        }
     }
 }

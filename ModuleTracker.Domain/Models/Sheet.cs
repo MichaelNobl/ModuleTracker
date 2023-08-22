@@ -14,14 +14,17 @@ namespace ModuleTracker.Domain.Models
 
         public int SheetNumber { get; }
 
-        public int NumOfExercises { get; }
+        public IList<Exercise> Exercises { get; } = new List<Exercise>();
 
-        public Sheet(Guid id, Guid moduleID, int sheetNumber, int numOfExercises)
+        public Sheet(Guid id, int sheetNumber)
         {
             Id = id;
             ModuleId = moduleID;
             SheetNumber = sheetNumber;
-            NumOfExercises = numOfExercises;
+        }
+        public void AddExercise(Exercise exercise)
+        {
+            Exercises.Add(exercise);
         }
     }
 }

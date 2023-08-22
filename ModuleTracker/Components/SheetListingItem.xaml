@@ -13,11 +13,15 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="{Binding Name}" Margin="0 0 5 0" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Text="{Binding NumOfExercises}" Margin="0 0 20 0" VerticalAlignment="Center"/>
-                <Button Grid.Column="2" Content="Edit" Command="{Binding EditSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Text="{Binding Name}" Margin="10 0 0 0" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding NumOfDoneExercises}" Margin="0 0 5 0" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="/" Margin="0 5 0 10" TextAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="3" Text="{Binding NumOfExercises}" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                <Button Grid.Column="4" Content="Open" Command="{Binding OpenSheetCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
             </Grid>
         </Border>
     </Grid>

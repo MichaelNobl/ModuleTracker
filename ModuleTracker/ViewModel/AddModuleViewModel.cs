@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ModuleTracker.Wpf.ViewModel
 {
@@ -12,9 +13,30 @@ namespace ModuleTracker.Wpf.ViewModel
     {
         public AddModuleViewModel(ModuleStore moduleStore, ModalNavigationStore modalNavigationStore)
         {
-            var submitCommand = new AddModuleCommand(this, moduleStore, modalNavigationStore);
-            var cancelCommand = new CloseModalCommand(modalNavigationStore);
+            SubmitCommand = new AddModuleCommand(this, moduleStore, modalNavigationStore);
+            CancelCommand = new CloseModalCommand(modalNavigationStore);
         }
+
+        private string _name;
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(CanSubmit));
+            }
+        }
+
+        public bool CanSubmit => !string.IsNullOrEmpty(Name);
+
+
+        public ICommand SubmitCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
     }
 }

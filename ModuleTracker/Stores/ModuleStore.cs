@@ -11,23 +11,22 @@ namespace ModuleTracker.Wpf.Stores
 {
     public class ModuleStore
     {
-        private readonly IGetAllModulesQuery _getAllModulesQuery;
-        private readonly ICreateModuleCommand _createModuleCommand;
-        private readonly IUpdateModuleCommand _updateModuleCommand;
-        private readonly IDeleteModuleCommand _deleteModuleCommand;
         private List<Module> _modules;
 
         public IEnumerable<Module> Modules => _modules;
-
-        public event Action ModuleLoaded;
+               
+        public event Action ModulesLoaded;
         public event Action<Module> ModuleAdded;
         public event Action<Guid> ModuleDeleted;
+        public event Action SheetsLoaded;
+        public event Action<Sheet> SheetAdded;
+        public event Action<Sheet> SheetUpdated;
+        public event Action<Guid> SheetDeleted;
+        public event Action ExerciseLoaded;
+        public event Action<Exercise> ExerciseAdded;
+        public event Action<Exercise> ExerciseUpdated;
 
-        public ModuleStore(
-            IGetAllModulesQuery getAllModulesQuery,
-            ICreateModuleCommand createModuleCommand,
-            IUpdateModuleCommand updateModuleCommand,
-            IDeleteModuleCommand deleteModuleCommand)
+        public ModuleStore()
         {
             _getAllModulesQuery = getAllModulesQuery;
             _createModuleCommand = createModuleCommand;
@@ -37,32 +36,52 @@ namespace ModuleTracker.Wpf.Stores
             _modules = new List<Module>();
         }
 
-        public async Task Load()
+        public async Task LoadModules()
         {
-            var modules = await _getAllModulesQuery.Execute();
-
-            _modules.Clear();
-            _modules.AddRange(modules);
-
-            ModuleLoaded?.Invoke();
+            ModulesLoaded?.Invoke();
         }
 
-        public async Task Add(Module module)
+        public async Task AddModule(Module module)
         {
-            await _createModuleCommand.Execute(module);
-
-            _modules.Add(module);
-
-            ModuleAdded?.Invoke(module);                        
+            ModuleAdded?.Invoke(module);
         }
-
-        public async Task Delete(Guid id)
+        public async Task DeleteModule(Guid id)
         {
-            await _deleteModuleCommand.Execute(id);
-
-            _modules.RemoveAll(y => y.Id == id);
-
             ModuleDeleted?.Invoke(id);
+        }
+
+        public async Task LoadSheets()
+        {
+            SheetsLoaded?.Invoke();
+        }
+
+        public async Task AddSheet(Sheet sheet)
+        {
+            SheetAdded?.Invoke(sheet);
+        }
+
+        public async Task UpdateSheet(Sheet sheet)
+        {
+            SheetUpdated?.Invoke(sheet);
+        }
+
+        public async Task DeleteSheet(Guid id)
+        {
+            SheetDeleted?.Invoke(id);
+        }
+
+        public async Task LoadExercises()
+        {
+            ExerciseLoaded?.Invoke();
+        }
+        public async Task AddExercise(Exercise exercise)
+        {
+            ExerciseAdded?.Invoke(exercise);
+        }
+
+        public async Task UpdateExercise(Exercise exercise)
+        {
+            ExerciseUpdated?.Invoke(exercise);
         }
     }
 }

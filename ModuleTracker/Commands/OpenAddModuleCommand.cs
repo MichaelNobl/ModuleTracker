@@ -21,8 +21,8 @@ namespace ModuleTracker.Wpf.Commands
 
         public override void Execute(object? parameter)
         {
-            var addYouTubeViewerModel = new AddModuleViewModel(_moduleStore, _modalNavigationStore);
-            _modalNavigationStore.CurrentViewModel = addYouTubeViewerModel;
-        }    
+            var addModuleViewModel = new AddModuleViewModel(_moduleStore, _modalNavigationStore);
+            _modalNavigationStore.CurrentViewModel = addModuleViewModel;
+        }
     }
 }

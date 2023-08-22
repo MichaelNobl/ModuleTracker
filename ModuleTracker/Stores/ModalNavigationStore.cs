@@ -28,7 +28,7 @@ namespace ModuleTracker.Wpf.Stores
 
         public event Action CurrentViewModelChanged;
 
-        public void Close()
+        internal void Close()
         {
             CurrentViewModel = null;
         }

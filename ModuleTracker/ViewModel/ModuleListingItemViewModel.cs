@@ -1,22 +1,23 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Stores;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class ModuleListingItemViewModel : BaseViewModel
     {
         private ModuleStore _moduleStore;
+        private SelectedSheetStore _selectedSheetStore;
 
-        public ModuleListingItemViewModel(Module module, ModuleStore moduleStore)
+
+        public ModuleListingItemViewModel(Module module, ModuleStore moduleStore, SelectedSheetStore selectedSheetStore)
         {
             Module = module;
             _moduleStore = moduleStore;
-        }
+            _selectedSheetStore = selectedSheetStore;
+
+            _selectedSheetStore.SelectedSheetChanged += SelectedModuleStoreSelectedSheetChanged;
+        }        
 
         #region Properties
         public Module Module { get; private set; }
@@ -48,7 +49,7 @@ namespace ModuleTracker.Wpf.ViewModel
                         }
                     }
                 }
-            }            
+            }                    
 
             return counter.ToString();
         }
@@ -68,9 +69,15 @@ namespace ModuleTracker.Wpf.ViewModel
                         counter++;
                     }
                 }
-            }            
+            }
 
             return counter.ToString();
+        }
+
+        private void SelectedModuleStoreSelectedSheetChanged()
+        {
+            OnPropertyChanged(nameof(NumOfExercises));
+            OnPropertyChanged(nameof(NumOfDoneExercises));
         }
 
         #endregion

@@ -16,12 +16,14 @@ namespace ModuleTracker.Wpf.ViewModel
     {       
         private readonly ModuleStore _modulesStore;
         private readonly SelectedModuleStore _selectedModuleStore;
+        private readonly SelectedSheetStore _selectedSheetStore;
         private readonly ModalNavigationStore _modalNavigationStore;         
         
-        public ModuleListingViewModel(ModuleStore modulStore, SelectedModuleStore selectedModuleStore, ModalNavigationStore modalNavigationStore)
+        public ModuleListingViewModel(ModuleStore modulStore, SelectedModuleStore selectedModuleStore, SelectedSheetStore selectedSheetStore, ModalNavigationStore modalNavigationStore)
         {
             _modulesStore = modulStore;
             _selectedModuleStore = selectedModuleStore;
+            _selectedSheetStore = selectedSheetStore;
             _modalNavigationStore = modalNavigationStore;
             _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();          
 
@@ -121,7 +123,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
         private void AddModule(Module module)
         {
-            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module, _modulesStore));            
+            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module, _modulesStore, _selectedSheetStore));            
         }
 
         #endregion

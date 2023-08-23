@@ -1,4 +1,5 @@
 ﻿using ModuleTracker.Domain.Models;
+using ModuleTracker.Wpf.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,13 @@ using System.Threading.Tasks;
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class ModuleListingItemViewModel : BaseViewModel
-    {       
-        public ModuleListingItemViewModel(Module module)
+    {
+        private ModuleStore _moduleStore;
+
+        public ModuleListingItemViewModel(Module module, ModuleStore moduleStore)
         {
             Module = module;
+            _moduleStore = moduleStore;
         }
 
         #region Properties
@@ -30,16 +34,21 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             var counter = 0;
 
-            foreach (var sheet in Module.Sheets)
+            var module = _moduleStore.Modules.FirstOrDefault(m => m.Id == Module.Id);
+
+            if(module != null)
             {
-                foreach (var exercise in sheet.Exercises)
+                foreach (var sheet in module.Sheets)
                 {
-                    if (exercise.IsCompleted)
+                    foreach (var exercise in sheet.Exercises)
                     {
-                        counter++;
+                        if (exercise.IsCompleted)
+                        {
+                            counter++;
+                        }
                     }
                 }
-            }
+            }            
 
             return counter.ToString();
         }
@@ -48,13 +57,18 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             var counter = 0;
 
-            foreach (var sheet in Module.Sheets)
+            var module = _moduleStore.Modules.FirstOrDefault(m => m.Id == Module.Id);
+
+            if( module != null)
             {
-                foreach (var exercise in sheet.Exercises)
+                foreach (var sheet in module.Sheets)
                 {
-                    counter++;
+                    foreach (var exercise in sheet.Exercises)
+                    {
+                        counter++;
+                    }
                 }
-            }
+            }            
 
             return counter.ToString();
         }

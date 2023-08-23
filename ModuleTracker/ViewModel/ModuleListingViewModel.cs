@@ -78,6 +78,7 @@ namespace ModuleTracker.Wpf.ViewModel
             _modulesStore.ModuleDeleted -= ModulesStoreModuleDeleted;
 
             _selectedModuleStore.SelectedModuleChanged -= ModuleStoreModuleChanged;
+            _moduleListingItemViewModel.CollectionChanged -= ModuleListingItemViewModelCollectionChanged;
 
 
             base.Dispose();
@@ -120,7 +121,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
         private void AddModule(Module module)
         {
-            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module));            
+            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module, _modulesStore));            
         }
 
         #endregion

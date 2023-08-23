@@ -16,11 +16,28 @@ namespace ModuleTracker.Wpf.ViewModel
     {       
         private readonly ModuleStore _modulesStore;
         private readonly SelectedModuleStore _selectedModuleStore;
-        private readonly ModalNavigationStore _modalNavigationStore;
+        private readonly ModalNavigationStore _modalNavigationStore;         
+        
+        public ModuleListingViewModel(ModuleStore modulStore, SelectedModuleStore selectedModuleStore, ModalNavigationStore modalNavigationStore)
+        {
+            _modulesStore = modulStore;
+            _selectedModuleStore = selectedModuleStore;
+            _modalNavigationStore = modalNavigationStore;
+            _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();          
 
-        private readonly ObservableCollection<ModuleListingItemViewModel> _moduleListingItemViewModel;
-        public IEnumerable<ModuleListingItemViewModel> ModuleListingItemViewModel =>
-            _moduleListingItemViewModel;
+            AddModuleCommand = new OpenAddModuleCommand(_modulesStore, _modalNavigationStore);
+            DeleteModuleCommand = new DeleteModuleCommand(_selectedModuleStore, _modulesStore);
+
+            _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
+            _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
+            _modulesStore.ModuleDeleted += ModulesStoreModuleDeleted;
+
+            _selectedModuleStore.SelectedModuleChanged += ModuleStoreModuleChanged;
+            _moduleListingItemViewModel.CollectionChanged += ModuleListingItemViewModelCollectionChanged;
+
+        }
+
+        #region Properties
 
         private ModuleListingItemViewModel _selectedModuleListingItemViewModel;
 
@@ -39,23 +56,36 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
+        private readonly ObservableCollection<ModuleListingItemViewModel> _moduleListingItemViewModel;
+        public IEnumerable<ModuleListingItemViewModel> ModuleListingItemViewModel =>
+            _moduleListingItemViewModel;
+
+        #endregion
+
+        #region Commands
         public ICommand AddModuleCommand { get; set; }
         public ICommand DeleteModuleCommand { get; set; }
 
-        public ModuleListingViewModel(ModuleStore modulStore, SelectedModuleStore selectedModuleStore, ModalNavigationStore modalNavigationStore)
+        #endregion
+
+        #region Actions
+
+        public override void Dispose()
         {
-            _modulesStore = modulStore;
-            _selectedModuleStore = selectedModuleStore;
-            _modalNavigationStore = modalNavigationStore;
-            _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();          
 
-            AddModuleCommand = new OpenAddModuleCommand(_modulesStore, modalNavigationStore);
-            DeleteModuleCommand = new DeleteModuleCommand(_selectedModuleStore, _modulesStore);
+            _modulesStore.ModulesLoaded -= ModulesStoreModuleLoaded;
+            _modulesStore.ModuleAdded -= ModulesStoreModuleAdded;
+            _modulesStore.ModuleDeleted -= ModulesStoreModuleDeleted;
 
-            _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
-            _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
-            _modulesStore.ModuleDeleted += ModulesStoreModuleDeleted;
+            _selectedModuleStore.SelectedModuleChanged -= ModuleStoreModuleChanged;
 
+
+            base.Dispose();
+        }
+
+        private void ModuleStoreModuleChanged()
+        {
+            OnPropertyChanged(nameof(SelectedModuleListingItemViewModel));
         }
 
         private void ModulesStoreModuleDeleted(Guid id)
@@ -76,17 +106,7 @@ namespace ModuleTracker.Wpf.ViewModel
             {
                 AddModule(module);
             }
-        }
-
-        public override void Dispose()
-        {
-
-            _modulesStore.ModulesLoaded -= ModulesStoreModuleLoaded;
-            _modulesStore.ModuleAdded -= ModulesStoreModuleAdded;
-            _modulesStore.ModuleDeleted -= ModulesStoreModuleDeleted;
-
-            base.Dispose();
-        }
+        }        
 
         private void ModulesStoreModuleAdded(Module module)
         {
@@ -100,8 +120,10 @@ namespace ModuleTracker.Wpf.ViewModel
 
         private void AddModule(Module module)
         {
-            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module));
+            _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module));            
         }
+
+        #endregion
 
     }
 }

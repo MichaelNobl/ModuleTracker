@@ -24,7 +24,10 @@ namespace ModuleTracker.Wpf.Commands
         {
             try
             {
-                await _moduleStore.DeleteSheet(_selectedSheetStore.SelectedSheet.Id);
+                if (_selectedSheetStore.SelectedSheet != null)
+                {
+                    await _moduleStore.DeleteSheet(_selectedSheetStore.SelectedSheet.Id);
+                }                
             }
             catch (Exception)
             {

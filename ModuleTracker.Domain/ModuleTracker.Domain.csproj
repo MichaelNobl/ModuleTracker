@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dictionaries\" />
+    <Compile Remove="Dictionaries\**" />
+    <EmbeddedResource Remove="Dictionaries\**" />
+    <None Remove="Dictionaries\**" />
   </ItemGroup>
 
 </Project>

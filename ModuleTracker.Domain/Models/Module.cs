@@ -24,5 +24,10 @@ namespace ModuleTracker.Domain.Models
         {
             Sheets.Add(sheet);
         }
+
+        public void RemoveSheet(Sheet sheet)
+        {
+            Sheets.Remove(sheet);
+        }
     }
 }

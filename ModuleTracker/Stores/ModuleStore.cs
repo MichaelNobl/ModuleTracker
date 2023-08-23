@@ -36,10 +36,14 @@ namespace ModuleTracker.Wpf.Stores
 
         public async Task AddModule(Module module)
         {
+            _modules.Add(module);
+
             ModuleAdded?.Invoke(module);
         }
         public async Task DeleteModule(Guid id)
         {
+            _modules.RemoveAll(m => m.Id == id);
+
             ModuleDeleted?.Invoke(id);
         }
 
@@ -50,6 +54,8 @@ namespace ModuleTracker.Wpf.Stores
 
         public async Task AddSheet(Sheet sheet)
         {
+            _modules.SingleOrDefault(m => m.Id == sheet.ModuleId)?.AddSheet(sheet);
+
             SheetAdded?.Invoke(sheet);
         }
 
@@ -60,6 +66,16 @@ namespace ModuleTracker.Wpf.Stores
 
         public async Task DeleteSheet(Guid id)
         {
+            foreach (var module in _modules)
+            {               
+               var sheet = _modules.SingleOrDefault(m => m.Id == module.Id)?.Sheets.SingleOrDefault(s => s.Id == id); 
+               
+                if(sheet is not null)
+                {
+                    _modules.SingleOrDefault(m => m.Id == module.Id)?.Sheets.Remove(sheet);
+                }
+            }            
+
             SheetDeleted?.Invoke(id);
         }
 

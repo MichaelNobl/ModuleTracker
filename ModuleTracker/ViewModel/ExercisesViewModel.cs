@@ -13,12 +13,29 @@ namespace ModuleTracker.Wpf.ViewModel
     {
         private readonly ObservableCollection<ExerciseListingItemViewModel> _exerciseListingItemViewModel;
         private readonly ModuleStore _moduleStore;
-        private readonly Sheet _sheet;
+        private readonly Sheet _sheet;                
 
-        public IEnumerable<ExerciseListingItemViewModel> ExerciseListingItemViewModel =>
-            _exerciseListingItemViewModel;
+        public ExercisesViewModel(Sheet sheet, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore)
+        {
+            SheetId = sheet.Id;
+            ModuleId = sheet.ModuleId;
+            SheetNumber = sheet.SheetNumber.ToString();
+
+            _sheet = sheet;
+            _exerciseListingItemViewModel = new ObservableCollection<ExerciseListingItemViewModel>();
+            _moduleStore = moduleStore;
+
+            OkCommand = new OkExercisesCommand(this, moduleStore, modalNavigationStore);
+
+            AddExerciseItemViewModels();           
+
+            _moduleStore.ExerciseUpdated += SheetStoreExerciseUpdated;
+        }
+
+        #region Properties
 
         public Guid SheetId { get; }
+        public Guid ModuleId { get; }
 
         private string _sheetNumber;
         public string SheetNumber
@@ -34,24 +51,24 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
+        public IEnumerable<ExerciseListingItemViewModel> ExerciseListingItemViewModel =>
+            _exerciseListingItemViewModel;
+
+        #endregion
+
+        #region Commands
+
         public ICommand OkCommand { get; set; }
 
-        public ExercisesViewModel(Sheet sheet, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore)
+        #endregion
+
+        #region Actions
+
+        public override void Dispose()
         {
-            SheetId = sheet.Id;
-            SheetNumber = sheet.SheetNumber.ToString();
+            _moduleStore.ExerciseUpdated -= SheetStoreExerciseUpdated;
 
-            _sheet = sheet;
-            _exerciseListingItemViewModel = new ObservableCollection<ExerciseListingItemViewModel>();
-            _moduleStore = moduleStore;
-            AddExerciseItemViewModels();
-
-            OkCommand = new OkExercisesCommand(this, moduleStore, modalNavigationStore);
-
-            _moduleStore.ExerciseUpdated += SheetStoreExerciseUpdated;
-
-
-
+            base.Dispose();
         }
 
         private void SheetStoreExerciseUpdated(Exercise exercise)
@@ -61,6 +78,9 @@ namespace ModuleTracker.Wpf.ViewModel
             exerciseModel?.Update(exercise);
         }
 
+        #endregion
+
+        #region Methods
         private void AddExerciseItemViewModels()
         {
             _exerciseListingItemViewModel.Clear();
@@ -73,6 +93,11 @@ namespace ModuleTracker.Wpf.ViewModel
                 }
             }
         }
+
+        #endregion
+
+
+
 
     }
 }

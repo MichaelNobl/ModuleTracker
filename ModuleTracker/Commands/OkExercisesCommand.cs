@@ -24,7 +24,7 @@ namespace ModuleTracker.Wpf.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
-            var sheet = new Sheet(_exercisesViewModel.SheetId, int.Parse(_exercisesViewModel.SheetNumber));
+            var sheet = new Sheet(_exercisesViewModel.SheetId, _exercisesViewModel.ModuleId ,int.Parse(_exercisesViewModel.SheetNumber));
 
             foreach (var exerciseItem in _exercisesViewModel.ExerciseListingItemViewModel)
             {

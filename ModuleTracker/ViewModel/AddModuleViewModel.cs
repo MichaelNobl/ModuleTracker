@@ -17,6 +17,8 @@ namespace ModuleTracker.Wpf.ViewModel
             CancelCommand = new CloseModalCommand(modalNavigationStore);
         }
 
+        #region Properties
+
         private string _name;
         public string Name
         {
@@ -34,9 +36,12 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public bool CanSubmit => !string.IsNullOrEmpty(Name);
 
+        #endregion
 
+        #region Commands
         public ICommand SubmitCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
+        #endregion
     }
 }

@@ -9,11 +9,7 @@ namespace ModuleTracker.Wpf.ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly ModalNavigationStore _modalNavigationStore;
-
-        public BaseViewModel CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
-
-        public bool IsModalOpen => _modalNavigationStore.IsOpen;
+        private readonly ModalNavigationStore _modalNavigationStore;        
 
         public MainViewModel(ModalNavigationStore modalNavigationStore, ModuleViewModel moduleViewModel)
         {
@@ -21,11 +17,21 @@ namespace ModuleTracker.Wpf.ViewModel
             ModuleViewModel = moduleViewModel;
 
             _modalNavigationStore.CurrentViewModelChanged += ModalNavigationStoreCurrentViewModelChanged;
-
         }
+
+        #region Properties
 
         public ModuleViewModel ModuleViewModel { get; }
 
+        public BaseViewModel CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;        
+
+        public bool IsModalOpen => _modalNavigationStore.IsOpen;
+
+        #endregion
+
+        
+
+        #region Actions
         public override void Dispose()
         {
             _modalNavigationStore.CurrentViewModelChanged -= ModalNavigationStoreCurrentViewModelChanged;
@@ -39,7 +45,6 @@ namespace ModuleTracker.Wpf.ViewModel
             OnPropertyChanged(nameof(IsModalOpen));
         }
 
-        
-
+        #endregion
     }
 }

@@ -10,13 +10,16 @@ namespace ModuleTracker.Domain.Models
     {
         public Guid Id { get; }
 
+        public Guid ModuleId { get; }
+
         public int SheetNumber { get; }
 
         public IList<Exercise> Exercises { get; } = new List<Exercise>();
 
-        public Sheet(Guid id, int sheetNumber)
+        public Sheet(Guid id, Guid moduleId, int sheetNumber)
         {
             Id = id;
+            ModuleId = moduleId;
             SheetNumber = sheetNumber;
         }
         public void AddExercise(Exercise exercise)

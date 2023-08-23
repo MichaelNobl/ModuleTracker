@@ -24,7 +24,10 @@ namespace ModuleTracker.Wpf.Commands
         {
             try
             {
-                await _moduleStore.DeleteModule(_selectedModuleStore.SelectedModule.Id);
+                if(_selectedModuleStore.SelectedModule != null)
+                {
+                    await _moduleStore.DeleteModule(_selectedModuleStore.SelectedModule.Id);
+                }                
             }
             catch (Exception)
             {

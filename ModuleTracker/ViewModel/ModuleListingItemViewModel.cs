@@ -8,42 +8,59 @@ using System.Threading.Tasks;
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class ModuleListingItemViewModel : BaseViewModel
-    {
-        public Module Module { get; private set; }
-
-        public string Name => Module.Name;
-
+    {       
         public ModuleListingItemViewModel(Module module)
         {
             Module = module;
         }
 
-		private string _numOfDoneExercises;
-		public string NumOfDoneExercises
-		{
-			get
-			{
-				return _numOfDoneExercises;
-			}
-			set
-			{
-				_numOfDoneExercises = value;
-				OnPropertyChanged(nameof(NumOfDoneExercises));
-			}
-		}
+        #region Properties
+        public Module Module { get; private set; }
 
-        private string _numOfExercises;
-        public string NumOfExercises
+        public string Name => Module.Name;
+
+        public string NumOfDoneExercises => CalculateDoneExercises();
+
+        public string NumOfExercises => CalculateExercises();
+
+        #endregion
+
+        #region Methods
+        private string CalculateDoneExercises()
         {
-            get
+            var counter = 0;
+
+            foreach (var sheet in Module.Sheets)
             {
-                return _numOfExercises;
+                foreach (var exercise in sheet.Exercises)
+                {
+                    if (exercise.IsCompleted)
+                    {
+                        counter++;
+                    }
+                }
             }
-            set
-            {
-                _numOfExercises = value;
-                OnPropertyChanged(nameof(NumOfExercises));
-            }
+
+            return counter.ToString();
         }
+
+        private string CalculateExercises()
+        {
+            var counter = 0;
+
+            foreach (var sheet in Module.Sheets)
+            {
+                foreach (var exercise in sheet.Exercises)
+                {
+                    counter++;
+                }
+            }
+
+            return counter.ToString();
+        }
+
+        #endregion
+
+
     }
 }

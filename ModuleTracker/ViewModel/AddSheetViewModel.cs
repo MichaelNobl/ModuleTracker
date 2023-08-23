@@ -20,6 +20,8 @@ namespace ModuleTracker.Wpf.ViewModel
             CancelCommand = new CloseModalCommand(modalNavigationStore);
         }
 
+        #region Properties
+
         private string _numOfExercises;
         public string NumOfExercises
         {
@@ -50,7 +52,16 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
+        #endregion
+
+        #region Commands
         public ICommand SubmitCommand { get; set; }
         public ICommand CancelCommand { get; set; }
+
+        #endregion
+
+
+
+
     }
 }

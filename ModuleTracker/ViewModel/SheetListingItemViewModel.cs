@@ -8,13 +8,6 @@ namespace ModuleTracker.Wpf.ViewModel
 {
     public class SheetListingItemViewModel : BaseViewModel
     {
-        public Sheet Sheet { get; private set; }
-
-        public string Name => $"Sheet {Sheet.SheetNumber}";
-
-
-        public ICommand OpenSheetCommand { get; private set; }
-
         public SheetListingItemViewModel(Sheet sheet, ModalNavigationStore modalNavigationStore, ModuleStore moduleStore)
         {
             Sheet = sheet;
@@ -22,6 +15,8 @@ namespace ModuleTracker.Wpf.ViewModel
             NumOfExercises = Sheet.Exercises.Count.ToString(); 
             OpenSheetCommand = new OpenExercisesCommand(sheet, modalNavigationStore, moduleStore);
         }
+
+        #region Properties
 
         private string _numOfDoneExercises;
         public string NumOfDoneExercises
@@ -51,6 +46,16 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
+        public Sheet Sheet { get; private set; }
 
+        public string Name => $"Sheet {Sheet.SheetNumber}";
+
+        #endregion
+
+        #region Commands
+
+        public ICommand OpenSheetCommand { get; private set; }
+
+        #endregion
     }
 }

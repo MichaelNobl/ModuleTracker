@@ -1,4 +1,5 @@
-﻿using ModuleTracker.Wpf.Stores;
+﻿using ModuleTracker.Wpf.Commands;
+using ModuleTracker.Wpf.Stores;
 using System.Windows.Input;
 
 namespace ModuleTracker.Wpf.ViewModel
@@ -9,10 +10,21 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             ModulesListingViewModel = new ModuleListingViewModel(moduleStore, selectedModuleStore, selectedSheetStore, modalNavigationStore);
             SheetListingViewModel = new SheetListingViewModel(moduleStore, selectedModuleStore, selectedSheetStore, modalNavigationStore);
+
+            LoadModuleCommand = new LoadModulesCommand(this, moduleStore);
         }
         public ModuleListingViewModel ModulesListingViewModel { get; }
         public SheetListingViewModel SheetListingViewModel { get; }
 
         public ICommand LoadModuleCommand { get; }
+
+        public static ModuleViewModel LoadViewModel(ModuleStore moduleStore, SelectedModuleStore selectedModuleViewerStore, SelectedSheetStore selectedSheetStore, ModalNavigationStore modalNavigationStore)
+        {
+            var viewModel = new ModuleViewModel(moduleStore, selectedModuleViewerStore, selectedSheetStore, modalNavigationStore);
+
+            viewModel.LoadModuleCommand.Execute(null);
+
+            return viewModel;
+        }
     }
 }

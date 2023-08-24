@@ -12,12 +12,13 @@ namespace ModuleTracker.Domain.Models
 
         public string Name { get; }
 
-        public IList<Sheet> Sheets { get; } = new List<Sheet>();
+        public IList<Sheet> Sheets { get; }
               
-        public Module(Guid id, string name)
+        public Module(Guid id, string name, IList<Sheet> sheet)
         {
             Id = id;
             Name = name;
+            Sheets = sheet;
         }
 
         public void AddSheet(Sheet sheet)

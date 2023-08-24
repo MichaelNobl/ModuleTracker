@@ -26,7 +26,7 @@ namespace ModuleTracker.Wpf.Commands
         {
             var viewModel = _addModuleViewModel;
 
-            var module = new Module(Guid.NewGuid(), viewModel.Name);
+            var module = new Module(Guid.NewGuid(), viewModel.Name, new List<Sheet>());
             try
             {
                 await _moduleStore.AddModule(module);

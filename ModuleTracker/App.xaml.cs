@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ModuleTracker.Domain.Commands;
 using ModuleTracker.Domain.Queries;
 using ModuleTracker.EntityFramework;
 using ModuleTracker.EntityFramework.Commands;
 using ModuleTracker.EntityFramework.Queries;
+using ModuleTracker.Wpf.HostBuilders;
 using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
+using System;
 using System.Windows;
 
 namespace ModuleTracker.Wpf
@@ -21,63 +25,74 @@ namespace ModuleTracker.Wpf
         private readonly ModalNavigationStore _modalNavigationStore;
 
         private readonly ModulesDbContextFactory _modulesDbContextFactory;
-        private readonly IGetAllModulesQuery _getAllModulesQuery;
-        private readonly ICreateExerciseCommand _createExerciseCommand;
-        private readonly ICreateModuleCommand _createModuleCommand;
-        private readonly ICreateSheetCommand _createSheetCommand;
-        private readonly IDeleteModuleCommand _deleteModuleCommand;
-        private readonly IDeleteSheetCommand _deleteSheetCommand;
-        private readonly IUpdateExerciseCommand _updateExerciseCommand;
-        private readonly IUpdateSheetCommand _updateSheetCommand;
 
+        private readonly IHost _host;
         public App()
         {
-            string connectionString = "Data Source=Modules.db";
+            _host = Host.CreateDefaultBuilder().
+                AddDbContext()
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddSingleton<IGetAllModulesQuery, GetAllModulesQuery>();
+                    services.AddSingleton<ICreateExerciseCommand, CreateExerciseCommand>();
+                    services.AddSingleton<ICreateModuleCommand, CreateModuleCommand>();
+                    services.AddSingleton<ICreateSheetCommand, CreateSheetCommand>();
+                    services.AddSingleton<IDeleteModuleCommand, DeleteModuleCommand>();
+                    services.AddSingleton<IDeleteSheetCommand, DeleteSheetCommand>();
+                    services.AddSingleton<IUpdateExerciseCommand, UpdateExerciseCommand>();
+                    services.AddSingleton<IUpdateSheetCommand, UpdateSheetCommand>();
 
-            _modulesDbContextFactory = new ModulesDbContextFactory(
-                new DbContextOptionsBuilder().UseSqlite(connectionString).Options);
+                    services.AddSingleton<ModalNavigationStore>();
+                    services.AddSingleton<ModuleStore>();
+                    services.AddSingleton<SelectedModuleStore>();
+                    services.AddSingleton<SelectedSheetStore>();
 
-            _getAllModulesQuery = new GetAllModulesQuery(_modulesDbContextFactory);
-            _createExerciseCommand = new CreateExerciseCommand(_modulesDbContextFactory);
-            _createModuleCommand = new CreateModuleCommand(_modulesDbContextFactory);
-            _createSheetCommand = new CreateSheetCommand(_modulesDbContextFactory);
-            _deleteModuleCommand = new DeleteModuleCommand(_modulesDbContextFactory);
-            _deleteSheetCommand = new DeleteSheetCommand(_modulesDbContextFactory);
-            _updateExerciseCommand = new UpdateExerciseCommand(_modulesDbContextFactory);
-            _updateSheetCommand = new UpdateSheetCommand(_modulesDbContextFactory);
+                    services.AddTransient<ModuleViewModel>(CreateModuleViewModel);
+                    services.AddSingleton<MainViewModel>();
 
-            _moduleStore = new ModuleStore(
-                _getAllModulesQuery,
-                _createExerciseCommand,
-                _createModuleCommand,
-                _createSheetCommand,
-                _deleteModuleCommand,
-                _deleteSheetCommand,
-                _updateExerciseCommand,
-                _updateSheetCommand);
+                    services.AddSingleton<MainWindow>((services) => new MainWindow()
+                    {
+                        DataContext = services.GetRequiredService<MainViewModel>()
+                    });
 
-            _selectedModuleStore = new SelectedModuleStore(_moduleStore);
-            _selectedSheetStore = new SelectedSheetStore(_moduleStore);
-            _modalNavigationStore = new ModalNavigationStore();
+                }).Build();
+
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            using (ModulesDbContext context = _modulesDbContextFactory.Create())
+            _host.Start();
+
+            var moduleDbContextFactory = _host.Services.GetRequiredService<ModulesDbContextFactory>();
+
+            using (var context = moduleDbContextFactory.Create())
             {
                 context.Database.Migrate();
             } 
 
-            var moduleViewModel = ModuleViewModel.LoadViewModel(_moduleStore, _selectedModuleStore, _selectedSheetStore, _modalNavigationStore);
-
-            MainWindow = new MainWindow
-            {
-                DataContext = new MainViewModel(_modalNavigationStore, moduleViewModel)                
-            };
+            MainWindow = _host.Services.GetRequiredService<MainWindow>();
 
             MainWindow.Show();
 
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            _host.StopAsync();
+            _host.Dispose();
+
+            base.OnExit(e);
+        }
+
+
+        private ModuleViewModel CreateModuleViewModel(IServiceProvider services)
+        {
+           return ModuleViewModel.LoadViewModel(
+               services.GetRequiredService<ModuleStore>(),
+               services.GetRequiredService<SelectedModuleStore>(),
+               services.GetRequiredService<SelectedSheetStore>(),
+               services.GetRequiredService<ModalNavigationStore>());
         }
     }
 

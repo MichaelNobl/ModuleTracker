@@ -60,7 +60,7 @@ namespace ModuleTracker.Wpf.Stores
         }
 
         public async Task UpdateSheet(Sheet sheet)
-        {
+        {           
             SheetUpdated?.Invoke(sheet);
         }
 
@@ -90,7 +90,45 @@ namespace ModuleTracker.Wpf.Stores
 
         public async Task UpdateExercise(Exercise exercise)
         {
+            var currentIndex = _modules.FindIndex(m => m.Id == exercise.ModuleId);
+
+            var tempModule = _modules.SingleOrDefault(m => m.Id == exercise.ModuleId);
+
+            if (tempModule is not null)
+            {
+                var module = new Module(exercise.ModuleId, tempModule.Name);
+
+                foreach (var sheet in tempModule.Sheets)
+                {
+                    var tempSheet = new Sheet(sheet.Id, sheet.ModuleId, sheet.SheetNumber);
+
+                    if (sheet.Id != exercise.SheetId)
+                    {
+                        module.AddSheet(sheet);
+                    }
+                    else
+                    {
+                        foreach (var exercises in sheet.Exercises)
+                        {
+                            if (exercises.Id != exercise.Id)
+                            {
+                                tempSheet.AddExercise(exercises);
+                            }
+                            else
+                            {
+                                tempSheet.AddExercise(exercise);
+                            }
+                        }                        
+
+                        module.AddSheet(tempSheet);
+                    }                    
+                }
+
+                _modules[currentIndex] = module;
+            }
+
             ExerciseUpdated?.Invoke(exercise);
+
         }
     }
 }

@@ -34,18 +34,13 @@ namespace ModuleTracker.Wpf.Commands
 
             for (var i = 1; i <= int.Parse(viewModel.NumOfExercises); i++)
             {
-                var exercise = new Exercise(Guid.NewGuid(), i);
+                var exercise = new Exercise(Guid.NewGuid(), sheet.ModuleId, sheet.Id, i);
                 sheet.AddExercise(exercise);
             }           
 
             try
             {
                 await _moudleStore.AddSheet(sheet);
-
-                foreach (var exercise in sheet.Exercises)
-                {
-                    await _moudleStore.AddExercise(exercise);
-                }
 
                 _modalNavigationStore.Close();
             }

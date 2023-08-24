@@ -28,18 +28,11 @@ namespace ModuleTracker.Wpf.Commands
 
             foreach (var exerciseItem in _exercisesViewModel.ExerciseListingItemViewModel)
             {
-                var exercise = new Exercise(exerciseItem.ExerciseId, int.Parse(exerciseItem.ExerciseNumber), exerciseItem.ExerciseIsCompleted);
+                var exercise = new Exercise(exerciseItem.ExerciseId, sheet.ModuleId, sheet.Id, int.Parse(exerciseItem.ExerciseNumber), exerciseItem.ExerciseIsCompleted);
 
                 sheet.AddExercise(exercise);
 
-                try
-                {
-                    await _moduleStore.UpdateExercise(exercise);
-                }
-                catch (Exception)
-                {
-
-                }
+                await _moduleStore.UpdateExercise(exercise);
             }
 
             try

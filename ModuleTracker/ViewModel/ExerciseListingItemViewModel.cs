@@ -7,7 +7,6 @@ namespace ModuleTracker.Wpf.ViewModel
     {	
 		public ExerciseListingItemViewModel(Exercise exercise)
 		{
-
 			ExerciseId = exercise.Id;
             ExerciseIsCompleted = exercise.IsCompleted;
             ExerciseNumber = exercise.Number.ToString();
@@ -50,6 +49,7 @@ namespace ModuleTracker.Wpf.ViewModel
         public void Update(Exercise exercise)
 		{
 			ExerciseIsCompleted = exercise.IsCompleted;
+            OnPropertyChanged(nameof(ExerciseIsCompleted));
         }
 	}
 }

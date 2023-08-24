@@ -85,9 +85,11 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             _exerciseListingItemViewModel.Clear();
 
-            if (_sheet != null)
+            var sheet = _moduleStore.Modules.SingleOrDefault(m => m.Id == _sheet.ModuleId)?.Sheets.SingleOrDefault(s => s.Id == _sheet.Id);
+
+            if (sheet != null)
             {
-                foreach (var exercise in _sheet.Exercises)
+                foreach (var exercise in sheet.Exercises)
                 {
                     _exerciseListingItemViewModel.Add(new ExerciseListingItemViewModel(exercise));
                 }

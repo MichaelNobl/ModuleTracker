@@ -11,40 +11,14 @@ namespace ModuleTracker.Wpf.ViewModel
         public SheetListingItemViewModel(Sheet sheet, ModalNavigationStore modalNavigationStore, ModuleStore moduleStore)
         {
             Sheet = sheet;
-            NumOfDoneExercises = Sheet.Exercises.Where(x => x.IsCompleted).Count().ToString(); 
-            NumOfExercises = Sheet.Exercises.Count.ToString(); 
             OpenSheetCommand = new OpenExercisesCommand(sheet, modalNavigationStore, moduleStore);
         }
 
         #region Properties
 
-        private string _numOfDoneExercises;
-        public string NumOfDoneExercises
-        {
-            get
-            {
-                return _numOfDoneExercises;
-            }
-            set
-            {
-                _numOfDoneExercises = value;
-                OnPropertyChanged(nameof(NumOfDoneExercises));
-            }
-        }
+        public string NumOfDoneExercises => Sheet.Exercises.Where(x => x.IsCompleted).Count().ToString();
 
-        private string _numOfExercises;
-        public string NumOfExercises
-        {
-            get
-            {
-                return _numOfExercises;
-            }
-            set
-            {
-                _numOfExercises = value;
-                OnPropertyChanged(nameof(NumOfExercises));
-            }
-        }
+        public string NumOfExercises => Sheet.Exercises.Count.ToString();
 
         public Sheet Sheet { get; private set; }
 
@@ -55,6 +29,17 @@ namespace ModuleTracker.Wpf.ViewModel
         #region Commands
 
         public ICommand OpenSheetCommand { get; private set; }
+
+        #endregion
+
+        #region Methods
+
+        public void Update(Sheet sheet)
+        {
+            Sheet = sheet;
+            OnPropertyChanged(nameof(NumOfExercises));
+            OnPropertyChanged(nameof(NumOfDoneExercises));
+        }
 
         #endregion
     }

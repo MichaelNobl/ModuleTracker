@@ -35,9 +35,10 @@ namespace ModuleTracker.Wpf.ViewModel
             _selectedSheetStore.SelectedSheetChanged += SelectedSheetStoreSelectedSheetChanged;
             _sheetListingItemViewModel.CollectionChanged += SheetStoreListingItemViewModelCollectionChanged;
 
-            _moduleStore.SheetsLoaded += SheetStoreSheetLoaded;
-            _moduleStore.SheetAdded += SheetStoreSheetAdded;
-            _moduleStore.SheetDeleted += SheetStoreSheetDeleted;
+            _moduleStore.SheetsLoaded += ModuleStoreSheetLoaded;
+            _moduleStore.SheetAdded += ModuleStoreSheetAdded;
+            _moduleStore.SheetUpdated+= ModuleStoreSheetUpdated;
+            _moduleStore.SheetDeleted += ModuleStoreSheetDeleted;
 
             AddSheetCommand = new OpenAddSheetCommand(modalNavigationStore, moduleStore, _selectedModuleStore);
             DeleteSheetCommand = new DeleteSheetCommand(selectedSheetStore, moduleStore);
@@ -78,9 +79,10 @@ namespace ModuleTracker.Wpf.ViewModel
             _selectedModuleStore.SelectedModuleChanged -= SelectedModuleStoreSelectedModuleChanged;
             _selectedSheetStore.SelectedSheetChanged -= SelectedSheetStoreSelectedSheetChanged;
 
-            _moduleStore.SheetsLoaded -= SheetStoreSheetLoaded;
-            _moduleStore.SheetAdded -= SheetStoreSheetAdded;
-            _moduleStore.SheetDeleted -= SheetStoreSheetDeleted;
+            _moduleStore.SheetsLoaded -= ModuleStoreSheetLoaded;
+            _moduleStore.SheetAdded -= ModuleStoreSheetAdded;
+            _moduleStore.SheetUpdated -= ModuleStoreSheetUpdated;
+            _moduleStore.SheetDeleted -= ModuleStoreSheetDeleted;
 
             _sheetListingItemViewModel.CollectionChanged -= SheetStoreListingItemViewModelCollectionChanged;
 
@@ -97,13 +99,13 @@ namespace ModuleTracker.Wpf.ViewModel
             OnPropertyChanged(nameof(SelectedSheetListingItemViewModel));
         }       
 
-        private void SheetStoreSheetAdded(Sheet sheet)
+        private void ModuleStoreSheetAdded(Sheet sheet)
         {
             _sheetListingItemViewModel.Add(new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore));
             OnPropertyChanged(nameof(SheetListingItemViewModel));
         }
 
-        private void SheetStoreSheetDeleted(Guid id)
+        private void ModuleStoreSheetDeleted(Guid id)
         {
             var itemViewModel = _sheetListingItemViewModel.FirstOrDefault(y => y.Sheet.Id == id);
 
@@ -113,7 +115,7 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
-        private void SheetStoreSheetLoaded()
+        private void ModuleStoreSheetLoaded()
         {
             _sheetListingItemViewModel.Clear();
 
@@ -127,6 +129,14 @@ namespace ModuleTracker.Wpf.ViewModel
                 }
             }
         }
+
+        private void ModuleStoreSheetUpdated(Sheet sheet)
+        {
+            var sheetViewModel = _sheetListingItemViewModel.FirstOrDefault(s => s.Sheet.Id == sheet.Id);
+
+            sheetViewModel?.Update(sheet);
+        }
+
 
         private void SelectedModuleStoreSelectedModuleChanged()
         {

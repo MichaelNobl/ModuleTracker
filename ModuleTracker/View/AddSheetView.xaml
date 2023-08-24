@@ -7,8 +7,12 @@
              xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Width="300">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -52,5 +56,8 @@
             <Button Command="{Binding CancelCommand}" Content="Cancel" Style="{StaticResource ButtonStyle1}" Margin="0 0 5 0"/>
             <spinner:LoadingSpinner IsLoading="{Binding IsSubmitting}" Diameter="25"/>
         </WrapPanel>
+
+        <TextBlock Grid.Row="3" Margin="0 15 0 0" Text="{Binding ErrorMessage}" Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ErrorMessage}" FontSize="16"/>
+
     </Grid>
 </UserControl>

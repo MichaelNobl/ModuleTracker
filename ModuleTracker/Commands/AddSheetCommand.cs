@@ -29,6 +29,7 @@ namespace ModuleTracker.Wpf.Commands
         public override async Task ExecuteAsync(object? parameter)
         {
             var viewModel = _addSheetViewModel;
+            viewModel.ErrorMessage = string.Empty;
 
             viewModel.IsSubmitting = true;
 
@@ -48,14 +49,12 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
-
+                viewModel.ErrorMessage = "Failed to add sheet. Please try again later.";
             }
             finally
             {
                 viewModel.IsSubmitting = false;
             }
-
-            _modalNavigationStore.Close();
         }
     }
 }

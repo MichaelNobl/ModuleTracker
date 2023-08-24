@@ -24,6 +24,9 @@ namespace ModuleTracker.Wpf.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
+            _exercisesViewModel.ErrorMessage = string.Empty;
+            _exercisesViewModel.IsSubmitting = true;
+
             var sheet = new Sheet(_exercisesViewModel.SheetId, _exercisesViewModel.ModuleId ,int.Parse(_exercisesViewModel.SheetNumber), new List<Exercise>());
 
             foreach (var exerciseItem in _exercisesViewModel.ExerciseListingItemViewModel)
@@ -32,7 +35,14 @@ namespace ModuleTracker.Wpf.Commands
 
                 sheet.AddExercise(exercise);
 
-                await _moduleStore.UpdateExercise(exercise);
+                try
+                {
+                    await _moduleStore.UpdateExercise(exercise);
+                }
+                catch
+                {
+                    _exercisesViewModel.ErrorMessage = "Failed to update exercise. Please try again later.";
+                }
             }
 
             try
@@ -43,10 +53,12 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
-
+                _exercisesViewModel.ErrorMessage = "Failed to update sheet. Please try again later.";
             }
-
-            _modalNavigationStore.Close();
+            finally
+            {
+                _exercisesViewModel.IsSubmitting = false;
+            }
         }
     }
 }

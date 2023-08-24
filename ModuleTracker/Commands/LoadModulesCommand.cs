@@ -21,6 +21,7 @@ namespace ModuleTracker.Wpf.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
+            _moduleViewModel.ErrorMessage = string.Empty;
             _moduleViewModel.IsLoading = true;
 
             try
@@ -29,7 +30,7 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
-                throw;
+                _moduleViewModel.ErrorMessage = "Failed to load modules. Please restart the application.";
             }
             finally
             {

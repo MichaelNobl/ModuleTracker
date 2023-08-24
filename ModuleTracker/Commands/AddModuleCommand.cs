@@ -27,6 +27,7 @@ namespace ModuleTracker.Wpf.Commands
             var viewModel = _addModuleViewModel;
 
             viewModel.IsSubmitting = true;
+            viewModel.ErrorMessage = string.Empty;
 
             var module = new Module(Guid.NewGuid(), viewModel.Name, new List<Sheet>());
             try
@@ -37,7 +38,7 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch(Exception)
             {
-
+                viewModel.ErrorMessage = "Failed to add module. Please try again later.";
             }
             finally
             {

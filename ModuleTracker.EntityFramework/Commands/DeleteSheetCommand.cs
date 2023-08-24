@@ -16,6 +16,8 @@ namespace ModuleTracker.EntityFramework.Commands
         {
             using (var context = _contextFactory.Create())
             {
+                throw new Exception();
+
                 var sheetDto = new SheetDto()
                 {
                     Id = id

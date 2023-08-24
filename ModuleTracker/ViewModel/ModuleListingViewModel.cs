@@ -28,7 +28,7 @@ namespace ModuleTracker.Wpf.ViewModel
             _moduleListingItemViewModel = new ObservableCollection<ModuleListingItemViewModel>();          
 
             AddModuleCommand = new OpenAddModuleCommand(_modulesStore, _modalNavigationStore);
-            DeleteModuleCommand = new DeleteModuleCommand(_selectedModuleStore, _modulesStore);
+            DeleteModuleCommand = new DeleteModuleCommand(this, _selectedModuleStore, _modulesStore);
 
             _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
@@ -55,6 +55,20 @@ namespace ModuleTracker.Wpf.ViewModel
                 OnPropertyChanged(nameof(SelectedModuleListingItemViewModel));
 
                 _selectedModuleStore.SelectedModule = _selectedModuleListingItemViewModel?.Module;
+            }
+        }
+
+        private bool _isDeleting;
+        public bool IsDeleting
+        {
+            get
+            {
+                return _isDeleting;
+            }
+            set
+            {
+                _isDeleting = value;
+                OnPropertyChanged(nameof(IsDeleting));
             }
         }
 

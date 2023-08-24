@@ -11,17 +11,21 @@ namespace ModuleTracker.Wpf.Commands
 {
     public class DeleteSheetCommand : AsyncCommandBase
     {
+        private readonly SheetListingViewModel _sheetListingViewModel;
         private readonly SelectedSheetStore _selectedSheetStore;
         private readonly ModuleStore _moduleStore;
 
-        public DeleteSheetCommand(SelectedSheetStore selectedSheetStore, ModuleStore moduleStore) 
+        public DeleteSheetCommand(SheetListingViewModel sheetListingViewModel, SelectedSheetStore selectedSheetStore, ModuleStore moduleStore) 
         {
+            _sheetListingViewModel = sheetListingViewModel;
             _selectedSheetStore = selectedSheetStore;
             _moduleStore = moduleStore;
         }
 
         public override async Task ExecuteAsync(object? parameter)
         {
+            _sheetListingViewModel.IsDeleting = true;
+
             try
             {
                 if (_selectedSheetStore.SelectedSheet != null)
@@ -31,6 +35,10 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
+            }
+            finally
+            {
+                _sheetListingViewModel.IsDeleting = false;
             }
         }
     }

@@ -52,6 +52,20 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
+        private bool _isSubmitting;
+        public bool IsSubmitting
+        {
+            get
+            {
+                return _isSubmitting;
+            }
+            set
+            {
+                _isSubmitting = value;
+                OnPropertyChanged(nameof(IsSubmitting));
+            }
+        }
+
         #endregion
 
         #region Commands

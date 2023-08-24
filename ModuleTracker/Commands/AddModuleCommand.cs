@@ -26,6 +26,8 @@ namespace ModuleTracker.Wpf.Commands
         {
             var viewModel = _addModuleViewModel;
 
+            viewModel.IsSubmitting = true;
+
             var module = new Module(Guid.NewGuid(), viewModel.Name, new List<Sheet>());
             try
             {
@@ -36,7 +38,11 @@ namespace ModuleTracker.Wpf.Commands
             catch(Exception)
             {
 
-            }            
+            }
+            finally
+            {
+                viewModel.IsSubmitting = false;
+            }
         }
     }
 }

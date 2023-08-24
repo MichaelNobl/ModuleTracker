@@ -30,13 +30,15 @@ namespace ModuleTracker.Wpf.Commands
         {
             var viewModel = _addSheetViewModel;
 
+            viewModel.IsSubmitting = true;
+
             var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, int.Parse(viewModel.SheetNumber), new List<Exercise>());
 
             for (var i = 1; i <= int.Parse(viewModel.NumOfExercises); i++)
             {
                 var exercise = new Exercise(Guid.NewGuid(), sheet.ModuleId, sheet.Id, i);
                 sheet.AddExercise(exercise);
-            }           
+            }        
 
             try
             {
@@ -47,6 +49,10 @@ namespace ModuleTracker.Wpf.Commands
             catch (Exception)
             {
 
+            }
+            finally
+            {
+                viewModel.IsSubmitting = false;
             }
 
             _modalNavigationStore.Close();

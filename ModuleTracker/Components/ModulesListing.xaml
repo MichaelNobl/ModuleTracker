@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ModuleTracker.Wpf.Components"
+             xmlns:local="clr-namespace:ModuleTracker.Wpf.Components" xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>        
@@ -20,12 +20,13 @@
                 <Border BorderThickness="0,0,0,1" BorderBrush="Black">
                     <Grid Grid.Row="0">                     
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>                     
-                            <ColumnDefinition Width="*"/>                     
+                            <ColumnDefinition Width="*"/>                         
+                            <ColumnDefinition Width="*"/>                         
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Add Module" FontSize="16" Margin="5" Command="{Binding AddModuleCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
                         <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Delete Module" FontSize="16" Margin="5" Command="{Binding DeleteModuleCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                        <spinner:LoadingSpinner Grid.Column="1" IsLoading="{Binding IsDeleting}" Diameter="25"/>
                     </Grid>
                 </Border>
 

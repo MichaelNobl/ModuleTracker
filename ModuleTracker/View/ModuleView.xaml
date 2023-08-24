@@ -3,35 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ModuleTracker.Wpf.View" xmlns:components="clr-namespace:ModuleTracker.Wpf.Components"
+             xmlns:local="clr-namespace:ModuleTracker.Wpf.View"
+             xmlns:components="clr-namespace:ModuleTracker.Wpf.Components"
+             xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>            
-        </Grid.RowDefinitions>
+        <StackPanel VerticalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+            <spinner:LoadingSpinner Diameter="100" Thickness="2" IsLoading="True"/>
 
-            <TextBlock Grid.Column="0" Text="Module tracker" FontWeight="Bold" FontSize="24" Margin="10 0 0 0" VerticalAlignment="Center"/>
+            <TextBlock Margin="0 10 0 0" TextAlignment="Center" Text="Loading modules..." FontSize="16"/>
+        </StackPanel>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Module tracker" FontWeight="Bold" FontSize="24" Margin="10 0 0 0" VerticalAlignment="Center"/>
+
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <components:ModulesListing Grid.Column="0" Margin="10" DataContext="{Binding ModulesListingViewModel}"/>
+                <components:SheetListing Grid.Column="1" Margin="10" DataContext="{Binding SheetListingViewModel}"/>
+
+            </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" Margin="0 10 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <components:ModulesListing Grid.Column="0" Margin="10" DataContext="{Binding ModulesListingViewModel}"/>
-            <components:SheetListing Grid.Column="1" Margin="10" DataContext="{Binding SheetListingViewModel}"/>
-
-        </Grid>
-        
     </Grid>
 </UserControl>

@@ -26,5 +26,23 @@ namespace ModuleTracker.Wpf.ViewModel
 
             return viewModel;
         }
+
+        #region Properties
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get
+            {
+                return _isLoading;
+            }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+
+        #endregion
     }
 }

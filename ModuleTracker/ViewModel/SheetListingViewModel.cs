@@ -41,7 +41,7 @@ namespace ModuleTracker.Wpf.ViewModel
             _moduleStore.SheetDeleted += ModuleStoreSheetDeleted;
 
             AddSheetCommand = new OpenAddSheetCommand(modalNavigationStore, moduleStore, _selectedModuleStore);
-            DeleteSheetCommand = new DeleteSheetCommand(selectedSheetStore, moduleStore);
+            DeleteSheetCommand = new DeleteSheetCommand(this, selectedSheetStore, moduleStore);
         }
 
         #region Properties
@@ -61,6 +61,21 @@ namespace ModuleTracker.Wpf.ViewModel
                 _selectedSheetStore.SelectedSheet = _selectedSheetListingItemViewModel?.Sheet;
             }
         }
+
+        private bool _isDeleting;
+        public bool IsDeleting
+        {
+            get
+            {
+                return _isDeleting;
+            }
+            set
+            {
+                _isDeleting = value;
+                OnPropertyChanged(nameof(IsDeleting));
+            }
+        }
+
         public bool HasSelectedModule => _selectedModule != null;
         public bool HasSelectedSheet => _selectedSheet != null;
         public IEnumerable<SheetListingItemViewModel> SheetListingItemViewModel =>

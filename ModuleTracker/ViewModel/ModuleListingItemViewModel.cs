@@ -1,5 +1,6 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Stores;
+using System;
 using System.Linq;
 
 namespace ModuleTracker.Wpf.ViewModel
@@ -25,9 +26,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public string Name => Module.Name;
 
-        public string NumOfDoneExercises => CalculateDoneExercises();
-
-        public string NumOfExercises => CalculateExercises();
+        public string ExercisePercentage => CalculateExercisePercentage();        
 
         #endregion
 
@@ -39,8 +38,24 @@ namespace ModuleTracker.Wpf.ViewModel
 
             base.Dispose();
         }
+        private string CalculateExercisePercentage()
+        {
+            var doneExercises = CalculateDoneExercises();
 
-        private string CalculateDoneExercises()
+            var exercises = CalculateExercises();
+
+            if(Math.Abs(exercises) < 1e-12)
+            {
+                return "0";
+            }
+
+            var percentage = doneExercises / exercises * 100;
+
+            return String.Format("{0:0}", percentage);
+        }
+
+
+        private double CalculateDoneExercises()
         {
             var counter = 0;
 
@@ -60,10 +75,10 @@ namespace ModuleTracker.Wpf.ViewModel
                 }
             }                    
 
-            return counter.ToString();
+            return (double)counter;
         }
 
-        private string CalculateExercises()
+        private double CalculateExercises()
         {
             var counter = 0;
 
@@ -80,19 +95,17 @@ namespace ModuleTracker.Wpf.ViewModel
                 }
             }
 
-            return counter.ToString();
+            return (double)counter;
         }
 
         private void SelectedModuleStoreSelectedSheetChanged()
         {
-            OnPropertyChanged(nameof(NumOfExercises));
-            OnPropertyChanged(nameof(NumOfDoneExercises));
+            OnPropertyChanged(nameof(ExercisePercentage));
         }
 
         private void SelectedModuleStoreSheetUpdated(Sheet obj)
         {
-            OnPropertyChanged(nameof(NumOfExercises));
-            OnPropertyChanged(nameof(NumOfDoneExercises));
+            OnPropertyChanged(nameof(ExercisePercentage));
         }
 
         #endregion

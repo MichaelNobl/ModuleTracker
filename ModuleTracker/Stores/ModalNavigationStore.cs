@@ -14,6 +14,10 @@ namespace ModuleTracker.Wpf.Stores
             }
             set
             {
+                if( _currentViewModel != null )
+                {
+                    _currentViewModel.Dispose();
+                }                
                 _currentViewModel = value;
                 CurrentViewModelChanged?.Invoke();
             }

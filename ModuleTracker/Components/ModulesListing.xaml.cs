@@ -24,5 +24,67 @@ namespace ModuleTracker.Wpf.Components
         {
             InitializeComponent();
         }
+
+        #region DependencyProperties
+
+        public ICommand ModuleItemInsertetCommand
+        {
+            get { return (ICommand)GetValue(ModuleItemInsertetCommandProperty); }
+            set { SetValue(ModuleItemInsertetCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty ModuleItemInsertetCommandProperty =
+            DependencyProperty.Register("ModuleItemInsertetCommand", typeof(ICommand), typeof(ModulesListing), new PropertyMetadata(null));
+
+        public object TargetModuleItem
+        {
+            get { return (object)GetValue(TargetModuleItemProperty); }
+            set { SetValue(TargetModuleItemProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetModuleItemProperty =
+            DependencyProperty.Register("TargetModuleItem", typeof(object), typeof(ModulesListing), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public object InsertetModuleItem
+        {
+            get { return (object)GetValue(InsertetModuleItemProperty); }
+            set { SetValue(InsertetModuleItemProperty, value); }
+        }
+
+        public static readonly DependencyProperty InsertetModuleItemProperty =
+            DependencyProperty.Register("InsertetModuleItem", typeof(object), typeof(ModulesListing), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
+        #endregion
+
+        #region Events
+
+        private void ModuleItem_DragOver(object sender, DragEventArgs e)
+        {
+            if(ModuleItemInsertetCommand?.CanExecute(null) ?? false)
+            {
+                if(sender is FrameworkElement element)
+                {
+                    TargetModuleItem = element.DataContext;
+                    InsertetModuleItem = e.Data.GetData(DataFormats.Serializable);
+
+                    ModuleItemInsertetCommand.Execute(null);
+                }     
+            }
+        }
+
+        private void ModuleItem_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(e.LeftButton == MouseButtonState.Pressed && sender is FrameworkElement element) 
+            {
+                object moduleItem = element.DataContext;
+
+                DragDrop.DoDragDrop(element,
+                    new DataObject(DataFormats.Serializable, moduleItem),
+                    DragDropEffects.Move);
+            }
+        }
+
+        #endregion
     }
 }

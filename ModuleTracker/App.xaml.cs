@@ -19,13 +19,6 @@ namespace ModuleTracker.Wpf
     /// </summary>
     public partial class App : Application
     {
-        private readonly ModuleStore _moduleStore;
-        private readonly SelectedModuleStore _selectedModuleStore;
-        private readonly SelectedSheetStore _selectedSheetStore;
-        private readonly ModalNavigationStore _modalNavigationStore;
-
-        private readonly ModulesDbContextFactory _modulesDbContextFactory;
-
         private readonly IHost _host;
         public App()
         {

@@ -1,5 +1,6 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Stores;
+using System;
 using System.Linq;
 
 namespace ModuleTracker.Wpf.ViewModel
@@ -16,6 +17,8 @@ namespace ModuleTracker.Wpf.ViewModel
             _moduleStore = moduleStore;
             _selectedSheetStore = selectedSheetStore;
 
+            _moduleStore.SheetUpdated += SelectedModuleStoreSheetUpdated;
+
             _selectedSheetStore.SelectedSheetChanged += SelectedModuleStoreSelectedSheetChanged;
         }        
 
@@ -31,6 +34,14 @@ namespace ModuleTracker.Wpf.ViewModel
         #endregion
 
         #region Methods
+        public override void Dispose()
+        {
+            _moduleStore.SheetUpdated -= SelectedModuleStoreSheetUpdated;
+            _selectedSheetStore.SelectedSheetChanged -= SelectedModuleStoreSelectedSheetChanged;
+
+            base.Dispose();
+        }
+
         private string CalculateDoneExercises()
         {
             var counter = 0;
@@ -75,6 +86,12 @@ namespace ModuleTracker.Wpf.ViewModel
         }
 
         private void SelectedModuleStoreSelectedSheetChanged()
+        {
+            OnPropertyChanged(nameof(NumOfExercises));
+            OnPropertyChanged(nameof(NumOfDoneExercises));
+        }
+
+        private void SelectedModuleStoreSheetUpdated(Sheet obj)
         {
             OnPropertyChanged(nameof(NumOfExercises));
             OnPropertyChanged(nameof(NumOfDoneExercises));

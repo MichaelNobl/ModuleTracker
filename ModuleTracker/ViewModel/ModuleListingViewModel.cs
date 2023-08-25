@@ -40,21 +40,18 @@ namespace ModuleTracker.Wpf.ViewModel
         }
 
         #region Properties
-
-        private ModuleListingItemViewModel _selectedModuleListingItemViewModel;
+                
 
         public ModuleListingItemViewModel SelectedModuleListingItemViewModel
         {
             get
             {
-                return _selectedModuleListingItemViewModel;
+                return _moduleListingItemViewModel.
+                    FirstOrDefault(m => m.Module?.Id == _selectedModuleStore.SelectedModule?.Id);
             }
             set
-            {
-                _selectedModuleListingItemViewModel = value;
-                OnPropertyChanged(nameof(SelectedModuleListingItemViewModel));
-
-                _selectedModuleStore.SelectedModule = _selectedModuleListingItemViewModel?.Module;
+            {          
+                _selectedModuleStore.SelectedModule = value?.Module;
             }
         }
 
@@ -94,7 +91,6 @@ namespace ModuleTracker.Wpf.ViewModel
             _modulesStore.ModuleDeleted -= ModulesStoreModuleDeleted;
 
             _selectedModuleStore.SelectedModuleChanged -= ModuleStoreModuleChanged;
-            _moduleListingItemViewModel.CollectionChanged -= ModuleListingItemViewModelCollectionChanged;
 
 
             base.Dispose();

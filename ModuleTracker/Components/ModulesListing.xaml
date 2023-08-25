@@ -35,7 +35,7 @@
                         <VisualBrush Visual="{Binding ElementName=border}"/>
                     </Grid.OpacityMask>
                     <Border x:Name="border" Background="White" CornerRadius="5"/>
-                    <ListView SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding ModuleListingItemViewModel}" SelectedItem="{Binding SelectedModuleListingItemViewModel}">
+                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding ModuleListingItemViewModel}" SelectedItem="{Binding SelectedModuleListingItemViewModel}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

@@ -42,6 +42,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
             AddSheetCommand = new OpenAddSheetCommand(modalNavigationStore, moduleStore, _selectedModuleStore);
             DeleteSheetCommand = new DeleteSheetCommand(this, selectedSheetStore, moduleStore);
+            SheetItemInsertetCommand = new SheetItemInsertetCommand(this);
         }
 
         #region Properties
@@ -76,6 +77,34 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
+        private SheetListingItemViewModel _insertetSheetItemViewModel;
+        public SheetListingItemViewModel InsertetSheetItemViewModel
+        {
+            get
+            {
+                return _insertetSheetItemViewModel;
+            }
+            set
+            {
+                _insertetSheetItemViewModel = value;
+                OnPropertyChanged(nameof(InsertetSheetItemViewModel));
+            }
+        }
+
+        private SheetListingItemViewModel _targetetSheetItemViewModel;
+        public SheetListingItemViewModel TargetetSheetItemViewModel
+        {
+            get
+            {
+                return _targetetSheetItemViewModel;
+            }
+            set
+            {
+                _targetetSheetItemViewModel = value;
+                OnPropertyChanged(nameof(TargetetSheetItemViewModel));
+            }
+        }
+
         public bool HasSelectedModule => _selectedModule != null;
         public bool HasSelectedSheet => _selectedSheet != null;
         public IEnumerable<SheetListingItemViewModel> SheetListingItemViewModel =>
@@ -86,6 +115,7 @@ namespace ModuleTracker.Wpf.ViewModel
         #region Commands
         public ICommand AddSheetCommand { get; }
         public ICommand DeleteSheetCommand { get; }
+        public ICommand SheetItemInsertetCommand { get; set; }
         #endregion
 
         #region Actions
@@ -102,6 +132,22 @@ namespace ModuleTracker.Wpf.ViewModel
             _sheetListingItemViewModel.CollectionChanged -= SheetStoreListingItemViewModelCollectionChanged;
 
             base.Dispose();
+        }
+
+        public void InsertSheet(SheetListingItemViewModel insertetSheetItemViewModel, SheetListingItemViewModel targetetSheetItemViewModel)
+        {
+            if (insertetSheetItemViewModel == targetetSheetItemViewModel)
+            {
+                return;
+            }
+
+            var oldIndex = _sheetListingItemViewModel.IndexOf(insertetSheetItemViewModel);
+            var nextIndex = _sheetListingItemViewModel.IndexOf(targetetSheetItemViewModel);
+
+            if (oldIndex != -1 && nextIndex != -1)
+            {
+                _sheetListingItemViewModel.Move(oldIndex, nextIndex);
+            }
         }
 
         private void SheetStoreListingItemViewModelCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -179,7 +225,7 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             var itemViewModel = new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore);
             _sheetListingItemViewModel.Add(itemViewModel);
-        }
+        }        
 
         #endregion
     }

@@ -82,8 +82,14 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <components:ModulesListing Grid.Column="0" Margin="10" DataContext="{Binding ModulesListingViewModel}"/>
-                    <components:SheetListing Grid.Column="1" Margin="10" DataContext="{Binding SheetListingViewModel}"/>
+                    <components:ModulesListing Grid.Column="0" Margin="10" DataContext="{Binding ModulesListingViewModel}" 
+                                               ModuleItemInsertetCommand="{Binding ModuleItemInsertetCommand}"
+                                               InsertetModuleItem="{Binding InsertetModuleItemViewModel}"
+                                               TargetModuleItem="{Binding TargetetModuleItemViewModel}"/>
+                    <components:SheetListing Grid.Column="1" Margin="10" DataContext="{Binding SheetListingViewModel}"
+                                               SheetItemInsertetCommand="{Binding SheetItemInsertetCommand}"
+                                               InsertetSheetItem="{Binding InsertetSheetItemViewModel}"
+                                               TargetSheetItem="{Binding TargetetSheetItemViewModel}"/>
 
                 </Grid>
             </Grid>

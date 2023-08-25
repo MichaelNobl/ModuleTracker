@@ -35,10 +35,13 @@
                         <VisualBrush Visual="{Binding ElementName=border}"/>
                     </Grid.OpacityMask>
                     <Border x:Name="border" Background="White" CornerRadius="5"/>
-                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding ModuleListingItemViewModel}" SelectedItem="{Binding SelectedModuleListingItemViewModel}">
+                    <ListView AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding ModuleListingItemViewModel}" SelectedItem="{Binding SelectedModuleListingItemViewModel}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                                <EventSetter Event="MouseMove" Handler="ModuleItem_MouseMove"/>
+                                <EventSetter Event="DragOver" Handler="ModuleItem_DragOver"/>
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>

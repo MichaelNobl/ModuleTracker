@@ -1,19 +1,11 @@
 ﻿using ModuleTracker.Wpf.Commands;
 using ModuleTracker.Wpf.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class AddSheetViewModel : BaseViewModel
-    {
-        public bool CanSubmit => !string.IsNullOrEmpty(NumOfExercises) && !string.IsNullOrEmpty(SheetNumber);
-
+    {       
         public AddSheetViewModel(ModuleStore moduleStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
         {
             SubmitCommand = new AddSheetCommand(this, moduleStore, modalNavigationStore, selectedModuleStore);
@@ -83,6 +75,8 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
+        public bool CanSubmit => !string.IsNullOrEmpty(NumOfExercises) && !string.IsNullOrEmpty(SheetNumber);
+
         #endregion
 
         #region Commands
@@ -90,9 +84,6 @@ namespace ModuleTracker.Wpf.ViewModel
         public ICommand CancelCommand { get; set; }
 
         #endregion
-
-
-
 
     }
 }

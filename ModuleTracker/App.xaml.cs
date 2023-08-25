@@ -23,23 +23,11 @@ namespace ModuleTracker.Wpf
         public App()
         {
             _host = Host.CreateDefaultBuilder().
-                AddDbContext()
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddSingleton<IGetAllModulesQuery, GetAllModulesQuery>();
-                    services.AddSingleton<ICreateExerciseCommand, CreateExerciseCommand>();
-                    services.AddSingleton<ICreateModuleCommand, CreateModuleCommand>();
-                    services.AddSingleton<ICreateSheetCommand, CreateSheetCommand>();
-                    services.AddSingleton<IDeleteModuleCommand, DeleteModuleCommand>();
-                    services.AddSingleton<IDeleteSheetCommand, DeleteSheetCommand>();
-                    services.AddSingleton<IUpdateExerciseCommand, UpdateExerciseCommand>();
-                    services.AddSingleton<IUpdateSheetCommand, UpdateSheetCommand>();
-
-                    services.AddSingleton<ModalNavigationStore>();
-                    services.AddSingleton<ModuleStore>();
-                    services.AddSingleton<SelectedModuleStore>();
-                    services.AddSingleton<SelectedSheetStore>();
-
+                AddDbContext().
+                AddCommands().
+                AddStores().
+                ConfigureServices((context, services) =>
+                {     
                     services.AddTransient<ModuleViewModel>(CreateModuleViewModel);
                     services.AddSingleton<MainViewModel>();
 

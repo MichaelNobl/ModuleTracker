@@ -1,6 +1,5 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Stores;
-using System;
 using System.Linq;
 
 namespace ModuleTracker.Wpf.ViewModel
@@ -9,7 +8,6 @@ namespace ModuleTracker.Wpf.ViewModel
     {
         private ModuleStore _moduleStore;
         private SelectedSheetStore _selectedSheetStore;
-
 
         public ModuleListingItemViewModel(Module module, ModuleStore moduleStore, SelectedSheetStore selectedSheetStore)
         {
@@ -98,7 +96,6 @@ namespace ModuleTracker.Wpf.ViewModel
         }
 
         #endregion
-
 
     }
 }

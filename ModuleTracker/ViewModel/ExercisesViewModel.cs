@@ -19,7 +19,8 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             SheetId = sheet.Id;
             ModuleId = sheet.ModuleId;
-            SheetNumber = sheet.SheetNumber.ToString();
+            _sheetNumber = sheet.SheetNumber.ToString();
+            _errorMessage = string.Empty;
 
             _sheet = sheet;
             _exerciseListingItemViewModel = new ObservableCollection<ExerciseListingItemViewModel>();
@@ -128,9 +129,5 @@ namespace ModuleTracker.Wpf.ViewModel
         }
 
         #endregion
-
-
-
-
     }
 }

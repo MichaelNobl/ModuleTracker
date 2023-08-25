@@ -9,7 +9,7 @@ namespace ModuleTracker.Wpf.ViewModel
 		{
 			ExerciseId = exercise.Id;
             ExerciseIsCompleted = exercise.IsCompleted;
-            ExerciseNumber = exercise.Number.ToString();
+            _exerciseNumber = exercise.Number.ToString();
 		}
 
         #region Properties
@@ -45,11 +45,14 @@ namespace ModuleTracker.Wpf.ViewModel
 
         #endregion
 
+        #region Methods
 
         public void Update(Exercise exercise)
 		{
 			ExerciseIsCompleted = exercise.IsCompleted;
             OnPropertyChanged(nameof(ExerciseIsCompleted));
         }
-	}
+
+        #endregion
+    }
 }

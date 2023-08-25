@@ -1,10 +1,5 @@
 ﻿using ModuleTracker.Domain.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 namespace ModuleTracker.Wpf.Stores
 {
@@ -49,11 +44,6 @@ namespace ModuleTracker.Wpf.Stores
             {
                 SelectedModule = null;
             }
-        }
-
-        private void ModuleStoreModuleAdded(Module module)
-        {
-            SelectedModule = module;
         }
     }
 }

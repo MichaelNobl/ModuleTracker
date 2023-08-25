@@ -1,10 +1,5 @@
 ﻿using ModuleTracker.Domain.Commands;
 using ModuleTracker.EntityFramework.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleTracker.EntityFramework.Commands
 {

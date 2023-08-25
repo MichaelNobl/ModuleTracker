@@ -4,17 +4,12 @@ using ModuleTracker.Domain.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.Stores
 {
     public class ModuleStore
     {
-        private readonly IGetAllModulesQuery _getAllModulesQuery;
-        private readonly ICreateModuleCommand _createModuleCommand;
-        private readonly IUpdateModuleCommand _updateModuleCommand;
-        private readonly IDeleteModuleCommand _deleteModuleCommand;
         private List<Module> _modules;
 
         public IEnumerable<Module> Modules => _modules;

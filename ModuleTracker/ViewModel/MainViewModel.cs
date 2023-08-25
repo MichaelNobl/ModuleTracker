@@ -28,9 +28,7 @@ namespace ModuleTracker.Wpf.ViewModel
         public bool IsModalOpen => _modalNavigationStore.IsOpen;
 
         #endregion
-
-        
-
+              
         #region Actions
         public override void Dispose()
         {

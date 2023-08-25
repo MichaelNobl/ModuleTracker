@@ -12,22 +12,13 @@ namespace ModuleTracker.Wpf.ViewModel
             SheetListingViewModel = new SheetListingViewModel(moduleStore, selectedModuleStore, selectedSheetStore, modalNavigationStore);
 
             LoadModuleCommand = new LoadModulesCommand(this, moduleStore);
-        }
-        public ModuleListingViewModel ModulesListingViewModel { get; }
-        public SheetListingViewModel SheetListingViewModel { get; }
-
-        public ICommand LoadModuleCommand { get; }
-
-        public static ModuleViewModel LoadViewModel(ModuleStore moduleStore, SelectedModuleStore selectedModuleViewerStore, SelectedSheetStore selectedSheetStore, ModalNavigationStore modalNavigationStore)
-        {
-            var viewModel = new ModuleViewModel(moduleStore, selectedModuleViewerStore, selectedSheetStore, modalNavigationStore);
-
-            viewModel.LoadModuleCommand.Execute(null);
-
-            return viewModel;
+            _errorMessage = string.Empty;
         }
 
         #region Properties
+
+        public ModuleListingViewModel ModulesListingViewModel { get; }
+        public SheetListingViewModel SheetListingViewModel { get; }
 
         private bool _isLoading;
         public bool IsLoading
@@ -61,5 +52,25 @@ namespace ModuleTracker.Wpf.ViewModel
         public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
         #endregion
+
+        #region Commands
+
+        public ICommand LoadModuleCommand { get; }
+
+        #endregion
+
+        #region Methods
+        public static ModuleViewModel LoadViewModel(ModuleStore moduleStore, SelectedModuleStore selectedModuleViewerStore, SelectedSheetStore selectedSheetStore, ModalNavigationStore modalNavigationStore)
+        {
+            var viewModel = new ModuleViewModel(moduleStore, selectedModuleViewerStore, selectedSheetStore, modalNavigationStore);
+
+            viewModel.LoadModuleCommand.Execute(null);
+
+            return viewModel;
+        }
+
+        #endregion
+
+        
     }
 }

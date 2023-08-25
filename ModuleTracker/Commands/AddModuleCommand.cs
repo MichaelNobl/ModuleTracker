@@ -3,8 +3,6 @@ using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.Commands
@@ -14,7 +12,6 @@ namespace ModuleTracker.Wpf.Commands
         private readonly ModalNavigationStore _modalNavigationStore;
         private readonly AddModuleViewModel _addModuleViewModel;
         private readonly ModuleStore _moduleStore;
-        private readonly ModalNavigationStore _modalNavigationStore;
 
         public AddModuleCommand(AddModuleViewModel addModuleViewModel, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore)
         {

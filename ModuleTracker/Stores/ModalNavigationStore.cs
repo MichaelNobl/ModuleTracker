@@ -1,9 +1,5 @@
 ﻿using ModuleTracker.Wpf.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.Stores
 {
@@ -18,7 +14,6 @@ namespace ModuleTracker.Wpf.Stores
             }
             set
             {
-                //_currentViewModel.Dispose();
                 _currentViewModel = value;
                 CurrentViewModelChanged?.Invoke();
             }

@@ -29,6 +29,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
             AddModuleCommand = new OpenAddModuleCommand(_modulesStore, _modalNavigationStore);
             DeleteModuleCommand = new DeleteModuleCommand(this, _selectedModuleStore, _modulesStore);
+            ModuleItemInsertetCommand = new ModuleItemInsertetCommand(this);
 
             _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
@@ -39,8 +40,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
         }
 
-        #region Properties
-                
+        #region Properties                
 
         public ModuleListingItemViewModel SelectedModuleListingItemViewModel
         {
@@ -69,15 +69,44 @@ namespace ModuleTracker.Wpf.ViewModel
             }
         }
 
+        private ModuleListingItemViewModel _insertetModuleItemViewModel;
+        public ModuleListingItemViewModel InsertetModuleItemViewModel
+        {
+            get
+            {
+                return _insertetModuleItemViewModel;
+            }
+            set
+            {
+                _insertetModuleItemViewModel = value;
+                OnPropertyChanged(nameof(InsertetModuleItemViewModel));
+            }
+        }
+
+        private ModuleListingItemViewModel _targetetModuleItemViewModel;
+        public ModuleListingItemViewModel TargetetModuleItemViewModel
+        {
+            get
+            {
+                return _targetetModuleItemViewModel;
+            }
+            set
+            {
+                _targetetModuleItemViewModel = value;
+                OnPropertyChanged(nameof(TargetetModuleItemViewModel));
+            }
+        }
+
         private readonly ObservableCollection<ModuleListingItemViewModel> _moduleListingItemViewModel;
         public IEnumerable<ModuleListingItemViewModel> ModuleListingItemViewModel =>
-            _moduleListingItemViewModel;       
+            _moduleListingItemViewModel;     
 
         #endregion
 
         #region Commands
         public ICommand AddModuleCommand { get; set; }
         public ICommand DeleteModuleCommand { get; set; }
+        public ICommand ModuleItemInsertetCommand { get; set; }
 
         #endregion
 
@@ -94,6 +123,22 @@ namespace ModuleTracker.Wpf.ViewModel
 
 
             base.Dispose();
+        }
+
+        public void InsertModule(ModuleListingItemViewModel insertetViewModel, ModuleListingItemViewModel targetetViewModel)
+        {
+            if (insertetViewModel == targetetViewModel)
+            {
+                return;
+            }
+
+            var oldIndex = _moduleListingItemViewModel.IndexOf(insertetViewModel);
+            var nextIndex = _moduleListingItemViewModel.IndexOf(targetetViewModel);
+
+            if (oldIndex != -1 && nextIndex != -1)
+            {
+                _moduleListingItemViewModel.Move(oldIndex, nextIndex);
+            }
         }
 
         private void ModuleStoreModuleChanged()
@@ -134,7 +179,7 @@ namespace ModuleTracker.Wpf.ViewModel
         private void AddModule(Module module)
         {
             _moduleListingItemViewModel.Add(new ModuleListingItemViewModel(module, _modulesStore, _selectedSheetStore));            
-        }
+        }        
 
         #endregion
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModuleTracker.Domain.Commands
+namespace ModuleTracker.Domain.Queries
 {
     public interface ICreateModuleCommand
     {

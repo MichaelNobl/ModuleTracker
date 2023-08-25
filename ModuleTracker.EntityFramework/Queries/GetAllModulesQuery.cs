@@ -12,34 +12,42 @@ namespace ModuleTracker.EntityFramework.Queries
 {
     public class GetAllModulesQuery : IGetAllModulesQuery
     {
-        private readonly ModuleDbContextFactory _contextFactory;
+        private readonly ModulesDbContextFactory _contextFactory;
 
-        public GetAllModulesQuery(ModuleDbContextFactory contextFactory)
+        public GetAllModulesQuery(ModulesDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
 
         public async Task<IEnumerable<Module>> Execute()
-        {           
+        {
             using (var context = _contextFactory.Create())
             {
-                var moduleDtos = await context.Modules.ToListAsync();
+                var modulesDtos = await context.Modules.ToListAsync();
+                var sheetsDtos = await context.Sheets.ToListAsync();
+                var exerciseDtos = await context.Exercises.ToListAsync();
 
-                var modules = new List<Module>();
+                var modules = modulesDtos.Select(m => new Module(m.Id, m.Name, m.Sheets.Select(s => SheetDto.ToSheet(s)).ToList())).ToList();
 
-                foreach (var module in moduleDtos)
+                var tempModules = modules.ToList();
+
+                foreach (var module in tempModules) 
                 {
-                    var sheets = new List<Sheet>();
+                    var currentIndex = modules.FindIndex(m => m.Id == module.Id);
 
-                    foreach (var sheetDtos in module.Sheets)
-                    {
-                        var sheet = new Sheet(sheetDtos.Id, module.Id, sheetDtos.SheetNumber, sheetDtos.NumOfExercises);
+                    var ids = module.Sheets.Select(s => s.Id).ToList();
 
-                        sheets.Add(sheet);
+                    foreach (var sheetDto in sheetsDtos)
+                    {                     
+                        if(sheetDto.ModuleId == module.Id && !ids.Contains(sheetDto.Id))
+                        {
+                            module.AddSheet(SheetDto.ToSheet(sheetDto));
+                        }                 
                     }
 
-                    modules.Add(new Module(module.Id, module.Name, sheets));
-                }                
+                    modules[currentIndex] = module;                  
+
+                }
 
                 return modules;
             }

@@ -11,6 +11,7 @@ namespace ModuleTracker.Wpf.Commands
 {
     public class AddModuleCommand : AsyncCommandBase
     {
+        private readonly ModalNavigationStore _modalNavigationStore;
         private readonly AddModuleViewModel _addModuleViewModel;
         private readonly ModuleStore _moduleStore;
         private readonly ModalNavigationStore _modalNavigationStore;
@@ -24,21 +25,25 @@ namespace ModuleTracker.Wpf.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
-            var addModuleViewModel = _addModuleViewModel;
+            var viewModel = _addModuleViewModel;
 
-            var module = new Module(Guid.NewGuid(), "", new List<Sheet>());
+            viewModel.IsSubmitting = true;
+            viewModel.ErrorMessage = string.Empty;
 
+            var module = new Module(Guid.NewGuid(), viewModel.Name, new List<Sheet>());
             try
             {
-                await _moduleStore.Add(module);
+                await _moduleStore.AddModule(module);
 
                 _modalNavigationStore.Close();
             }
-            catch (Exception)
+            catch(Exception)
             {
+                viewModel.ErrorMessage = "Failed to add module. Please try again later.";
             }
             finally
             {
+                viewModel.IsSubmitting = false;
             }
         }
     }

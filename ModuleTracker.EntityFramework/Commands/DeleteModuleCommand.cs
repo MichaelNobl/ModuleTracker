@@ -10,9 +10,9 @@ namespace ModuleTracker.EntityFramework.Commands
 {
     public class DeleteModuleCommand : IDeleteModuleCommand
     {
-        private readonly ModuleDbContextFactory _contextFactory;
+        private readonly ModulesDbContextFactory _contextFactory;
 
-        public DeleteModuleCommand(ModuleDbContextFactory contextFactory)
+        public DeleteModuleCommand(ModulesDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
@@ -21,12 +21,35 @@ namespace ModuleTracker.EntityFramework.Commands
         {
             using (var context = _contextFactory.Create())
             {
-                var youTubeViewerDto = new ModuleDto()
+                //implement errormessage
+
+                var moduleDto = new ModuleDto()
                 {
                     Id = id
                 };
 
-                context.Modules.Remove(youTubeViewerDto);
+                context.Modules.Remove(moduleDto);
+
+                var tempSheets = context.Sheets.ToList();
+
+                var tempExercises = context.Exercises.ToList();
+
+                foreach (var sheetDto in tempSheets)
+                {
+                    if(sheetDto.ModuleId == moduleDto.Id)
+                    {   
+                        context.Sheets.Remove(sheetDto);
+
+                        foreach (var exerciseDto in tempExercises)
+                        {
+                            if(exerciseDto.ModuleId == moduleDto.Id && exerciseDto.SheetId == sheetDto.Id)
+                            {
+                                context.Exercises.Remove(exerciseDto);
+                            }                            
+                        }
+                    }                    
+                }
+
                 await context.SaveChangesAsync();
             }
         }

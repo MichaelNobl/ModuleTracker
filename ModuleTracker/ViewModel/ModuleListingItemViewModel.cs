@@ -1,71 +1,104 @@
 ﻿using ModuleTracker.Domain.Models;
+using ModuleTracker.Wpf.Stores;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class ModuleListingItemViewModel : BaseViewModel
     {
+        private ModuleStore _moduleStore;
+        private SelectedSheetStore _selectedSheetStore;
+
+
+        public ModuleListingItemViewModel(Module module, ModuleStore moduleStore, SelectedSheetStore selectedSheetStore)
+        {
+            Module = module;
+            _moduleStore = moduleStore;
+            _selectedSheetStore = selectedSheetStore;
+
+            _moduleStore.SheetUpdated += SelectedModuleStoreSheetUpdated;
+
+            _selectedSheetStore.SelectedSheetChanged += SelectedModuleStoreSelectedSheetChanged;
+        }        
+
+        #region Properties
         public Module Module { get; private set; }
 
         public string Name => Module.Name;
 
-        public ModuleListingItemViewModel(Module module)
+        public string NumOfDoneExercises => CalculateDoneExercises();
+
+        public string NumOfExercises => CalculateExercises();
+
+        #endregion
+
+        #region Methods
+        public override void Dispose()
         {
-            Module = module;
-            NumOfDoneExercises = "1";
-            NumOfExercises = "2";
-            PercentageDone = "0.5";
+            _moduleStore.SheetUpdated -= SelectedModuleStoreSheetUpdated;
+            _selectedSheetStore.SelectedSheetChanged -= SelectedModuleStoreSelectedSheetChanged;
+
+            base.Dispose();
         }
 
-		private string _numOfDoneExercises;
-
-		public string NumOfDoneExercises
+        private string CalculateDoneExercises()
         {
-			get
-			{
-				return _numOfDoneExercises;
-			}
-			set
-			{
-				_numOfDoneExercises = value;
-				OnPropertyChanged(nameof(NumOfDoneExercises));
-			}
-		}
+            var counter = 0;
 
-        private string _numOfExercises;
+            var module = _moduleStore.Modules.FirstOrDefault(m => m.Id == Module.Id);
 
-        public string NumOfExercises
-        {
-            get
+            if(module != null)
             {
-                return _numOfExercises;
-            }
-            set
-            {
-                _numOfExercises = value;
-                OnPropertyChanged(nameof(NumOfExercises));
-            }
+                foreach (var sheet in module.Sheets)
+                {
+                    foreach (var exercise in sheet.Exercises)
+                    {
+                        if (exercise.IsCompleted)
+                        {
+                            counter++;
+                        }
+                    }
+                }
+            }                    
+
+            return counter.ToString();
         }
 
-        private string _percentageDone;
-
-        public string PercentageDone
+        private string CalculateExercises()
         {
-            get
+            var counter = 0;
+
+            var module = _moduleStore.Modules.FirstOrDefault(m => m.Id == Module.Id);
+
+            if( module != null)
             {
-                return _percentageDone;
+                foreach (var sheet in module.Sheets)
+                {
+                    foreach (var exercise in sheet.Exercises)
+                    {
+                        counter++;
+                    }
+                }
             }
-            set
-            {
-                _percentageDone = value;
-                OnPropertyChanged(nameof(PercentageDone));
-                OnPropertyChanged(nameof(NumOfDoneExercises));
-                OnPropertyChanged(nameof(NumOfExercises));
-            }
+
+            return counter.ToString();
         }
+
+        private void SelectedModuleStoreSelectedSheetChanged()
+        {
+            OnPropertyChanged(nameof(NumOfExercises));
+            OnPropertyChanged(nameof(NumOfDoneExercises));
+        }
+
+        private void SelectedModuleStoreSheetUpdated(Sheet obj)
+        {
+            OnPropertyChanged(nameof(NumOfExercises));
+            OnPropertyChanged(nameof(NumOfDoneExercises));
+        }
+
+        #endregion
+
+
     }
 }

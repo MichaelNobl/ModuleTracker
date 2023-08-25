@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ModuleTracker.Wpf.Components"
+             xmlns:local="clr-namespace:ModuleTracker.Wpf.Components" xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -13,23 +13,72 @@
             CornerRadius="5"
             SnapsToDevicePixels="True">
             <Grid>
-                <Grid.OpacityMask>
-                    <VisualBrush Visual="{Binding ElementName=border}"/>
-                </Grid.OpacityMask>
-                <Border x:Name="border" Background="White" CornerRadius="5"/>
-                <ListView SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding SheetListingItemViewModel}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasSelectedModule}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <local:SheetListingItem/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
+                    </Grid.Style>
+                    <TextBlock
+                        Grid.Row="0"
+                        TextWrapping="WrapWithOverflow"
+                        Text="Please select a module" FontSize="16"
+                        Margin="20 10 0 0"/>
+                </Grid>
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasSelectedModule}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border BorderThickness="0,0,0,1" BorderBrush="Black">
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Add Sheet" FontSize="16" Margin="5" Command="{Binding AddSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Delete Sheet" FontSize="16" Margin="5" Command="{Binding DeleteSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                            <spinner:LoadingSpinner Grid.Column="1" IsLoading="{Binding IsDeleting}" Diameter="25"/>
+                        </Grid>
+                    </Border>
+                    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Grid Grid.Row="1">
+                            <Grid.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=border}"/>
+                            </Grid.OpacityMask>
+                            <Border x:Name="border" Background="White" CornerRadius="5"/>
+                            <ListView SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding SheetListingItemViewModel}" SelectedItem="{Binding SelectedSheetListingItemViewModel}">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:SheetListingItem/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>            
+            </Grid>            
         </Border>
     </Grid>
 </UserControl>

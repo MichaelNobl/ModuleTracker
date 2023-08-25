@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModuleTracker.Domain.Commands;
 using ModuleTracker.Domain.Models;
+using ModuleTracker.Domain.Queries;
 using ModuleTracker.EntityFramework.DTOs;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace ModuleTracker.EntityFramework.Commands
 {
     public class CreateModuleCommand : ICreateModuleCommand
     {
-        private readonly ModuleDbContextFactory _contextFactory;
+        private readonly ModulesDbContextFactory _contextFactory;
 
-        public CreateModuleCommand(ModuleDbContextFactory contextFactory)
+        public CreateModuleCommand(ModulesDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
@@ -38,12 +39,11 @@ namespace ModuleTracker.EntityFramework.Commands
 
             using (var context = _contextFactory.Create())
             {
-                var moduleDto = new ModuleDto() 
+                var moduleDto = new ModuleDto()
                 {
                     Id = module.Id,
                     Name = module.Name,
-                    Sheets = sheetDtos
-
+                    Sheets = module.Sheets.Select(s => SheetDto.ToDto(s)).ToList(),
                 };
 
                 context.Modules.Add(moduleDto);

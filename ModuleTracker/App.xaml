@@ -6,12 +6,16 @@
         <ResourceDictionary>
             <Style TargetType="TextBlock" x:Key="PageHeader">
                 <Setter Property="FontSize" Value="32"/>
-                <Setter Property="FontWeight" Value="Bold"/>
             </Style>
-            
-            <Style TargetType="Button">
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="Background" Value="#547AFF"/>
+
+            <Style TargetType="TextBlock" x:Key="ErrorMessage">
+                <Setter Property="Foreground" Value="red"/>
+                <Setter Property="FontSize" Value="24"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="ButtonStyle1">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="#c7c7c7"/>
                 <Setter Property="Padding" Value="20 8"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -39,7 +43,7 @@
                                 <Storyboard>
                                     <ColorAnimation
                                         Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                        To="#2a3d82"
+                                        To="#c7c7c7"
                                         Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
@@ -49,7 +53,7 @@
                                 <Storyboard>
                                     <ColorAnimation
                                         Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                        To="#547AFF"
+                                        To="#c7c7c7"
                                         Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
@@ -61,37 +65,6 @@
 
                     </Trigger>
 
-                </Style.Triggers>
-
-            </Style>
-
-            <Style TargetType="Button" x:Key="ButtonStyle1" BasedOn="{StaticResource {x:Type Button}}">
-                <Setter Property="Foreground" Value="Black"/>
-                <Setter Property="Background" Value="#E1E1E1"/>
-
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Trigger.EnterActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation
-                                        Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                        To="Gray"
-                                        Duration="0:0:0.1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </Trigger.EnterActions>
-                        <Trigger.ExitActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation
-                                        Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                        To="#9ef2ff"
-                                        Duration="0:0:0.1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </Trigger.ExitActions>
-                    </Trigger>
                 </Style.Triggers>
 
             </Style>

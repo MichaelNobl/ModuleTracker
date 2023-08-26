@@ -38,6 +38,13 @@ namespace ModuleTracker.Wpf.ViewModel
 
             base.Dispose();
         }
+
+        public void Update(Module module)
+        {
+            Module = module;
+            OnPropertyChanged(nameof(Name));
+        }
+
         private string CalculateExercisePercentage()
         {
             var doneExercises = CalculateDoneExercises();
@@ -106,7 +113,7 @@ namespace ModuleTracker.Wpf.ViewModel
         private void SelectedModuleStoreSheetUpdated(Sheet obj)
         {
             OnPropertyChanged(nameof(ExercisePercentage));
-        }
+        }        
 
         #endregion
 

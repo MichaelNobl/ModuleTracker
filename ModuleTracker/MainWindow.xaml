@@ -13,6 +13,9 @@
         <DataTemplate DataType="{x:Type vms:AddModuleViewModel}">
             <view:AddModuleView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:EditModuleViewModel}">
+            <view:EditModuleView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vms:AddSheetViewModel}">
             <view:AddSheetView/>
         </DataTemplate>

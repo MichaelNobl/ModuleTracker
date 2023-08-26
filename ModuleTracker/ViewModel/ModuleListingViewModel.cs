@@ -30,15 +30,18 @@ namespace ModuleTracker.Wpf.ViewModel
             AddModuleCommand = new OpenAddModuleCommand(_modulesStore, _modalNavigationStore);
             DeleteModuleCommand = new DeleteModuleCommand(this, _selectedModuleStore, _modulesStore);
             ModuleItemInsertetCommand = new ModuleItemInsertetCommand(this);
+            OpenEditModuleCommand = new OpenEditModuleCommand(this, modulStore, modalNavigationStore);
 
             _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
+            _modulesStore.ModuleUpdated += ModulesStoreModuleUpdated;
             _modulesStore.ModuleDeleted += ModulesStoreModuleDeleted;
 
             _selectedModuleStore.SelectedModuleChanged += ModuleStoreModuleChanged;
             _moduleListingItemViewModel.CollectionChanged += ModuleListingItemViewModelCollectionChanged;
 
         }
+               
 
         #region Properties                
 
@@ -92,8 +95,22 @@ namespace ModuleTracker.Wpf.ViewModel
             }
             set
             {
-                _targetetModuleItemViewModel = value;
+                _editModuleItemViewModel = value;
                 OnPropertyChanged(nameof(TargetetModuleItemViewModel));
+            }
+        }
+
+        private ModuleListingItemViewModel _editModuleItemViewModel;
+        public ModuleListingItemViewModel EditModuleItemViewModel
+        {
+            get
+            {
+                return _editModuleItemViewModel;
+            }
+            set
+            {
+                _editModuleItemViewModel = value;
+                OnPropertyChanged(nameof(EditModuleItemViewModel));
             }
         }
 
@@ -107,6 +124,7 @@ namespace ModuleTracker.Wpf.ViewModel
         public ICommand AddModuleCommand { get; set; }
         public ICommand DeleteModuleCommand { get; set; }
         public ICommand ModuleItemInsertetCommand { get; set; }
+        public ICommand OpenEditModuleCommand { get; set; }
 
         #endregion
 
@@ -174,6 +192,16 @@ namespace ModuleTracker.Wpf.ViewModel
         private void ModuleListingItemViewModelCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(SelectedModuleListingItemViewModel));
+        }
+
+        private void ModulesStoreModuleUpdated(Module module)
+        {
+            var moduleViewModel = _moduleListingItemViewModel.FirstOrDefault(m => m.Module.Id == module.Id);
+
+            if (moduleViewModel != null)
+            {
+                moduleViewModel.Update(module);
+            }
         }
 
         private void AddModule(Module module)

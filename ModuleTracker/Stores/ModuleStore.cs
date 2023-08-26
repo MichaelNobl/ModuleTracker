@@ -16,12 +16,11 @@ namespace ModuleTracker.Wpf.Stores
                
         public event Action ModulesLoaded;
         public event Action<Module> ModuleAdded;
+        public event Action<Module> ModuleUpdated;
         public event Action<Guid> ModuleDeleted;
-        public event Action SheetsLoaded;
         public event Action<Sheet> SheetAdded;
         public event Action<Sheet> SheetUpdated;
         public event Action<Guid> SheetDeleted;
-        public event Action ExerciseLoaded;
         public event Action<Exercise> ExerciseAdded;
         public event Action<Exercise> ExerciseUpdated;
 
@@ -33,6 +32,7 @@ namespace ModuleTracker.Wpf.Stores
         private readonly IDeleteSheetCommand _deleteSheetCommand;
         private readonly IUpdateExerciseCommand _updateExerciseCommand;
         private readonly IUpdateSheetCommand _updateSheetCommand;
+        private readonly IUpdateModuleCommand _updateModuleCommand;
 
         public ModuleStore(
             IGetAllModulesQuery getAllModulesQuery,
@@ -42,7 +42,8 @@ namespace ModuleTracker.Wpf.Stores
             IDeleteModuleCommand deleteModuleCommand,
             IDeleteSheetCommand deleteSheetCommand, 
             IUpdateExerciseCommand updateExerciseCommand, 
-            IUpdateSheetCommand updateSheetCommand)
+            IUpdateSheetCommand updateSheetCommand,
+            IUpdateModuleCommand updateModuleCommand)
         {
             _getAllModulesQuery = getAllModulesQuery;
             _createExerciseCommand = createExerciseCommand;
@@ -52,6 +53,7 @@ namespace ModuleTracker.Wpf.Stores
             _deleteSheetCommand = deleteSheetCommand;
             _updateExerciseCommand = updateExerciseCommand;
             _updateSheetCommand = updateSheetCommand;
+            _updateModuleCommand = updateModuleCommand;
 
             _modules = new List<Module>();
         }
@@ -74,6 +76,25 @@ namespace ModuleTracker.Wpf.Stores
 
             ModuleAdded?.Invoke(module);
         }
+
+        public async Task UpdateModule(Module module)
+        {
+            await _updateModuleCommand.Execute(module);
+
+            var currentIndex = _modules.FindIndex(m => m.Id == module.Id);
+
+            if (currentIndex != -1)
+            {
+                _modules[currentIndex] = module;
+            }
+            else
+            {
+                _modules.Add(module);
+            }
+
+            ModuleUpdated?.Invoke(module);
+        }
+
         public async Task DeleteModule(Guid id)
         {
             await _deleteModuleCommand.Execute(id);
@@ -81,11 +102,6 @@ namespace ModuleTracker.Wpf.Stores
             _modules.RemoveAll(m => m.Id == id);
 
             ModuleDeleted?.Invoke(id);
-        }
-
-        public async Task LoadSheets()
-        {
-            SheetsLoaded?.Invoke();
         }
 
         public async Task AddSheet(Sheet sheet)
@@ -121,10 +137,6 @@ namespace ModuleTracker.Wpf.Stores
             SheetDeleted?.Invoke(id);
         }
 
-        public async Task LoadExercises()
-        {
-            ExerciseLoaded?.Invoke();
-        }
         public async Task AddExercise(Exercise exercise)
         {
             await _createExerciseCommand.Execute(exercise);

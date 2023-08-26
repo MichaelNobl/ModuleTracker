@@ -85,7 +85,9 @@
                     <components:ModulesListing Grid.Column="0" Margin="10" DataContext="{Binding ModulesListingViewModel}" 
                                                ModuleItemInsertetCommand="{Binding ModuleItemInsertetCommand}"
                                                InsertetModuleItem="{Binding InsertetModuleItemViewModel}"
-                                               TargetModuleItem="{Binding TargetetModuleItemViewModel}"/>
+                                               TargetModuleItem="{Binding TargetetModuleItemViewModel}"
+                                               OpenEditModuleCommand="{Binding OpenEditModuleCommand}"
+                                               EditModuleItem="{Binding EditModuleItemViewModel}"/>
                     <components:SheetListing Grid.Column="1" Margin="10" DataContext="{Binding SheetListingViewModel}"/>
 
                 </Grid>

@@ -36,6 +36,15 @@ namespace ModuleTracker.Wpf.Components
         public static readonly DependencyProperty ModuleItemInsertetCommandProperty =
             DependencyProperty.Register("ModuleItemInsertetCommand", typeof(ICommand), typeof(ModulesListing), new PropertyMetadata(null));
 
+        public ICommand OpenEditModuleCommand
+        {
+            get { return (ICommand)GetValue(OpenEditModuleCommandProperty); }
+            set { SetValue(OpenEditModuleCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty OpenEditModuleCommandProperty =
+            DependencyProperty.Register("OpenEditModuleCommand", typeof(ICommand), typeof(ModulesListing), new PropertyMetadata(null));
+
         public object TargetModuleItem
         {
             get { return (object)GetValue(TargetModuleItemProperty); }
@@ -54,6 +63,14 @@ namespace ModuleTracker.Wpf.Components
         public static readonly DependencyProperty InsertetModuleItemProperty =
             DependencyProperty.Register("InsertetModuleItem", typeof(object), typeof(ModulesListing), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        public object EditModuleItem
+        {
+            get { return (object)GetValue(EditModuleItemProperty); }
+            set { SetValue(EditModuleItemProperty, value); }
+        }
+
+        public static readonly DependencyProperty EditModuleItemProperty =
+            DependencyProperty.Register("EditModuleItem", typeof(object), typeof(ModulesListing), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         #endregion
 
@@ -85,6 +102,21 @@ namespace ModuleTracker.Wpf.Components
             }
         }
 
+        private void ModuleItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(OpenEditModuleCommand?.CanExecute(null) ?? false)
+            {
+                if (sender is FrameworkElement element)
+                {
+                    EditModuleItem = element.DataContext;
+
+                    OpenEditModuleCommand.Execute(null);
+                }
+            }
+        }
+
         #endregion
+
+
     }
 }

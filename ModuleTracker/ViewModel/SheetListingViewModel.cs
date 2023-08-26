@@ -34,8 +34,7 @@ namespace ModuleTracker.Wpf.ViewModel
             _selectedModuleStore.SelectedModuleChanged += SelectedModuleStoreSelectedModuleChanged;
             _selectedSheetStore.SelectedSheetChanged += SelectedSheetStoreSelectedSheetChanged;
             _sheetListingItemViewModel.CollectionChanged += SheetStoreListingItemViewModelCollectionChanged;
-
-            _moduleStore.SheetsLoaded += ModuleStoreSheetLoaded;
+                        
             _moduleStore.SheetAdded += ModuleStoreSheetAdded;
             _moduleStore.SheetUpdated+= ModuleStoreSheetUpdated;
             _moduleStore.SheetDeleted += ModuleStoreSheetDeleted;
@@ -94,7 +93,6 @@ namespace ModuleTracker.Wpf.ViewModel
             _selectedModuleStore.SelectedModuleChanged -= SelectedModuleStoreSelectedModuleChanged;
             _selectedSheetStore.SelectedSheetChanged -= SelectedSheetStoreSelectedSheetChanged;
 
-            _moduleStore.SheetsLoaded -= ModuleStoreSheetLoaded;
             _moduleStore.SheetAdded -= ModuleStoreSheetAdded;
             _moduleStore.SheetUpdated -= ModuleStoreSheetUpdated;
             _moduleStore.SheetDeleted -= ModuleStoreSheetDeleted;
@@ -156,22 +154,7 @@ namespace ModuleTracker.Wpf.ViewModel
             {
                 _sheetListingItemViewModel.Remove(itemViewModel);
             }
-        }
-
-        private void ModuleStoreSheetLoaded()
-        {
-            _sheetListingItemViewModel.Clear();
-
-            var module = _moduleStore.Modules.FirstOrDefault(m => m.Id == _selectedModule.Id);
-
-            if(module != null)
-            {
-                foreach (var sheet in module.Sheets)
-                {
-                    AddSheet(sheet);
-                }
-            }
-        }
+        }        
 
         private void ModuleStoreSheetUpdated(Sheet sheet)
         {
@@ -201,13 +184,7 @@ namespace ModuleTracker.Wpf.ViewModel
                     _sheetListingItemViewModel.Add(new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore));
                 }
             }
-        }
-
-        private void AddSheet(Sheet sheet)
-        {
-            var itemViewModel = new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore);
-            _sheetListingItemViewModel.Add(itemViewModel);
-        }        
+        }     
 
         #endregion
     }

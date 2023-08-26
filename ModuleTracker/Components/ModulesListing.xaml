@@ -42,6 +42,7 @@
 
                                 <EventSetter Event="MouseMove" Handler="ModuleItem_MouseMove"/>
                                 <EventSetter Event="DragOver" Handler="ModuleItem_DragOver"/>
+                                <EventSetter Event="MouseDoubleClick" Handler="ModuleItem_MouseDoubleClick"/>
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>

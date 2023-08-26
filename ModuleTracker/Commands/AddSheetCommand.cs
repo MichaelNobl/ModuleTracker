@@ -3,6 +3,7 @@ using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.Commands
@@ -30,7 +31,11 @@ namespace ModuleTracker.Wpf.Commands
 
             viewModel.IsSubmitting = true;
 
-            if(int.Parse(viewModel.SheetNumber) < 0)
+            var sheetNumber = int.Parse(viewModel.SheetNumber);
+            var sheetNumbers = _selectedModuleStore.SelectedModule.Sheets.Select(s => s.SheetNumber);
+
+
+            if (sheetNumber < 0)
             {
                 viewModel.ErrorMessage = "Sheet number must be a non-negative integer";
                 viewModel.IsSubmitting = false;
@@ -42,8 +47,15 @@ namespace ModuleTracker.Wpf.Commands
                 viewModel.IsSubmitting = false;
                 return;
             }
+            else if(sheetNumbers.Contains(sheetNumber))
+            {
+                viewModel.ErrorMessage = "This sheet already exists.";
+                viewModel.IsSubmitting = false;
+                return;
+            }
 
-            var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, int.Parse(viewModel.SheetNumber), new List<Exercise>());
+
+            var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, sheetNumber, new List<Exercise>());
 
             for (var i = 1; i <= int.Parse(viewModel.NumOfExercises); i++)
             {

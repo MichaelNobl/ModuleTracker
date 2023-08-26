@@ -8,7 +8,8 @@
         xmlns:vms="clr-namespace:ModuleTracker.Wpf.ViewModel" 
         xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
-        Title="ModuleTracker" Height="450" Width="800">
+        Title="ModuleTracker" Height="450" Width="800"
+        WindowState="Maximized">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vms:AddModuleViewModel}">
             <view:AddModuleView/>

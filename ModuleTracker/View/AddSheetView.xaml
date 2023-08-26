@@ -57,7 +57,7 @@
             <spinner:LoadingSpinner IsLoading="{Binding IsSubmitting}" Diameter="25"/>
         </WrapPanel>
 
-        <TextBlock Grid.Row="3" Margin="0 15 0 0" Text="{Binding ErrorMessage}" Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ErrorMessage}" FontSize="16"/>
+        <TextBlock Grid.Row="3" Margin="10 15 0 0" Text="{Binding ErrorMessage}" Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ErrorMessage}" FontSize="16"/>
 
     </Grid>
 </UserControl>

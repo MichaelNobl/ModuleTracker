@@ -22,7 +22,7 @@ namespace ModuleTracker.EntityFramework.Queries
                 var sheetsDtos = await context.Sheets.ToListAsync();
                 var exerciseDtos = await context.Exercises.ToListAsync();
 
-                var modules = modulesDtos.Select(m => new Module(m.Id, m.Name, m.Sheets.Select(s => SheetDto.ToSheet(s)).ToList())).ToList();
+                var modules = modulesDtos.Select(m => new Module(m.Id, m.Name, new List<Sheet>())).ToList();
 
                 var tempModules = modules.ToList();
 
@@ -30,14 +30,11 @@ namespace ModuleTracker.EntityFramework.Queries
                 {
                     var currentIndex = modules.FindIndex(m => m.Id == module.Id);
 
-                    var ids = module.Sheets.Select(s => s.Id).ToList();
+                    var sortetList = sheetsDtos.Where(s => s.ModuleId == module.Id).OrderBy(s => s.SheetNumber).ToList();
 
-                    foreach (var sheetDto in sheetsDtos)
-                    {                     
-                        if(sheetDto.ModuleId == module.Id && !ids.Contains(sheetDto.Id))
-                        {
-                            module.AddSheet(SheetDto.ToSheet(sheetDto));
-                        }                 
+                    foreach (var sheetDto in sortetList)
+                    {   
+                        module.AddSheet(SheetDto.ToSheet(sheetDto));
                     }
 
                     modules[currentIndex] = module;                  

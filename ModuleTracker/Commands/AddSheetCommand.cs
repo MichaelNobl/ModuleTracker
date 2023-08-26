@@ -30,6 +30,19 @@ namespace ModuleTracker.Wpf.Commands
 
             viewModel.IsSubmitting = true;
 
+            if(int.Parse(viewModel.SheetNumber) < 0)
+            {
+                viewModel.ErrorMessage = "Sheet number must be a non-negative integer";
+                viewModel.IsSubmitting = false;
+                return;
+            }
+            else if(int.Parse(viewModel.NumOfExercises) < 1)
+            {
+                viewModel.ErrorMessage = "Number of exercises must be greater than 1";
+                viewModel.IsSubmitting = false;
+                return;
+            }
+
             var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, int.Parse(viewModel.SheetNumber), new List<Exercise>());
 
             for (var i = 1; i <= int.Parse(viewModel.NumOfExercises); i++)

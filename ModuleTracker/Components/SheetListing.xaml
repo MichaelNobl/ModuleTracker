@@ -63,13 +63,10 @@
                                 <VisualBrush Visual="{Binding ElementName=border}"/>
                             </Grid.OpacityMask>
                             <Border x:Name="border" Background="White" CornerRadius="5"/>
-                            <ListView AllowDrop="True" SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding SheetListingItemViewModel}" SelectedItem="{Binding SelectedSheetListingItemViewModel}">
+                            <ListView SelectionMode="Single" BorderThickness="0" ItemsSource="{Binding SheetListingItemViewModel}" SelectedItem="{Binding SelectedSheetListingItemViewModel}">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-
-                                        <EventSetter Event="MouseMove" Handler="SheetItem_MouseMove"/>
-                                        <EventSetter Event="DragOver" Handler="SheetItem_DragOver"/>
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>

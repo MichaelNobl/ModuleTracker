@@ -86,10 +86,7 @@
                                                ModuleItemInsertetCommand="{Binding ModuleItemInsertetCommand}"
                                                InsertetModuleItem="{Binding InsertetModuleItemViewModel}"
                                                TargetModuleItem="{Binding TargetetModuleItemViewModel}"/>
-                    <components:SheetListing Grid.Column="1" Margin="10" DataContext="{Binding SheetListingViewModel}"
-                                               SheetItemInsertetCommand="{Binding SheetItemInsertetCommand}"
-                                               InsertetSheetItem="{Binding InsertetSheetItemViewModel}"
-                                               TargetSheetItem="{Binding TargetetSheetItemViewModel}"/>
+                    <components:SheetListing Grid.Column="1" Margin="10" DataContext="{Binding SheetListingViewModel}"/>
 
                 </Grid>
             </Grid>

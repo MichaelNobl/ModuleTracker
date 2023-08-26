@@ -179,7 +179,9 @@ namespace ModuleTracker.Wpf.ViewModel
 
             if (_selectedModule != null)
             {
-                foreach (var sheet in _selectedModule.Sheets)
+                var sortedSheets = _selectedModule.Sheets.OrderBy(s => s.SheetNumber);
+
+                foreach (var sheet in sortedSheets)
                 {
                     _sheetListingItemViewModel.Add(new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore));
                 }

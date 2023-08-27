@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:ModuleTracker.Wpf.Components" xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Border
             BorderBrush="Black"
@@ -27,7 +30,7 @@
                     <TextBlock
                         Grid.Row="0"
                         TextWrapping="WrapWithOverflow"
-                        Text="Please select a module" FontSize="16"
+                        Text="Please select or add a module" FontSize="24"
                         Margin="20 10 0 0"/>
                 </Grid>
                 <Grid>
@@ -51,10 +54,17 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
 
-                            <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Add Sheet" FontSize="16" Margin="5" Command="{Binding AddSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
-                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Delete Sheet" FontSize="16" Margin="5" Command="{Binding DeleteSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
-                            <spinner:LoadingSpinner Grid.Column="1" IsLoading="{Binding IsDeleting}" Diameter="25"/>
+                            <Button Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Content="Add Sheet" FontSize="16" Margin="5" Command="{Binding AddSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Content="Delete Sheet" FontSize="16" Margin="5" Command="{Binding DeleteSheetCommand}" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                            <spinner:LoadingSpinner Grid.Column="1" Grid.Row="0" IsLoading="{Binding IsDeleting}" Diameter="25"/>
+
+                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" TextAlignment="Center" Text="{Binding ErrorMessage}" Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ErrorMessage}" FontSize="16"/>
+
                         </Grid>
                     </Border>
                     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">

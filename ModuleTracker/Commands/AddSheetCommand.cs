@@ -31,9 +31,22 @@ namespace ModuleTracker.Wpf.Commands
 
             viewModel.IsSubmitting = true;
 
-            var sheetNumber = int.Parse(viewModel.SheetNumber);
-            var sheetNumbers = _selectedModuleStore.SelectedModule.Sheets.Select(s => s.SheetNumber);
+            int sheetNumber;
+            int numOfExercises;
 
+            try
+            {
+                sheetNumber = int.Parse(viewModel.SheetNumber);
+                numOfExercises = int.Parse(viewModel.NumOfExercises);
+            }
+            catch (Exception)
+            {
+                viewModel.ErrorMessage = "Sheet number or number of exercises is not an integer!";
+                viewModel.IsSubmitting = false;
+                return;
+            }
+            
+            var sheetNumbers = _selectedModuleStore.SelectedModule.Sheets.Select(s => s.SheetNumber);
 
             if (sheetNumber < 0)
             {
@@ -43,7 +56,7 @@ namespace ModuleTracker.Wpf.Commands
             }
             else if(int.Parse(viewModel.NumOfExercises) < 1)
             {
-                viewModel.ErrorMessage = "Number of exercises must be greater than 1";
+                viewModel.ErrorMessage = "Number of exercises must be greater than 0";
                 viewModel.IsSubmitting = false;
                 return;
             }
@@ -57,7 +70,7 @@ namespace ModuleTracker.Wpf.Commands
 
             var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, sheetNumber, new List<Exercise>());
 
-            for (var i = 1; i <= int.Parse(viewModel.NumOfExercises); i++)
+            for (var i = 1; i <= numOfExercises; i++)
             {
                 var exercise = new Exercise(Guid.NewGuid(), sheet.ModuleId, sheet.Id, i);
                 sheet.AddExercise(exercise);

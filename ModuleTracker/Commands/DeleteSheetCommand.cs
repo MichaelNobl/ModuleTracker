@@ -21,6 +21,7 @@ namespace ModuleTracker.Wpf.Commands
         public override async Task ExecuteAsync(object? parameter)
         {
             _sheetListingViewModel.IsDeleting = true;
+            _sheetListingViewModel.ErrorMessage = string.Empty;
 
             try
             {
@@ -31,6 +32,7 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
+                _sheetListingViewModel.ErrorMessage = "Failed to delete sheet. Please try again later.";
             }
             finally
             {

@@ -21,6 +21,7 @@ namespace ModuleTracker.Wpf.Commands
         public override async Task ExecuteAsync(object? parameter)
         {
             _moduleListingViewModel.IsDeleting = true;
+            _moduleListingViewModel.ErrorMessage = string.Empty;
 
             try
             {
@@ -31,6 +32,7 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
+                _moduleListingViewModel.ErrorMessage = "Failed to delete module. Please try again later.";
             }
             finally
             {

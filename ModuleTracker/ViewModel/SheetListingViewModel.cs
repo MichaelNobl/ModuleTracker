@@ -45,6 +45,23 @@ namespace ModuleTracker.Wpf.ViewModel
 
         #region Properties
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage));
+                OnPropertyChanged(nameof(HasErrorMessage));
+            }
+        }
+
+        public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
+
         private SheetListingItemViewModel _selectedSheetListingItemViewModel;
         public SheetListingItemViewModel SelectedSheetListingItemViewModel
         {
@@ -177,10 +194,15 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             _sheetListingItemViewModel.Clear();
 
-            if (_selectedModule != null)
+            if(_selectedModule is null)
             {
-                var sortedSheets = _selectedModule.Sheets.OrderBy(s => s.SheetNumber);
+                return;
+            }
 
+            var sortedSheets = _moduleStore.Modules.SingleOrDefault(m => m.Id == _selectedModule.Id)?.Sheets.OrderBy(s => s.SheetNumber).ToList();
+
+            if (sortedSheets != null)
+            {  
                 foreach (var sheet in sortedSheets)
                 {
                     _sheetListingItemViewModel.Add(new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore));

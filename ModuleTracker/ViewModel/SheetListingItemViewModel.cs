@@ -12,6 +12,8 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             Sheet = sheet;
             OpenSheetCommand = new OpenExercisesCommand(sheet, modalNavigationStore, moduleStore);
+            OnPropertyChanged(nameof(NumOfDoneExercises));
+            OnPropertyChanged(nameof(NumOfExercises));
         }
 
         #region Properties

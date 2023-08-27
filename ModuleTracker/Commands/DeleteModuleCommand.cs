@@ -2,6 +2,7 @@
 using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ModuleTracker.Wpf.Commands
 {
@@ -10,6 +11,9 @@ namespace ModuleTracker.Wpf.Commands
         private readonly ModuleListingViewModel _moduleListingViewModel;
         private readonly SelectedModuleStore _selectedModuleStore;
         private readonly ModuleStore _moduleStore;
+
+        private readonly string _message = "Do you want to delete module";
+        private readonly string _messageCaption = "Delete Module";
 
         public DeleteModuleCommand(ModuleListingViewModel moduleListingViewModel, SelectedModuleStore selectedModuleStore, ModuleStore moduleStore) 
         {
@@ -20,6 +24,13 @@ namespace ModuleTracker.Wpf.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
+            var result = MessageBox.Show($"{_message} {_selectedModuleStore.SelectedModule.Name}?", _messageCaption, MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
             _moduleListingViewModel.IsDeleting = true;
             _moduleListingViewModel.ErrorMessage = string.Empty;
 

@@ -21,7 +21,7 @@ namespace ModuleTracker.EntityFramework.Commands
                 {
                     Id = module.Id,
                     Name = module.Name,
-                    Sheets = module.Sheets.Select(s => SheetDto.ToDto(s)).ToList(),
+                    Sheets = module.Sheets.Select(s => s.ToDto()).ToList(),
                 };
 
                 context.Modules.Add(moduleDto);

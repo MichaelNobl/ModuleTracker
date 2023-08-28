@@ -1,4 +1,5 @@
-﻿using ModuleTracker.Domain.Models;
+﻿using Aspose.Pdf;
+using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;
@@ -11,15 +12,15 @@ namespace ModuleTracker.Wpf.Commands
     public class AddSheetCommand : AsyncCommandBase
     {
         private readonly AddSheetViewModel _addSheetViewModel;
-        private readonly ModuleStore _moudleStore;
+        private readonly ModuleStore _moduleStore;
         private readonly ModalNavigationStore _modalNavigationStore;
         private readonly SelectedModuleStore _selectedModuleStore;
-               
+        private readonly string _outputPath = @"..\..\..\PdfImages\";
 
         public AddSheetCommand(AddSheetViewModel addSheetViewModel, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
         {
             _addSheetViewModel = addSheetViewModel;
-            _moudleStore = moduleStore;
+            _moduleStore = moduleStore;
             _modalNavigationStore = modalNavigationStore;
             _selectedModuleStore = selectedModuleStore;
         }
@@ -67,8 +68,12 @@ namespace ModuleTracker.Wpf.Commands
                 return;
             }
 
+            if (!string.IsNullOrEmpty(_addSheetViewModel.PdfFilePath))
+            {
+                SavePdfFileAsImage();
+            }
 
-            var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, sheetNumber, new List<Exercise>());
+            var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, sheetNumber, new List<Exercise>(), _addSheetViewModel.PdfFilePath);
 
             for (var i = 1; i <= numOfExercises; i++)
             {
@@ -78,7 +83,7 @@ namespace ModuleTracker.Wpf.Commands
 
             try
             {
-                await _moudleStore.AddSheet(sheet);
+                await _moduleStore.AddSheet(sheet);
 
                 _modalNavigationStore.Close();
             }
@@ -90,6 +95,24 @@ namespace ModuleTracker.Wpf.Commands
             {
                 viewModel.IsSubmitting = false;
             }
+        }
+
+        private void SavePdfFileAsImage()
+        {
+            var pdfFilePath = _addSheetViewModel.PdfFilePath;
+            var pdfName = pdfFilePath.Substring(pdfFilePath.LastIndexOf("\\") + 1, pdfFilePath.Length - pdfFilePath.LastIndexOf("\\") - 5);
+
+            // load PDF with an instance of Document                        
+            var document = new Document(pdfFilePath);
+
+            // create an object of EmfDevice
+            var renderer = new Aspose.Pdf.Devices.PngDevice();
+
+            var moduleName = _moduleStore.Modules.SingleOrDefault(m => m.Id == _selectedModuleStore.SelectedModule.Id)?.Name;
+
+            var outputPath = $"{_outputPath}{moduleName}_{_addSheetViewModel.SheetNumber}_{pdfName}.png";
+
+            renderer.Process(document.Pages[1], outputPath);
         }
     }
 }

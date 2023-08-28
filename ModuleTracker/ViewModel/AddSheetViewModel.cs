@@ -10,6 +10,8 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             SubmitCommand = new AddSheetCommand(this, moduleStore, modalNavigationStore, selectedModuleStore);
             CancelCommand = new CloseModalCommand(modalNavigationStore);
+            PdfFilePathCommand = new AddPdfFileCommand(this);
+            _pdfFilePath = string.Empty;
         }
 
         #region Properties
@@ -41,6 +43,20 @@ namespace ModuleTracker.Wpf.ViewModel
                 _sheetNumber = value;
                 OnPropertyChanged(nameof(SheetNumber));
                 OnPropertyChanged(nameof(CanSubmit));
+            }
+        }
+
+        private string _pdfFilePath;
+        public string PdfFilePath
+        {
+            get
+            {
+                return _pdfFilePath;
+            }
+            set
+            {
+                _pdfFilePath = value;
+                OnPropertyChanged(nameof(PdfFilePath));
             }
         }
 
@@ -82,6 +98,7 @@ namespace ModuleTracker.Wpf.ViewModel
         #region Commands
         public ICommand SubmitCommand { get; set; }
         public ICommand CancelCommand { get; set; }
+        public ICommand PdfFilePathCommand { get; set; }
 
         #endregion
 

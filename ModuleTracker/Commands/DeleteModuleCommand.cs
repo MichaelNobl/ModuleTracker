@@ -1,8 +1,11 @@
-﻿using ModuleTracker.Wpf.Stores;
+﻿using ModuleTracker.Domain.Models;
+using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace ModuleTracker.Wpf.Commands
 {
@@ -33,6 +36,29 @@ namespace ModuleTracker.Wpf.Commands
 
             _moduleListingViewModel.IsDeleting = true;
             _moduleListingViewModel.ErrorMessage = string.Empty;
+
+            var module = _moduleStore.Modules.SingleOrDefault(m => m.Id == _selectedModuleStore.SelectedModule.Id);
+
+            if(module == null)
+            {
+                return;
+            }
+
+            var sheetIds = module.Sheets.Select(s => s.Id).ToList();
+
+            foreach (var sheetId in sheetIds)
+            {
+                try
+                {                    
+                    await _moduleStore.DeleteSheet(sheetId);                    
+                }
+                catch (Exception)
+                {
+                    _moduleListingViewModel.ErrorMessage = "Failed to delete sheets. Please try again later.";
+                    _moduleListingViewModel.IsDeleting = false;
+                    return;
+                }
+            }    
 
             try
             {

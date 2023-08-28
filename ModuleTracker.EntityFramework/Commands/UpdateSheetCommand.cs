@@ -22,7 +22,8 @@ namespace ModuleTracker.EntityFramework.Commands
                     Id = sheet.Id,
                     ModuleId = sheet.ModuleId,
                     SheetNumber = sheet.SheetNumber,
-                    Exercises = sheet.Exercises.Select(e => ExerciseDto.ToDto(e)).ToList(),
+                    Exercises = sheet.Exercises.Select(e => e.ToDto()).ToList(),
+                    PdfFilePath = sheet.PdfFilePath
                 };
 
                 context.Sheets.Update(sheetDto);

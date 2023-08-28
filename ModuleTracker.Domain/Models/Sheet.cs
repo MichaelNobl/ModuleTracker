@@ -10,16 +10,24 @@
 
         public IList<Exercise> Exercises { get; }
 
-        public Sheet(Guid id, Guid moduleId, int sheetNumber, IList<Exercise> exercises)
+        public string PdfFilePath { get; private set; }
+
+        public Sheet(Guid id, Guid moduleId, int sheetNumber, IList<Exercise> exercises, string pdfFilePath)
         {
             Id = id;
             ModuleId = moduleId;
             SheetNumber = sheetNumber;
             Exercises = exercises;
+            PdfFilePath = pdfFilePath;
         }
         public void AddExercise(Exercise exercise)
         {
             Exercises.Add(exercise);
+        }
+
+        public void SetPdfFilePath(string pdfFilePath)
+        {
+            PdfFilePath = pdfFilePath;
         }
     }
 }

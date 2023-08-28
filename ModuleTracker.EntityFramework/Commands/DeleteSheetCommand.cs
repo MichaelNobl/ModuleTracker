@@ -1,4 +1,5 @@
-﻿using ModuleTracker.Domain.Commands;
+﻿using Microsoft.EntityFrameworkCore;
+using ModuleTracker.Domain.Commands;
 using ModuleTracker.EntityFramework.DTOs;
 
 namespace ModuleTracker.EntityFramework.Commands
@@ -23,7 +24,7 @@ namespace ModuleTracker.EntityFramework.Commands
 
                 context.Sheets.Remove(sheetDto);
 
-                var exercises = context.Exercises.ToList();
+                var exercises = await context.Exercises.ToListAsync();
 
                 foreach (var exerciseDto in exercises)
                 {

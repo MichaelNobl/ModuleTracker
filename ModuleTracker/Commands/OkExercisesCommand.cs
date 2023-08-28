@@ -25,7 +25,7 @@ namespace ModuleTracker.Wpf.Commands
             _exercisesViewModel.ErrorMessage = string.Empty;
             _exercisesViewModel.IsSubmitting = true;
 
-            var sheet = new Sheet(_exercisesViewModel.SheetId, _exercisesViewModel.ModuleId ,int.Parse(_exercisesViewModel.SheetNumber), new List<Exercise>());
+            var sheet = new Sheet(_exercisesViewModel.Sheet.Id, _exercisesViewModel.Sheet.ModuleId, int.Parse(_exercisesViewModel.SheetNumber), new List<Exercise>(), _exercisesViewModel.Sheet.PdfFilePath);
 
             foreach (var exerciseItem in _exercisesViewModel.ExerciseListingItemViewModel)
             {

@@ -3,6 +3,7 @@ using ModuleTracker.Domain.Models;
 using ModuleTracker.Domain.Queries;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace ModuleTracker.Wpf.Stores
     public class ModuleStore
     {
         private List<Module> _modules;
+        private readonly string _outputPath = @"..\..\..\PdfImages\";
 
         public IEnumerable<Module> Modules => _modules;
                
@@ -122,7 +124,7 @@ namespace ModuleTracker.Wpf.Stores
 
         public async Task DeleteSheet(Guid id)
         {
-            await _deleteSheetCommand.Execute(id);
+            await _deleteSheetCommand.Execute(id);            
 
             foreach (var module in _modules)
             {               
@@ -130,6 +132,19 @@ namespace ModuleTracker.Wpf.Stores
                
                 if(sheet is not null)
                 {
+                    if (!string.IsNullOrEmpty(sheet.PdfFilePath))
+                    {
+                        var pdfFilePath = sheet.PdfFilePath;
+                        var pdfName = pdfFilePath.Substring(pdfFilePath.LastIndexOf("\\") + 1, pdfFilePath.Length - pdfFilePath.LastIndexOf("\\") - 5);
+
+                        var filePath = $"{Directory.GetCurrentDirectory()}..\\{_outputPath}{module.Name}_{sheet.SheetNumber}_{pdfName}.png";
+
+                        if (File.Exists(filePath))
+                        {
+                            File.Delete(filePath);
+                        }
+                    }
+
                     _modules.SingleOrDefault(m => m.Id == module.Id)?.Sheets.Remove(sheet);
                 }
             }            
@@ -158,7 +173,7 @@ namespace ModuleTracker.Wpf.Stores
 
                 foreach (var sheet in tempModule.Sheets)
                 {
-                    var tempSheet = new Sheet(sheet.Id, sheet.ModuleId, sheet.SheetNumber, new List<Exercise>());
+                    var tempSheet = new Sheet(sheet.Id, sheet.ModuleId, sheet.SheetNumber, new List<Exercise>(), sheet.PdfFilePath);
 
                     if (sheet.Id != exercise.SheetId)
                     {

@@ -12,21 +12,19 @@ namespace ModuleTracker.Wpf.ViewModel
     public class ExercisesViewModel : BaseViewModel
     {
         private readonly ObservableCollection<ExerciseListingItemViewModel> _exerciseListingItemViewModel;
-        private readonly ModuleStore _moduleStore;
-        private readonly Sheet _sheet;                
+        private readonly ModuleStore _moduleStore;               
 
         public ExercisesViewModel(Sheet sheet, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore)
-        {
-            SheetId = sheet.Id;
-            ModuleId = sheet.ModuleId;
+        {            
             _sheetNumber = sheet.SheetNumber.ToString();
             _errorMessage = string.Empty;
 
-            _sheet = sheet;
+            Sheet = sheet;
             _exerciseListingItemViewModel = new ObservableCollection<ExerciseListingItemViewModel>();
             _moduleStore = moduleStore;
 
             OkCommand = new OkExercisesCommand(this, moduleStore, modalNavigationStore);
+            AddPdfFileCommand = null;
 
             AddExerciseItemViewModels();           
 
@@ -35,8 +33,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
         #region Properties
 
-        public Guid SheetId { get; }
-        public Guid ModuleId { get; }
+        public Sheet Sheet { get; }
 
         private string _sheetNumber;
         public string SheetNumber
@@ -91,6 +88,7 @@ namespace ModuleTracker.Wpf.ViewModel
         #region Commands
 
         public ICommand OkCommand { get; set; }
+        public ICommand AddPdfFileCommand { get; set; }
 
         #endregion
 
@@ -117,7 +115,7 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             _exerciseListingItemViewModel.Clear();
 
-            var sheet = _moduleStore.Modules.SingleOrDefault(m => m.Id == _sheet.ModuleId)?.Sheets.SingleOrDefault(s => s.Id == _sheet.Id);
+            var sheet = _moduleStore.Modules.SingleOrDefault(m => m.Id == Sheet.ModuleId)?.Sheets.SingleOrDefault(s => s.Id == Sheet.Id);
 
             if (sheet != null)
             {

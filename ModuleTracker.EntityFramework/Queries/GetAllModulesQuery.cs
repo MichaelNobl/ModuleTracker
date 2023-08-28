@@ -34,7 +34,7 @@ namespace ModuleTracker.EntityFramework.Queries
 
                     foreach (var sheetDto in sortetList)
                     {   
-                        module.AddSheet(SheetDto.ToSheet(sheetDto));
+                        module.AddSheet(sheetDto.ToSheet());
                     }
 
                     modules[currentIndex] = module;                  

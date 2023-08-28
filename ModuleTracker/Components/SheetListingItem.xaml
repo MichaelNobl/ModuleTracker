@@ -6,11 +6,15 @@
              xmlns:local="clr-namespace:ModuleTracker.Wpf.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Border Padding="5 10" TextBlock.FontSize="16">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
@@ -22,6 +26,33 @@
                 <TextBlock Grid.Column="2" Text="/" Margin="0 5 0 10" TextAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="3" Text="{Binding NumOfExercises}" Margin="5 0 0 0" VerticalAlignment="Center"/>
                 <Button Grid.Column="4" Content="Open" Command="{Binding OpenSheetCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                <Grid Grid.Column="5">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasPdfFile}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Button Content="Open Pdf" Command="{Binding OpenPdfCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Column="5">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasPdfFile}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Button Content="Create Pdf" Command="{Binding AddPdfFileCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                </Grid>
+
             </Grid>
         </Border>
     </Grid>

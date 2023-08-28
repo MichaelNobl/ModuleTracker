@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleTracker.Wpf", "Module
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleTracker.Domain", "ModuleTracker.Domain\ModuleTracker.Domain.csproj", "{902FB493-E820-4FBF-B423-D4A764F94E4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleTracker.EntityFramework", "ModuleTracker.EntityFramework\ModuleTracker.EntityFramework.csproj", "{E956451A-0113-4798-9193-8C0DD275C64A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleTracker.EntityFramework", "ModuleTracker.EntityFramework\ModuleTracker.EntityFramework.csproj", "{E956451A-0113-4798-9193-8C0DD275C64A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -93,7 +93,8 @@ namespace ModuleTracker.Wpf.ViewModel
         }        
 
         public bool HasSelectedModule => _selectedModule != null;
-        public bool HasSelectedSheet => _selectedSheet != null;
+        public bool HasSelectedSheet => _selectedSheet != null;        
+        
         public IEnumerable<SheetListingItemViewModel> SheetListingItemViewModel =>
             _sheetListingItemViewModel;
 

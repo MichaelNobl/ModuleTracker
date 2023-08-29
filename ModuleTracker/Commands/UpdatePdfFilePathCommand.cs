@@ -49,7 +49,7 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
-                _sheetListingItemViewModel.ErrorMessage = "Failed to update sheet. Please try again later.";
+                _sheetListingItemViewModel.ErrorMessage = "Failed to add pdf file. Please try again later.";
             }
             finally
             {

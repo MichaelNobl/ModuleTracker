@@ -13,20 +13,24 @@
         <Border Padding="5 10" TextBlock.FontSize="16">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="2*" SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="2*" SharedSizeGroup="A"/>
                 </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" Text="{Binding Name}" Margin="10 0 0 0" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Text="{Binding NumOfDoneExercises}" Margin="0 0 5 0" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="/" Margin="0 5 0 10" TextAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="3" Text="{Binding NumOfExercises}" Margin="5 0 0 0" VerticalAlignment="Center"/>
-                <Button Grid.Column="4" Content="Open" Command="{Binding OpenSheetCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
-                <Grid Grid.Column="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                               
+                 <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}" Margin="10 0 0 0" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding NumOfDoneExercises}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="/" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding NumOfExercises}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Button Grid.Column="4" HorizontalAlignment="Center"  Grid.Row="0" Content="Open" Command="{Binding OpenSheetCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                <Grid Grid.Column="5" Grid.Row="0" HorizontalAlignment="Center">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -38,8 +42,8 @@
                         </Style>
                     </Grid.Style>
                     <Button Content="Open Pdf" Command="{Binding OpenPdfCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Grid.Column="5">
+                 </Grid>
+                <Grid Grid.Column="5" HorizontalAlignment="Center">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -51,8 +55,9 @@
                         </Style>
                     </Grid.Style>
                     <Button Content="Add Pdf" Command="{Binding AddPdfFileCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                                    
                 </Grid>
-
+                <TextBlock Grid.Row="1" Grid.ColumnSpan="6" Margin="10 5 0 0" Text="{Binding ErrorMessage}" Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ErrorMessage}" FontSize="16" HorizontalAlignment="Left"/>
             </Grid>
         </Border>
     </Grid>

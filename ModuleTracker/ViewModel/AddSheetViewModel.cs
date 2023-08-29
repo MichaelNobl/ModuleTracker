@@ -57,6 +57,7 @@ namespace ModuleTracker.Wpf.ViewModel
             {
                 _pdfFilePath = value;
                 OnPropertyChanged(nameof(PdfFilePath));
+                OnPropertyChanged(nameof(HasPdfPath));
             }
         }
 
@@ -92,6 +93,7 @@ namespace ModuleTracker.Wpf.ViewModel
         public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
         public bool CanSubmit => !string.IsNullOrEmpty(NumOfExercises) && !string.IsNullOrEmpty(SheetNumber);
+        public bool HasPdfPath => !string.IsNullOrEmpty(PdfFilePath);
 
         #endregion
 

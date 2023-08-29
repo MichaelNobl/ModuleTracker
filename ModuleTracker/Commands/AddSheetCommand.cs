@@ -15,7 +15,6 @@ namespace ModuleTracker.Wpf.Commands
         private readonly ModuleStore _moduleStore;
         private readonly ModalNavigationStore _modalNavigationStore;
         private readonly SelectedModuleStore _selectedModuleStore;
-        private readonly string _outputPath = @"..\..\..\PdfImages\";
 
         public AddSheetCommand(AddSheetViewModel addSheetViewModel, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore, SelectedModuleStore selectedModuleStore)
         {
@@ -68,11 +67,6 @@ namespace ModuleTracker.Wpf.Commands
                 return;
             }
 
-            if (!string.IsNullOrEmpty(_addSheetViewModel.PdfFilePath))
-            {
-                SavePdfFileAsImage();
-            }
-
             var sheet = new Sheet(Guid.NewGuid(), _selectedModuleStore.SelectedModule.Id, sheetNumber, new List<Exercise>(), _addSheetViewModel.PdfFilePath);
 
             for (var i = 1; i <= numOfExercises; i++)
@@ -95,24 +89,6 @@ namespace ModuleTracker.Wpf.Commands
             {
                 viewModel.IsSubmitting = false;
             }
-        }
-
-        private void SavePdfFileAsImage()
-        {
-            var pdfFilePath = _addSheetViewModel.PdfFilePath;
-            var pdfName = pdfFilePath.Substring(pdfFilePath.LastIndexOf("\\") + 1, pdfFilePath.Length - pdfFilePath.LastIndexOf("\\") - 5);
-
-            // load PDF with an instance of Document                        
-            var document = new Document(pdfFilePath);
-
-            // create an object of EmfDevice
-            var renderer = new Aspose.Pdf.Devices.PngDevice();
-
-            var moduleName = _moduleStore.Modules.SingleOrDefault(m => m.Id == _selectedModuleStore.SelectedModule.Id)?.Name;
-
-            var outputPath = $"{_outputPath}{moduleName}_{_addSheetViewModel.SheetNumber}_{pdfName}.png";
-
-            renderer.Process(document.Pages[1], outputPath);
-        }
+        }        
     }
 }

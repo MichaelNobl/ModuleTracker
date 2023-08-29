@@ -23,9 +23,6 @@
         <DataTemplate DataType="{x:Type vms:ExercisesViewModel}">
             <view:ExercisesView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vms:OpenPdfViewModel}">
-            <view:OpenPdfView/>
-        </DataTemplate>
     </Window.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">        
         <Grid>

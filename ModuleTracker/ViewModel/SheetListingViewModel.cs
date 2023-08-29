@@ -131,7 +131,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
         private void ModuleStoreSheetAdded(Sheet sheet)
         {
-            var sheetItemViewModel = new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore);
+            var sheetItemViewModel = new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore, _selectedModuleStore);
 
             var index = CalculateIndex(sheetItemViewModel);
 
@@ -206,7 +206,7 @@ namespace ModuleTracker.Wpf.ViewModel
             {  
                 foreach (var sheet in sortedSheets)
                 {
-                    _sheetListingItemViewModel.Add(new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore));
+                    _sheetListingItemViewModel.Add(new SheetListingItemViewModel(sheet, _modalNavigationStore, _moduleStore, _selectedModuleStore));
                 }
             }
         }     

@@ -2,18 +2,19 @@
 using ModuleTracker.Wpf.Commands;
 using ModuleTracker.Wpf.Stores;
 using System.Linq;
-using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class SheetListingItemViewModel : BaseViewModel
     {
-        public SheetListingItemViewModel(Sheet sheet, ModalNavigationStore modalNavigationStore, ModuleStore moduleStore)
+        public SheetListingItemViewModel(Sheet sheet, ModalNavigationStore modalNavigationStore, ModuleStore moduleStore, SelectedModuleStore selectedModuleStore)
         {
             Sheet = sheet;
             OpenSheetCommand = new OpenExercisesCommand(sheet, modalNavigationStore, moduleStore);
-            OpenPdfCommand = new OpenPdfViewCommand(this, modalNavigationStore, moduleStore);
+            OpenPdfCommand = new OpenPdfCommand(this);
+            AddPdfFileCommand = new UpdatePdfFilePathCommand(this, sheet, moduleStore, selectedModuleStore);
+
             OnPropertyChanged(nameof(NumOfDoneExercises));
             OnPropertyChanged(nameof(NumOfExercises));
         }
@@ -30,13 +31,44 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public bool HasPdfFile => !string.IsNullOrEmpty(Sheet.PdfFilePath);
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage));
+                OnPropertyChanged(nameof(HasErrorMessage));
+            }
+        }
+
+        public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
+
+        private bool _isSubmitting;
+        public bool IsSubmitting
+        {
+            get
+            {
+                return _isSubmitting;
+            }
+            set
+            {
+                _isSubmitting = value;
+                OnPropertyChanged(nameof(IsSubmitting));
+            }
+        }
+
         #endregion
 
         #region Commands
 
         public ICommand OpenSheetCommand { get; private set; }
         public ICommand OpenPdfCommand { get; private set; }
-        public ICommand CreatePdfCommand { get; private set; }
+        public ICommand AddPdfFileCommand { get; private set; }
 
         #endregion
 

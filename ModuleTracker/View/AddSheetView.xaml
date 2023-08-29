@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ModuleTracker.Wpf.View"
              xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="300">
+             d:DesignHeight="450" d:DesignWidth="800" Width="400">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
@@ -54,14 +54,14 @@
             <Grid Grid.Row="2" VerticalAlignment="Stretch" Margin="0 10 0 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" SharedSizeGroup="Label"/>
-                    <ColumnDefinition Width="*" MaxWidth="250"/>
-                    <ColumnDefinition Width="*" MaxWidth="250"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" FontWeight="Bold" Text="Pdf File" FontSize="20"/>
 
-                <TextBlock Grid.Column="1" FontSize="20" Margin="30 0 0 0" Text="{Binding PdfFilePath, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Grid.Column="2" Command="{Binding PdfFilePathCommand}" Content="Open" Style="{StaticResource ButtonStyle1}" Margin="0 0 5 0"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" Margin="30 0 0 0" Text="File uploaded!" Visibility="{Binding HasPdfPath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <Button Grid.Column="2" HorizontalAlignment="Right" Command="{Binding PdfFilePathCommand}" Content="Upload" Style="{StaticResource ButtonStyle1}" Margin="0 0 6 0"/>
             </Grid>
         </Grid>
 

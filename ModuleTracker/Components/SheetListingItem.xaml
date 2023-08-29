@@ -50,7 +50,7 @@
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
-                    <Button Content="Create Pdf" Command="{Binding AddPdfFileCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
+                    <Button Content="Add Pdf" Command="{Binding AddPdfFileCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
                 </Grid>
 
             </Grid>

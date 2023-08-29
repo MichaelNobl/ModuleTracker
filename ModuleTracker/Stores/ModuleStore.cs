@@ -131,20 +131,7 @@ namespace ModuleTracker.Wpf.Stores
                var sheet = _modules.SingleOrDefault(m => m.Id == module.Id)?.Sheets.SingleOrDefault(s => s.Id == id); 
                
                 if(sheet is not null)
-                {
-                    if (!string.IsNullOrEmpty(sheet.PdfFilePath))
-                    {
-                        var pdfFilePath = sheet.PdfFilePath;
-                        var pdfName = pdfFilePath.Substring(pdfFilePath.LastIndexOf("\\") + 1, pdfFilePath.Length - pdfFilePath.LastIndexOf("\\") - 5);
-
-                        var filePath = $"{Directory.GetCurrentDirectory()}..\\{_outputPath}{module.Name}_{sheet.SheetNumber}_{pdfName}.png";
-
-                        if (File.Exists(filePath))
-                        {
-                            File.Delete(filePath);
-                        }
-                    }
-
+                {  
                     _modules.SingleOrDefault(m => m.Id == module.Id)?.Sheets.Remove(sheet);
                 }
             }            

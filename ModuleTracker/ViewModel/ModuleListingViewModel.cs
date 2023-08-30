@@ -95,7 +95,7 @@ namespace ModuleTracker.Wpf.ViewModel
             }
             set
             {
-                _editModuleItemViewModel = value;
+                _targetetModuleItemViewModel = value;
                 OnPropertyChanged(nameof(TargetetModuleItemViewModel));
             }
         }

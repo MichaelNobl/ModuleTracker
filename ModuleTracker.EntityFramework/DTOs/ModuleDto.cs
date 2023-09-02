@@ -9,7 +9,10 @@ namespace ModuleTracker.EntityFramework.DTOs
 
         public string Name { get; set; }
 
+        public int Order { get; set; }
+
         public IList<SheetDto> Sheets { get; set; } = new List<SheetDto>();
+
 
     }
 }

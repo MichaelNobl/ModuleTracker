@@ -7,22 +7,20 @@
         public string Name { get; }
 
         public IList<Sheet> Sheets { get; }
+        
+        public int Order { get; }
               
-        public Module(Guid id, string name, IList<Sheet> sheet)
+        public Module(Guid id, string name, IList<Sheet> sheet, int order)
         {
             Id = id;
             Name = name;
             Sheets = sheet;
+            Order = order;
         }
 
         public void AddSheet(Sheet sheet)
         {
             Sheets.Add(sheet);
-        }
-
-        public void RemoveSheet(Sheet sheet)
-        {
-            Sheets.Remove(sheet);
-        }
+        }  
     }
 }

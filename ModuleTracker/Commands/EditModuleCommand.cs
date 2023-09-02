@@ -31,7 +31,7 @@ namespace ModuleTracker.Wpf.Commands
 
             var oldModule = _editModuleViewModel.Module;
 
-            var newModule = new Module(oldModule.Id, _editModuleViewModel.Name, oldModule.Sheets);
+            var newModule = new Module(oldModule.Id, _editModuleViewModel.Name, oldModule.Sheets, oldModule.Order);
 
             try
             {

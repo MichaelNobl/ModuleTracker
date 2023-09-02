@@ -27,6 +27,7 @@ namespace ModuleTracker.Wpf.HostBuilders
                 services.AddSingleton<IUpdateExerciseCommand, UpdateExerciseCommand>();
                 services.AddSingleton<IUpdateSheetCommand, UpdateSheetCommand>();
                 services.AddSingleton<IUpdateModuleCommand, UpdateModuleCommand>();
+                services.AddSingleton<IReorderModulesCommand, ReorderModulesCommand>();
             });
 
             return hostBuilder;

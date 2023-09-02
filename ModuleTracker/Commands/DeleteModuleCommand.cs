@@ -27,54 +27,57 @@ namespace ModuleTracker.Wpf.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
-            var result = MessageBox.Show($"{_message} {_selectedModuleStore.SelectedModule.Name}?", _messageCaption, MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.No)
+            if(_selectedModuleStore.SelectedModule != null)
             {
-                return;
-            }
+                var result = MessageBox.Show($"{_message} {_selectedModuleStore.SelectedModule.Name}?", _messageCaption, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            _moduleListingViewModel.IsDeleting = true;
-            _moduleListingViewModel.ErrorMessage = string.Empty;
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
 
-            var module = _moduleStore.Modules.SingleOrDefault(m => m.Id == _selectedModuleStore.SelectedModule.Id);
+                _moduleListingViewModel.IsDeleting = true;
+                _moduleListingViewModel.ErrorMessage = string.Empty;
 
-            if(module == null)
-            {
-                return;
-            }
+                var module = _moduleStore.Modules.SingleOrDefault(m => m.Id == _selectedModuleStore.SelectedModule.Id);
 
-            var sheetIds = module.Sheets.Select(s => s.Id).ToList();
+                if (module == null)
+                {
+                    return;
+                }
 
-            foreach (var sheetId in sheetIds)
-            {
+                var sheetIds = module.Sheets.Select(s => s.Id).ToList();
+
+                foreach (var sheetId in sheetIds)
+                {
+                    try
+                    {
+                        await _moduleStore.DeleteSheet(sheetId);
+                    }
+                    catch (Exception)
+                    {
+                        _moduleListingViewModel.ErrorMessage = "Failed to delete sheets. Please try again later.";
+                        _moduleListingViewModel.IsDeleting = false;
+                        return;
+                    }
+                }
+
                 try
-                {                    
-                    await _moduleStore.DeleteSheet(sheetId);                    
+                {
+                    if (_selectedModuleStore.SelectedModule != null)
+                    {
+                        await _moduleStore.DeleteModule(_selectedModuleStore.SelectedModule.Id);
+                    }
                 }
                 catch (Exception)
                 {
-                    _moduleListingViewModel.ErrorMessage = "Failed to delete sheets. Please try again later.";
-                    _moduleListingViewModel.IsDeleting = false;
-                    return;
+                    _moduleListingViewModel.ErrorMessage = "Failed to delete module. Please try again later.";
                 }
-            }    
-
-            try
-            {
-                if(_selectedModuleStore.SelectedModule != null)
+                finally
                 {
-                    await _moduleStore.DeleteModule(_selectedModuleStore.SelectedModule.Id);
-                }                
-            }
-            catch (Exception)
-            {
-                _moduleListingViewModel.ErrorMessage = "Failed to delete module. Please try again later.";
-            }
-            finally
-            {
-                _moduleListingViewModel.IsDeleting = false;
-            }
+                    _moduleListingViewModel.IsDeleting = false;
+                }
+            }            
         }
     }
 }

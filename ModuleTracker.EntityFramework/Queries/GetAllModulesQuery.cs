@@ -22,7 +22,7 @@ namespace ModuleTracker.EntityFramework.Queries
                 var sheetsDtos = await context.Sheets.ToListAsync();
                 var exerciseDtos = await context.Exercises.ToListAsync();
 
-                var modules = modulesDtos.Select(m => new Module(m.Id, m.Name, new List<Sheet>())).ToList();
+                var modules = modulesDtos.Select(m => new Module(m.Id, m.Name, new List<Sheet>(), m.Order)).OrderBy(m => m.Order).ToList();
 
                 var tempModules = modules.ToList();
 

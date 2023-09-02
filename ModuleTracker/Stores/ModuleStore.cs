@@ -1,6 +1,7 @@
 ﻿using ModuleTracker.Domain.Commands;
 using ModuleTracker.Domain.Models;
 using ModuleTracker.Domain.Queries;
+using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,6 @@ namespace ModuleTracker.Wpf.Stores
     public class ModuleStore
     {
         private List<Module> _modules;
-        private readonly string _outputPath = @"..\..\..\PdfImages\";
 
         public IEnumerable<Module> Modules => _modules;
                
@@ -20,6 +20,7 @@ namespace ModuleTracker.Wpf.Stores
         public event Action<Module> ModuleAdded;
         public event Action<Module> ModuleUpdated;
         public event Action<Guid> ModuleDeleted;
+        public event Action<Module, Module> ModulesReorded;
         public event Action<Sheet> SheetAdded;
         public event Action<Sheet> SheetUpdated;
         public event Action<Guid> SheetDeleted;
@@ -35,6 +36,7 @@ namespace ModuleTracker.Wpf.Stores
         private readonly IUpdateExerciseCommand _updateExerciseCommand;
         private readonly IUpdateSheetCommand _updateSheetCommand;
         private readonly IUpdateModuleCommand _updateModuleCommand;
+        private readonly IReorderModulesCommand _reorderModulesCommand;
 
         public ModuleStore(
             IGetAllModulesQuery getAllModulesQuery,
@@ -45,7 +47,8 @@ namespace ModuleTracker.Wpf.Stores
             IDeleteSheetCommand deleteSheetCommand, 
             IUpdateExerciseCommand updateExerciseCommand, 
             IUpdateSheetCommand updateSheetCommand,
-            IUpdateModuleCommand updateModuleCommand)
+            IUpdateModuleCommand updateModuleCommand,
+            IReorderModulesCommand reorderModulesCommand)
         {
             _getAllModulesQuery = getAllModulesQuery;
             _createExerciseCommand = createExerciseCommand;
@@ -56,6 +59,7 @@ namespace ModuleTracker.Wpf.Stores
             _updateExerciseCommand = updateExerciseCommand;
             _updateSheetCommand = updateSheetCommand;
             _updateModuleCommand = updateModuleCommand;
+            _reorderModulesCommand = reorderModulesCommand;
 
             _modules = new List<Module>();
         }
@@ -104,6 +108,32 @@ namespace ModuleTracker.Wpf.Stores
             _modules.RemoveAll(m => m.Id == id);
 
             ModuleDeleted?.Invoke(id);
+        }
+
+        public async Task ReorderModules(Module selectedModule, Module targetedModule)
+        {   
+            if (selectedModule == targetedModule)
+            {
+                return;
+            }
+
+            await _reorderModulesCommand.Execute(selectedModule, targetedModule);
+
+            var oldIndex = _modules.IndexOf(selectedModule);
+            var nextIndex = _modules.IndexOf(targetedModule);
+
+            if (oldIndex != -1 && nextIndex != -1)
+            {
+                var newSelectedModule = new Module(selectedModule.Id, selectedModule.Name, selectedModule.Sheets, targetedModule.Order);
+
+                _modules[nextIndex] = newSelectedModule;
+                
+                var newTargetedModule = new Module(targetedModule.Id, targetedModule.Name, targetedModule.Sheets, selectedModule.Order);
+
+                _modules[oldIndex] = newTargetedModule;
+
+                ModulesReorded?.Invoke(newSelectedModule, newTargetedModule);
+            }            
         }
 
         public async Task AddSheet(Sheet sheet)
@@ -156,7 +186,7 @@ namespace ModuleTracker.Wpf.Stores
 
             if (tempModule is not null)
             {
-                var module = new Module(exercise.ModuleId, tempModule.Name, new List<Sheet>());
+                var module = new Module(exercise.ModuleId, tempModule.Name, new List<Sheet>(), tempModule.Order);
 
                 foreach (var sheet in tempModule.Sheets)
                 {

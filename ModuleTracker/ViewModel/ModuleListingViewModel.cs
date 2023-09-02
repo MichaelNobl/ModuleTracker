@@ -29,13 +29,14 @@ namespace ModuleTracker.Wpf.ViewModel
 
             AddModuleCommand = new OpenAddModuleCommand(_modulesStore, _modalNavigationStore);
             DeleteModuleCommand = new DeleteModuleCommand(this, _selectedModuleStore, _modulesStore);
-            ModuleItemInsertetCommand = new ModuleItemInsertetCommand(this);
+            ModuleItemInsertetCommand = new ModuleItemInsertetCommand(this, _modulesStore);
             OpenEditModuleCommand = new OpenEditModuleCommand(this, modulStore, modalNavigationStore);
 
             _modulesStore.ModulesLoaded += ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded += ModulesStoreModuleAdded;
             _modulesStore.ModuleUpdated += ModulesStoreModuleUpdated;
             _modulesStore.ModuleDeleted += ModulesStoreModuleDeleted;
+            _modulesStore.ModulesReorded += ModuleStoreReorderModule;
 
             _selectedModuleStore.SelectedModuleChanged += ModuleStoreModuleChanged;
             _moduleListingItemViewModel.CollectionChanged += ModuleListingItemViewModelCollectionChanged;
@@ -153,6 +154,7 @@ namespace ModuleTracker.Wpf.ViewModel
             _modulesStore.ModulesLoaded -= ModulesStoreModuleLoaded;
             _modulesStore.ModuleAdded -= ModulesStoreModuleAdded;
             _modulesStore.ModuleDeleted -= ModulesStoreModuleDeleted;
+            _modulesStore.ModulesReorded -= ModuleStoreReorderModule;
 
             _selectedModuleStore.SelectedModuleChanged -= ModuleStoreModuleChanged;
 
@@ -160,20 +162,26 @@ namespace ModuleTracker.Wpf.ViewModel
             base.Dispose();
         }
 
-        public void InsertModule(ModuleListingItemViewModel insertetViewModel, ModuleListingItemViewModel targetetViewModel)
+        public void ModuleStoreReorderModule(Module insertetModule, Module targetetModule)
         {
-            if (insertetViewModel == targetetViewModel)
+            if (insertetModule == targetetModule)
             {
                 return;
             }
 
-            var oldIndex = _moduleListingItemViewModel.IndexOf(insertetViewModel);
-            var nextIndex = _moduleListingItemViewModel.IndexOf(targetetViewModel);
+            var insertetViewModel = _moduleListingItemViewModel.SingleOrDefault(m => m.Module.Id == insertetModule.Id);
+            var targetetViewModel = _moduleListingItemViewModel.SingleOrDefault(m => m.Module.Id == targetetModule.Id);
 
-            if (oldIndex != -1 && nextIndex != -1)
+            if(insertetViewModel != null && targetetViewModel != null)
             {
-                _moduleListingItemViewModel.Move(oldIndex, nextIndex);
-            }
+                var oldIndex = _moduleListingItemViewModel.IndexOf(insertetViewModel);
+                var nextIndex = _moduleListingItemViewModel.IndexOf(targetetViewModel);
+
+                if (oldIndex != -1 && nextIndex != -1)
+                {
+                    _moduleListingItemViewModel.Move(oldIndex, nextIndex);
+                }
+            }            
         }
 
         private void ModuleStoreModuleChanged()

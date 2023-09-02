@@ -1,6 +1,6 @@
 ﻿using ModuleTracker.Domain.Models;
 
-namespace ModuleTracker.Domain.Queries
+namespace ModuleTracker.Domain.Commands
 {
     public interface ICreateModuleCommand
     {

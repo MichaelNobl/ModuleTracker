@@ -3,6 +3,7 @@ using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.Commands
@@ -27,7 +28,10 @@ namespace ModuleTracker.Wpf.Commands
             viewModel.IsSubmitting = true;
             viewModel.ErrorMessage = string.Empty;
 
-            var module = new Module(Guid.NewGuid(), viewModel.Name, new List<Sheet>());
+            var moduleOrder = _moduleStore.Modules.Count() > 0 ? _moduleStore.Modules.Select( m => m.Order).Max() + 1 : 1;
+
+            var module = new Module(Guid.NewGuid(), viewModel.Name, new List<Sheet>(), moduleOrder);
+            
             try
             {
                 await _moduleStore.AddModule(module);

@@ -1,5 +1,5 @@
-﻿using ModuleTracker.Domain.Models;
-using ModuleTracker.Domain.Queries;
+﻿using ModuleTracker.Domain.Commands;
+using ModuleTracker.Domain.Models;
 using ModuleTracker.EntityFramework.DTOs;
 
 namespace ModuleTracker.EntityFramework.Commands

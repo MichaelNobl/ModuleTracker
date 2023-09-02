@@ -1,5 +1,5 @@
-﻿using ModuleTracker.Domain.Models;
-using ModuleTracker.Domain.Queries;
+﻿using ModuleTracker.Domain.Commands;
+using ModuleTracker.Domain.Models;
 using ModuleTracker.EntityFramework.DTOs;
 
 namespace ModuleTracker.EntityFramework.Commands
@@ -22,6 +22,7 @@ namespace ModuleTracker.EntityFramework.Commands
                     Id = module.Id,
                     Name = module.Name,
                     Sheets = module.Sheets.Select(s => s.ToDto()).ToList(),
+                    Order = module.Order,
                 };
 
                 context.Modules.Add(moduleDto);

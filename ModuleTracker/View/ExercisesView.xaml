@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ModuleTracker.Wpf.View" 
              xmlns:comp="clr-namespace:ModuleTracker.Wpf.Components" xmlns:spinner="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="300">
+             d:DesignHeight="450" d:DesignWidth="800" Width="400">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <WrapPanel>
-                    <TextBlock Text="Sheet" Style="{StaticResource PageHeader}" Margin="10 0 0 0"/>
+                    <TextBlock Text="Sheet" Style="{StaticResource PageHeader}" Margin="0 0 0 10"/>
                     <TextBlock Text="{Binding SheetNumber}" Style="{StaticResource PageHeader}" Margin="10 0 0 5"/>
                 </WrapPanel>
             </Grid>
@@ -33,11 +33,11 @@
                         <VisualBrush Visual="{Binding ElementName=border}"/>
                     </Grid.OpacityMask>
                     <Border x:Name="border" Background="White" CornerRadius="5"/>
-                    <ListView ItemsSource="{Binding ExerciseListingItemViewModel}">                    
+                <ListView ItemsSource="{Binding ExerciseListingItemViewModel}" AlternationCount="2">                    
                     <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource AlternatingListViewItemStyle}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Focusable" Value="false"/>
+                            <Setter Property="Focusable" Value="false"/>                            
                         </Style>
                     </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>

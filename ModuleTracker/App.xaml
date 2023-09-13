@@ -13,6 +13,18 @@
                 <Setter Property="FontSize" Value="24"/>
             </Style>
 
+            <Style x:Key="AlternatingListViewItemStyle" TargetType="{x:Type ListViewItem}">
+                <Style.Triggers>
+                    <!-- setting up triggers for alternate background colors -->
+                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                        <Setter Property="Background" Value="#ebebeb"></Setter>
+                    </Trigger>
+                    <Trigger Property="ItemsControl.AlternationIndex" Value="2">
+                        <Setter Property="Background" Value="White"></Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="Button" x:Key="ButtonStyle1">
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="Background" Value="#c7c7c7"/>

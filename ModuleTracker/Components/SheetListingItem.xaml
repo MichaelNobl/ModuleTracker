@@ -17,8 +17,7 @@
                     <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="2*" SharedSizeGroup="A"/>
-                    <ColumnDefinition Width="2*" SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -30,33 +29,7 @@
                 <TextBlock Grid.Column="2" Grid.Row="0" Text="/" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding NumOfExercises}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <Button Grid.Column="4" HorizontalAlignment="Center"  Grid.Row="0" Content="Open" Command="{Binding OpenSheetCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
-                <Grid Grid.Column="5" Grid.Row="0" HorizontalAlignment="Center">
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasPdfFile}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    <Button Content="Open Pdf" Command="{Binding OpenPdfCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
-                 </Grid>
-                <Grid Grid.Column="5" HorizontalAlignment="Center">
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasPdfFile}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    <Button Content="Add Pdf" Command="{Binding AddPdfFileCommand}" Margin="5 0 0 0" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Center"/>
-                                    
-                </Grid>
+                
                 <TextBlock Grid.Row="1" Grid.ColumnSpan="6" Margin="10 5 0 0" Text="{Binding ErrorMessage}" Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ErrorMessage}" FontSize="16" HorizontalAlignment="Left"/>
             </Grid>
         </Border>

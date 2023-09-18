@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace ModuleTracker.Wpf.Commands
 {
-    public class UpdatePdfFilePathCommand : AsyncCommandBase
+    public class DeletePdfFilePathCommand : AsyncCommandBase
     {
         private ExercisesViewModel _exerciseItemViewModel;
         private Sheet _sheet;
         private ModuleStore _moduleStore;
 
-        public UpdatePdfFilePathCommand(ExercisesViewModel exerciseItemViewModel, Sheet sheet, ModuleStore moduleStore)
+        public DeletePdfFilePathCommand(ExercisesViewModel exerciseItemViewModel, Sheet sheet, ModuleStore moduleStore)
         {
             _exerciseItemViewModel = exerciseItemViewModel;
             _sheet = sheet;
@@ -22,23 +22,10 @@ namespace ModuleTracker.Wpf.Commands
 
         public override async Task ExecuteAsync(object? parameter)
         {
-            _exerciseItemViewModel.ErrorMessage = string.Empty;
-
-            var dlg = new OpenFileDialog
-            {
-                Filter = "pdf files (*.pdf) |*.pdf;"
-            };
-            dlg.ShowDialog();
-
+            _exerciseItemViewModel.ErrorMessage = string.Empty;            
             _exerciseItemViewModel.IsSubmitting = true;
 
-            if (string.IsNullOrEmpty(dlg.FileName))
-            {
-                _exerciseItemViewModel.IsSubmitting = false;
-                return;
-            }
-
-            _sheet.SetPdfFilePath(dlg.FileName);
+            _sheet.SetPdfFilePath(string.Empty);
             _exerciseItemViewModel.Update(_sheet);
 
             try
@@ -48,7 +35,7 @@ namespace ModuleTracker.Wpf.Commands
             }
             catch (Exception)
             {
-                _exerciseItemViewModel.ErrorMessage = "Failed to add pdf file. Please try again later.";
+                _exerciseItemViewModel.ErrorMessage = "Failed to delete pdf file. Please try again later.";
             }
             finally
             {

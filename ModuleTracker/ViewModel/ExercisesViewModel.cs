@@ -24,7 +24,9 @@ namespace ModuleTracker.Wpf.ViewModel
             _moduleStore = moduleStore;
 
             OkCommand = new OkExercisesCommand(this, moduleStore, modalNavigationStore);
-            AddPdfFileCommand = null;
+            OpenPdfCommand = new OpenPdfCommand(this); 
+            ChangePdfPathCommand = new UpdatePdfFilePathCommand(this, sheet, moduleStore); 
+            DeletePdfPathCommand = new DeletePdfFilePathCommand(this, sheet, moduleStore); 
 
             AddExerciseItemViewModels();           
 
@@ -33,7 +35,7 @@ namespace ModuleTracker.Wpf.ViewModel
 
         #region Properties
 
-        public Sheet Sheet { get; }
+        public Sheet Sheet { get; set; }
 
         private string _sheetNumber;
         public string SheetNumber
@@ -83,12 +85,16 @@ namespace ModuleTracker.Wpf.ViewModel
 
         public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
+        public bool HasPdfFile => !string.IsNullOrEmpty(Sheet.PdfFilePath);
+
         #endregion
 
         #region Commands
 
         public ICommand OkCommand { get; set; }
-        public ICommand AddPdfFileCommand { get; set; }
+        public ICommand OpenPdfCommand { get; set; }
+        public ICommand ChangePdfPathCommand { get; set; }
+        public ICommand DeletePdfPathCommand { get; set; }
 
         #endregion
 
@@ -124,6 +130,11 @@ namespace ModuleTracker.Wpf.ViewModel
                     _exerciseListingItemViewModel.Add(new ExerciseListingItemViewModel(exercise));
                 }
             }
+        }
+        public void Update(Sheet sheet)
+        {
+            Sheet = sheet;
+            OnPropertyChanged(nameof(HasPdfFile));
         }
 
         #endregion

@@ -40,8 +40,8 @@
         </Grid>
 
         <WrapPanel Grid.Row="2" Margin="10 30 0 0">
-            <Button Command="{Binding SubmitCommand}" Content="Submit" IsEnabled="{Binding CanSubmit}" Style="{StaticResource ButtonStyle1}" Margin="0 0 5 0"/>
-            <Button Command="{Binding CancelCommand}" Content="Cancel" Style="{StaticResource ButtonStyle1}" Margin="0 0 5 0"/>
+            <Button Command="{Binding SubmitCommand}" Content="Submit" IsEnabled="{Binding CanSubmit}" Style="{StaticResource ButtonStyle1}" Margin="0 0 5 0" IsDefault="True"/>
+            <Button Command="{Binding CancelCommand}" Content="Cancel" Style="{StaticResource ButtonStyle1}" Margin="0 0 5 0" IsCancel="True"/>
             <spinner:LoadingSpinner IsLoading="{Binding IsSubmitting}" Diameter="25"/>
         </WrapPanel>
         <TextBlock Grid.Row="3" Margin="0 15 0 0" Text="{Binding ErrorMessage}" Visibility="{Binding HasErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ErrorMessage}" FontSize="16"/>

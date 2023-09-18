@@ -12,8 +12,6 @@ namespace ModuleTracker.Wpf.ViewModel
         {
             Sheet = sheet;
             OpenSheetCommand = new OpenExercisesCommand(sheet, modalNavigationStore, moduleStore);
-            OpenPdfCommand = new OpenPdfCommand(this);
-            AddPdfFileCommand = new UpdatePdfFilePathCommand(this, sheet, moduleStore, selectedModuleStore);
 
             OnPropertyChanged(nameof(NumOfDoneExercises));
             OnPropertyChanged(nameof(NumOfExercises));
@@ -28,8 +26,7 @@ namespace ModuleTracker.Wpf.ViewModel
         public Sheet Sheet { get; private set; }
 
         public string Name => $"Sheet {Sheet.SheetNumber}";
-
-        public bool HasPdfFile => !string.IsNullOrEmpty(Sheet.PdfFilePath);
+               
 
         private string _errorMessage;
         public string ErrorMessage
@@ -79,7 +76,6 @@ namespace ModuleTracker.Wpf.ViewModel
             Sheet = sheet;
             OnPropertyChanged(nameof(NumOfExercises));
             OnPropertyChanged(nameof(NumOfDoneExercises));
-            OnPropertyChanged(nameof(HasPdfFile));
         }
 
         #endregion

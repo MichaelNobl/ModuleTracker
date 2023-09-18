@@ -2,6 +2,7 @@
 using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace ModuleTracker.Wpf.Commands
 {
@@ -16,11 +17,28 @@ namespace ModuleTracker.Wpf.Commands
 
         public override void Execute(object? parameter)
         {
-            Process process = new Process();
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.FileName = "msedge";
-            process.StartInfo.Arguments = Uri.EscapeDataString(_sheetListingItemViewModel.Sheet.PdfFilePath);
-            process.Start();
+            _sheetListingItemViewModel.ErrorMessage = string.Empty;
+
+            if (File.Exists(_sheetListingItemViewModel.Sheet.PdfFilePath))
+            {
+                var startInfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = true,
+                    FileName = "msedge",
+                    Arguments = Uri.EscapeDataString(_sheetListingItemViewModel.Sheet.PdfFilePath)
+                };
+
+                var process = new Process()
+                {
+                    StartInfo = startInfo
+                };
+
+                process.Start();
+            }
+            else
+            {
+                _sheetListingItemViewModel.ErrorMessage = "File might have been moved or deleted.";
+            }   
         }
     }
 }

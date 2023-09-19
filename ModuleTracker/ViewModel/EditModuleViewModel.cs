@@ -6,9 +6,7 @@ using System.Windows.Input;
 namespace ModuleTracker.Wpf.ViewModel
 {
     public class EditModuleViewModel : BaseViewModel
-    {
-        public Module Module { get; }
-
+    {     
         public EditModuleViewModel(Module module, ModuleStore moduleStore, ModalNavigationStore modalNavigationStore)
         {            
             Module = module;
@@ -18,6 +16,8 @@ namespace ModuleTracker.Wpf.ViewModel
         }
 
         #region Properties
+
+        public Module Module { get; }
 
         private string _name;
         public string Name

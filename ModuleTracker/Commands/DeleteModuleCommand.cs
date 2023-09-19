@@ -1,11 +1,9 @@
-﻿using ModuleTracker.Domain.Models;
-using ModuleTracker.Wpf.Stores;
+﻿using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace ModuleTracker.Wpf.Commands
 {

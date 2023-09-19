@@ -1,10 +1,8 @@
 ﻿using ModuleTracker.Domain.Commands;
 using ModuleTracker.Domain.Models;
 using ModuleTracker.Domain.Queries;
-using ModuleTracker.Wpf.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 

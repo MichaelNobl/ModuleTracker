@@ -1,7 +1,6 @@
 ﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Commands;
 using ModuleTracker.Wpf.Stores;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

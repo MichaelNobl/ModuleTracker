@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using ModuleTracker.Domain.Models;
+﻿using ModuleTracker.Domain.Models;
 using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;

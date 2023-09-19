@@ -1,10 +1,7 @@
 ﻿using ModuleTracker.Wpf.Stores;
 using ModuleTracker.Wpf.ViewModel;
 using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace ModuleTracker.Wpf.Commands
 {
@@ -13,8 +10,6 @@ namespace ModuleTracker.Wpf.Commands
         private readonly SheetListingViewModel _sheetListingViewModel;
         private readonly SelectedSheetStore _selectedSheetStore;
         private readonly ModuleStore _moduleStore;
-
-        private readonly string _outputPath = @"..\..\..\PdfImages\";
 
         public DeleteSheetCommand(SheetListingViewModel sheetListingViewModel, SelectedSheetStore selectedSheetStore, ModuleStore moduleStore) 
         {
